@@ -71,14 +71,18 @@
                             </button>
                             <ul role="menu" class="dropdown-menu">
                                 <li>
-                                    <a href="/people/CARPE_landscapes/data" id="ember522" class="ember-view">
+                                    <a href="/user/{{ user.username }}" id="ember522" class="ember-view">
                                         <div class="profile-header">
                                             <span class="username">{{ user.username }}</span><br>
                                             <span class="org-name small">World Resources Institute</span>
                                         </div>
                                     </a>
                                 </li>
-                                <!---->
+                                {% if user.is_superuser %}
+                                <li>
+                                    <a href="/admin">Admin</a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <a href="{% url 'logout' %}" class="signout" data-ember-action="" data-ember-action-546="546">Sign Out</a>
                                 </li>
