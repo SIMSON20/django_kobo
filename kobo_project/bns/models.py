@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 import uuid
 
 class AME(models.Model):
@@ -56,7 +56,7 @@ class AnswerGPS(models.Model):
     )
     lat = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     long = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
-    geom = models.TextField(blank=True, null=True)  # TODO: Add support for geodata
+    geom = models.PointField(null=True)
 
 
 class AnswerGS(models.Model):
