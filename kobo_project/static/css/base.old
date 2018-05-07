@@ -1,0 +1,486 @@
+.nav, .navbar, .navbar-inverse, .navbar-inverse .navbar-nav, .site-header .navbar {
+    margin-bottom: 0;
+    border: 0;
+}
+
+.navbar-default {
+    background-color: #101010;
+    color: #ffffff;
+}
+
+.navbar, .navbar-default, .navbar-inverse {
+    border: 0!important;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+.navbar-default {
+    background-color: #fff;
+}
+.navbar {
+    position: relative;
+    min-height: 55px;
+}
+
+
+.navbar {
+    border-radius: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+    display: block;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+
+
+.container {
+    width: 1170px;
+}
+
+
+.container {
+    width: 970px;
+}
+
+.container, .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.container, .container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.container {
+    width: 750px;
+}
+
+
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+
+.navbar-header {
+    float: left;
+}
+
+.site-header .nav {
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-nav {
+    color: #323232;
+}
+
+.navbar-right {
+    float: right!important;
+    margin-right: -41px;
+}
+.nav, .navbar, .navbar-inverse, .navbar-inverse .navbar-nav, .site-header .navbar {
+    margin-bottom: 0;
+    border: 0;
+}
+
+
+.navbar-right {
+    float: right!important;
+    margin-right: -15px;
+}
+
+
+.navbar-nav {
+    float: left;
+    margin: 0;
+}
+
+.navbar-nav {
+    margin: 8.75px -15px;
+}
+
+.nav {
+    padding-left: 0;
+    list-style: none;
+}
+
+ol, ul {
+    margin-bottom: 10px;
+}
+
+dl, ol, ul {
+    margin-top: 0;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+
+.navbar-nav>li {
+    float: left;
+}
+
+.nav>li, .nav>li>a {
+    display: block;
+    position: relative;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+.navbar-default {
+    background-color: #101010;
+    color: #ffffff;
+}
+
+body {
+    background-color: #ffffff;
+    color: #4c4c4c;
+    font-family: 'Roboto Condensed', Avenir Next;
+    font-size: undefinedpx;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+body {
+    font-family: "Avenir Next W01","Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #4c4c4c;
+}
+
+body {
+    direction: ltr;
+}
+
+
+body {
+    font-family: "Avenir Next W01","Avenir Next","Avenir","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-size: 12px;
+    line-height: 1.66667;
+    color: #4c4c4c;
+    background-color: #f8f8f8;
+}
+
+body {
+    font-family: "Avenir Next W01","Avenir Next","Avenir","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-size: 12px;
+    line-height: 1.66667;
+    color: #4c4c4c;
+    background-color: #f8f8f8;
+}
+
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li.active > a, .navbar-default .navbar-nav > li.active > a:hover {
+    color: #ffffff;
+    background-image: linear-gradient(to bottom, transparent 92%, #ffffff 93%, #ffffff 100%);
+}
+
+.navbar-default .navbar-nav>li.active>a, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #0079c1;
+    background-color: transparent;
+    background-image: linear-gradient(to bottom,transparent 92%,#0079c1 93%,#0079c1 100%);
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #0079c1;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav li a.active, .navbar-default .navbar-nav li.active a, .navbar-default .navbar-nav li.active a:hover, .navbar-default .navbar-nav>li>a.active, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #323232;
+    background-image: linear-gradient(to bottom,transparent 92%,#323232 93%,#323232 100%);
+    text-decoration: none;
+    outline: 0;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+    color: #ffffff;
+    background-color: #84c68f;
+    outline-color: #84c68f;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #00598e;
+}
+
+.navbar-default a, .navbar-default a:focus, .navbar-default a:hover {
+    color: #ffffff;
+}
+
+a:hover, a:focus, .btn-link:hover {
+    color: #61b66f;
+    outline-color: #84c68f;
+}
+
+.btn-link:hover, a:focus, a:hover {
+    outline: 0;
+}
+
+a:focus, a:hover {
+    color: #00598e;
+    text-decoration: underline;
+}
+
+a:active, a:hover {
+    outline: 0;
+}
+
+div {
+    display: block;
+}
+
+.usaid-logo img {
+    height: 65px !important;
+    margin-top:-25px;
+    margin-bottom:5px;
+}
+
+.carpe {height: 65px !important;}
+
+.nav li.active > a:not(.btn) {
+    color: #84c68f !important;
+}
+
+.nav > li:hover > a {
+  color: #84c68f !important; }
+
+.nav > li > a {
+    padding: 41px 10px 0px 10px !important;
+
+}
+
+.navbar-default{
+	background:black;
+	}
+
+.navbar-default .navbar-nav>li>a {
+    font-size:17px
+    font-weight: 300;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-style: normal;
+    transition: all 0.2s;
+
+}
+
+.od-user-dropdown-component .profile-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-top: -10px;
+}
+
+.nav>li>a>img {
+    max-width: none;
+}
+
+hr, img {
+    border: 0;
+}
+
+.btn, .btn-group, .btn-group-vertical, .caret, .checkbox-inline, .radio-inline, img {
+    vertical-align: middle;
+}
+
+.site-header .btn-link, .site-header .btn-link:hover, .site-header .btn-link:focus {
+    color: #ffffff;
+}
+
+.od-user-dropdown-component .btn-link:focus, .od-user-dropdown-component .btn-link:hover, .od-user-dropdown-component a:hover, .od-user-dropdown-component button span:focus, .od-user-dropdown-component button span:hover {
+    text-decoration: none;
+}
+
+.navbar-default .btn-link:focus, .navbar-default .btn-link:hover {
+    color: #0079c1;
+}
+
+a:hover, a:focus, .btn-link:hover {
+    color: #61b66f;
+    outline-color: #84c68f;
+}
+
+.btn-link:hover, a:focus, a:hover {
+    outline: 0;
+}
+
+.od-user-dropdown-component .dropdown-toggle {
+    margin-top: -5px;
+}
+
+.site-header .btn-link, .site-header .navbar-brand, .site-header .navbar-logo {
+    color: #4c4c4c;
+}
+
+.navbar-default .btn-link {
+    color: #323232;
+}
+
+.btn-link:focus, .btn-link:hover {
+    color: #00598e;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover {
+    border-color: transparent;
+}
+
+.btn.focus, .btn:focus, .btn:hover {
+    color: #0079c1;
+    text-decoration: none;
+}
+
+.od-user-dropdown-component button {
+    padding: 0;
+}
+
+a, .btn-link {
+    color: #84c68f;
+}
+
+.btn-link, .btn-link.active, .btn-link:active, .btn-link, fieldset .btn-link {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.btn-link {
+    color: #0079c1;
+    font-weight: 400;
+    border-radius: 0;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 0;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.btn, .btn-danger.active, .btn-danger:active, .btn-default.active, .btn-default:active, .btn-info.active, .btn-info:active, .btn-primary.active, .btn-primary:active, .btn-warning.active, .btn-warning:active, .btn.active, .btn:active, .dropdown-menu>.disabled>a:focus, .dropdown-menu>.disabled>a:hover, .form-control, .navbar-toggle, .open>.btn-danger.dropdown-toggle, .open>.btn-default.dropdown-toggle, .open>.btn-info.dropdown-toggle, .open>.btn-primary.dropdown-toggle, .open>.btn-warning.dropdown-toggle {
+    background-image: none;
+}
+
+.btn {
+    box-shadow: none;
+}
+
+.btn, .card-list .card-item {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.btn, .btn-group, .btn-group-vertical, .caret, .checkbox-inline, .radio-inline, img {
+    vertical-align: middle;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button {
+    overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+.btn .caret {
+    margin-top: 0;
+}
+
+.btn .caret, .btn-group>.btn:first-child {
+    margin-left: 0;
+}
+
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    border-top: 4px dashed;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.btn, .btn-group, .btn-group-vertical, .caret, .checkbox-inline, .radio-inline, img {
+    vertical-align: middle;
+}
+
+
+.navbar {
+    border-radius: 0;
+}

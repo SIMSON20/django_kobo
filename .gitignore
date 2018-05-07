@@ -57,11 +57,11 @@ docs/_build/
 config/*.config
 
 
-#tokens
-tokens/
-
 #pycharm
 .idea/
 
-#logs
-logs/
+#venv
+venv/*
+
+#django
+settings.py

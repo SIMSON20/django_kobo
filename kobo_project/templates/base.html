@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <title>{% block title %}Django Simple Login{% endblock %}</title>
+</head>
+<body>
+<div id="ember429" class="ember-view">
+    <div class="page-index">
+
+  <header id="ember471" role="banner" class="site-header ember-view">
+      <div class="custom-header">
+        <nav class="navbar navbar-default navbar-static-top first-tier">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <div class="site-logo">
+                            <a href="http://carpe.umd.edu/">
+                                <img class="carpe" src="https://assets.forest-atlas.org/shared/img/carpe_header37_8.png" alt="logo" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav navbar-nav pull-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/bns">BNS</a>
+                    </li>
+                    <li>
+                        <a href="/nrgt">NRGT</a>
+                    </li>
+                    <li class="usaid-logo">
+                        <a href="https://www.usaid.gov/" target="_blank">
+                            <img src="https://assets.forest-atlas.org/shared/img/usaid_logo_color.png" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <nav id="ember494" class="navbar navbar-default ember-view">
+        <div class="force-background">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" data-toggle="collapse" data-target="#site-navbar" aria-expanded="false" class="navbar-toggle collapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                </button>
+                <!---->
+                <!---->
+            </div>
+            <div id="site-navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li id="ember516" class="ember-view">
+                        <a class="od-user-dropdown-component" >
+                            <img src="//d1iq7pbacwn5rb.cloudfront.net/opendata-ui/assets/assets/images/no-user-thumb-33cbcf92f9094461496cec36012e7cf4.jpg" alt="Account Settings" class="profile-image" />
+                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link dropdown-toggle">
+                                <span class="profilename">{{ user.username }}</span>
+                                <span class="caret"/>
+                            </button>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>
+                                    <a href="/people/CARPE_landscapes/data" id="ember522" class="ember-view">
+                                        <div class="profile-header">
+                                            <span class="username">{{ user.username }}</span><br>
+                                            <span class="org-name small">World Resources Institute</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <!---->
+                                <li>
+                                    <a href="{% url 'logout' %}" class="signout" data-ember-action="" data-ember-action-546="546">Sign Out</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                {% else %}
+                    <li id="ember516" class="ember-view">
+                        <a href="{% url 'login' %}">login</a>
+                    </li>
+                {% endif %}
+                    <!---->
+                </ul>
+            </div>
+        </div>
+            </div>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer>
+
+  </footer>
+    </div>
+</div>
+<script>
+    $(".od-user-dropdown-component").click(function(){
+        $(".dropdown-menu").toggle();
+    });
+
+    $(".dropdown-menu").mouseleave(function(){
+         $(".dropdown-menu").hide();
+    });
+
+
+</script>
+</body>
+</html>

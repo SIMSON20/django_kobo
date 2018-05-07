@@ -1,0 +1,9 @@
+{% if connection_list %}
+    <ul>
+    {% for connection in connection_list %}
+        <li><a href="{% url 'kobo:detail'  connection.auth_user %}">{{ connection.auth_user }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No connection are available.</p>
+{% endif %}
