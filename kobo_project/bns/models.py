@@ -54,7 +54,6 @@ class AnswerGPS(models.Model):
         Answer,
         on_delete=models.CASCADE,
     )
-    instace_id = models.UUIDField(primary_key=True)
     lat = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     long = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     geom = models.TextField(blank=True, null=True)  # TODO: Add support for geodata
