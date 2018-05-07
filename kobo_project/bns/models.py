@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 
 class AME(models.Model):
     age = models.IntegerField(blank=True, null=True)
@@ -12,7 +12,7 @@ class AME(models.Model):
 
 
 class Answer(models.Model):
-    instace_id = models.UUIDField(primary_key=True)
+    answer_id = models.UUIDField(primary_key=True, editable=False)
     dataset_id = models.BigIntegerField()
     dataset_name = models.TextField(blank=True, null=True)
     dataset_owner = models.TextField(blank=True, null=True)
@@ -40,6 +40,11 @@ class Answer(models.Model):
     bns_plus = models.CharField(max_length=255, blank=True, null=True)
     survey_date = models.DateField(blank=True, null=True)
 
+    def save(self):
+        if not self.answer_id:
+            self.answer_id = uuid.uuid4()
+        super(Answer, self).save()
+
     class Meta:
         unique_together = (('dataset_id', 'row_id'),)
 
@@ -50,8 +55,8 @@ class AnswerGPS(models.Model):
         on_delete=models.CASCADE,
     )
     instace_id = models.UUIDField(primary_key=True)
-    lat = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    long = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    lat = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
+    long = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     geom = models.TextField(blank=True, null=True)  # TODO: Add support for geodata
 
 
@@ -64,7 +69,7 @@ class AnswerGS(models.Model):
     necessary = models.NullBooleanField()
     have = models.NullBooleanField()
     quantity = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    price = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
 
 
 class AnswerHHMembers(models.Model):

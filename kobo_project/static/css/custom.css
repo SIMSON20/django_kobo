@@ -605,6 +605,19 @@
        background-color:#101010;
      }
 
-     .open>.dropdown-menu {
-    display: block;
-}
+    h1, h2, h3, h4 {
+        text-align:center;
+    }
+
+     .greenbar {
+        width: 30px;
+        height: 3px;
+        margin: 0 auto 30px auto;
+        background: #84c68f !important;
+        box-sizing: border-box;
+        visibility: visible;
+     }
+
+    .form-login {
+        margin: 0 auto 0 auto;
+    }
