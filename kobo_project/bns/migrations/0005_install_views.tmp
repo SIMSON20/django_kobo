@@ -1,0 +1,26 @@
+from django.db import migrations, models
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+    dependencies = []
+    operations = [
+        migrations.RunSQL(
+            sql = """
+                CREATE VIEW qry_ame_per_hh AS
+                 SELECT d.hh_id,
+                    d.dataset_year,
+                    d.village,
+                    d.district,
+                    d.landscape,
+                    d.dataset_owner,
+                    sum(a.ame) AS hh_ame
+                   FROM bns_answerhhmembers m
+                     JOIN bns_answer d ON m.answer_id = d.answer_id
+                     JOIN bns_ame a ON (a.age)::double precision = (d.dataset_year - (m.birth)::double precision) AND (a.gender)::text = m.gender
+                  GROUP BY d.hh_id, d.dataset_year, d.village, d.district, d.landscape, d.dataset_owner;
+            """
+
+        )]

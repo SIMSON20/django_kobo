@@ -89,3 +89,4 @@ class AnswerNR(models.Model):
     )
     nr = models.TextField()
     nr_collect = models.IntegerField(blank=True, null=True)
+
