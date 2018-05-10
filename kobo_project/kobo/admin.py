@@ -105,9 +105,10 @@ class KoboDataResource(resources.ModelResource):
         return self.get_kobo_assets(self.connection, kobodata.id_string)["tag_string"].split(",")
 
     def after_save_instance(self, instance, using_transactions, dry_run):
-        queryset = self.get_queryset()
-        q = queryset.objects.filter(last_update_time__smallerthan=self.start_time)
-        q.delete()
+        if not dry_run:
+            queryset = self.get_queryset()
+            q = queryset.objects.filter(last_update_time__smallerthan=self.start_time)
+            q.delete()
 
     class Meta:
         model = KoboData
