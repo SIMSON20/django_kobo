@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 class ConnectionAdmin(admin.ModelAdmin):
-    #list_display = ['auth_user', 'last_update']
+    list_display = ['auth_user', 'host_assets']
     ordering = ['auth_user']
 
     def sync(self, request, queryset):
@@ -31,7 +31,7 @@ class ConnectionAdmin(admin.ModelAdmin):
                                    tags = self.get_kobo_assets(connection, form['id_string'])["tag_string"].split(","),
                                    dataset_name = form['title'],
                                    dataset_year = int(form['date_created'][0:4]),
-                                   #last_submission_time = datetime.strptime(form['last_submission_time'], '%Y-%m-%dT%H:%M:%S.%f'),
+                                   last_submission_time = datetime.strptime(form['last_submission_time'], '%Y-%m-%dT%H:%M:%S.%fZ'),
                                    dataset = self.get_kobo_data(connection, form["formid"])
                                    )
 
@@ -70,5 +70,9 @@ class ConnectionAdmin(admin.ModelAdmin):
     sync.short_description = "Sync data"
 
 
+class KoboDataAdmin(admin.ModelAdmin):
+    list_display = ['dataset_name', 'dataset_year', 'tags', 'dataset_owner', 'last_submission_time']
+    ordering = ['dataset_owner', 'dataset_name', 'dataset_year']
+
 admin.site.register(Connection, ConnectionAdmin)
-admin.site.register(KoboData)
+admin.site.register(KoboData, KoboDataAdmin)
