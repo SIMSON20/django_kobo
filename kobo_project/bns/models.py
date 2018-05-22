@@ -16,11 +16,6 @@ class AME(models.Model):
 
 class Answer(models.Model):
     answer_id = models.UUIDField(primary_key=True, editable=False)
-    dataset_id = models.BigIntegerField()
-    dataset_name = models.TextField(blank=True, null=True)
-    dataset_owner = models.TextField(blank=True, null=True)
-    dataset_year = models.FloatField(blank=True, null=True)
-    row_id = models.BigIntegerField()
     landscape = models.CharField(max_length=255, blank=True, null=True)
     surveyor = models.CharField(max_length=255, blank=True, null=True)
     participant = models.CharField(max_length=255, blank=True, null=True)
@@ -41,7 +36,7 @@ class Answer(models.Model):
     benef_pa = models.NullBooleanField()
     explain_benef_pa = models.CharField(max_length=255, blank=True, null=True)
     bns_plus = models.CharField(max_length=255, blank=True, null=True)
-    survey_date = models.DateField(blank=True, null=True)
+    survey_date = models.DateTimeField(blank=True, null=True)
 
     def save(self):
         if not self.answer_id:
@@ -49,7 +44,6 @@ class Answer(models.Model):
         super(Answer, self).save()
 
     class Meta:
-        unique_together = (('dataset_id', 'row_id'),)
         verbose_name = 'Answer'
         verbose_name_plural = 'Answers'
 
