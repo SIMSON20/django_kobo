@@ -1,13 +1,27 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import AME
 from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR
 
-admin.site.register(AME)
+
+@admin.register(AME)
+class AMEAdmin(ImportExportModelAdmin):
+    pass
+
+
+@admin.register(AnswerGPS)
+class AnswerGPSAdmin(ImportExportModelAdmin):
+    pass
 
 
 class AnswerGPSInline(admin.StackedInline):
     model = AnswerGPS
+
+
+@admin.register(AnswerGS)
+class AnswerGSAdmin(ImportExportModelAdmin):
+    pass
 
 
 class AnswerGSInline(admin.StackedInline):
@@ -15,9 +29,19 @@ class AnswerGSInline(admin.StackedInline):
     extra = 1
 
 
+@admin.register(AnswerHHMembers)
+class AnswerHHMembersAdmin(ImportExportModelAdmin):
+    pass
+
+
 class AnswerHHMembersInline(admin.StackedInline):
     model = AnswerHHMembers
     extra = 1
+
+
+@admin.register(AnswerNR)
+class AnswerNRAdmin(ImportExportModelAdmin):
+    pass
 
 
 class AnswerNRInline(admin.StackedInline):
@@ -25,8 +49,11 @@ class AnswerNRInline(admin.StackedInline):
     extra = 1
 
 
-class AnswerAdmin(admin.ModelAdmin):
+@admin.register(Answer)
+class AnswerAdmin(ImportExportModelAdmin):
+    """
+    Admin class for Connections
+    """
+    #list_display = ['dataset_id']
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
 
-
-admin.site.register(Answer, AnswerAdmin)

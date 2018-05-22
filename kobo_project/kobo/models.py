@@ -20,14 +20,18 @@ class KoboData(models.Model):
         on_delete=models.CASCADE,
     )
     dataset_id = models.BigIntegerField(null=True)
-    dataset_uuid = models.TextField(null=True)
+    dataset_uuid = models.TextField(primary_key=True)
     dataset_owner = models.TextField(null=True)
-    tags = ArrayField(models.TextField(null=True))
+    tags = ArrayField(models.TextField(null=True), null=True)
     dataset_name = models.TextField(null=True)
     dataset_year = models.IntegerField(null=True)
     last_submission_time = models.DateTimeField(null=True)
     last_update_time = models.DateTimeField(null=True)
     #dataset = JSONField(null=True)
+
+    class Meta:
+        verbose_name = 'Kobo data'
+        verbose_name_plural = 'Kobo data'
 
     def __str__(self):
         return "{}, {}, {}".format(self.dataset_owner, self.dataset_name, self.dataset_year)

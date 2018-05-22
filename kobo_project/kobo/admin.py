@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import Connection, KoboData
-from .resources import KoboDataResource
+from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -14,7 +14,7 @@ class ConnectionAdmin(admin.ModelAdmin):
     """
     Admin class for Connections
     """
-    list_display = ['auth_user', 'host_assets']
+    list_display = ['auth_user', 'host_assets', 'last_update_time']
     ordering = ['auth_user']
 
     def sync(self, request, queryset):
@@ -27,15 +27,15 @@ class ConnectionAdmin(admin.ModelAdmin):
 
         for connection in queryset:
 
-            dataset = tablib.dict(self.get_kobo_forms(connection))
+            dataset = tablib.Dataset().load(self.get_kobo_forms(connection))
 
-            # kobodata_resource = KoboDataResource()
-            # kobodata_resource.connection = connection
-            # result = kobodata_resource.import_data(dataset, dry_run=True)
-            # if not result.has_errors():
-            #     result = kobodata_resource.import_data(dataset, dry_run=False)
-            # else:
-            #     pass
+            kobodata_resource = KoboDataFromKoboResource()
+            kobodata_resource.connection = connection
+            result = kobodata_resource.import_data(dataset, dry_run=True)
+            if not result.has_errors():
+                result = kobodata_resource.import_data(dataset, dry_run=False)
+            else:
+                pass
 
             connection.last_update_time = datetime.now()
             connection.save()
@@ -49,7 +49,7 @@ class ConnectionAdmin(admin.ModelAdmin):
         auth_passwd = connection.auth_pass.strip()
         url = "{}/{}?format=json".format(host, "forms")
         r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
-        return json.loads(r.text)
+        return r.text # json.loads(r.text)
 
     @staticmethod
     def get_kobo_data(connection, dataset_id):
@@ -68,6 +68,7 @@ class ConnectionAdmin(admin.ModelAdmin):
 class KoboDataAdmin(ImportExportModelAdmin):
     list_display = ['dataset_name', 'dataset_year', 'tags', 'dataset_owner', 'last_submission_time', 'last_update_time']
     ordering = ['dataset_owner', 'dataset_name', 'dataset_year']
+    resource_class = KoboDataFromFileResource
 
     def sync(self, request, queryset):
         """
@@ -83,7 +84,7 @@ class KoboDataAdmin(ImportExportModelAdmin):
 
             dataset = tablib.dict(self.get_kobo_form(connection, q.dataset_id))
 
-            kobodata_resource = KoboDataResource()
+            kobodata_resource = KoboDataFromKoboResource()
             kobodata_resource.connection = connection
             result = kobodata_resource.import_data(dataset, dry_run=True)
             if not result.has_errors():

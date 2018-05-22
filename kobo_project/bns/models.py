@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 import uuid
 
+
 class AME(models.Model):
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=255)
@@ -9,6 +10,8 @@ class AME(models.Model):
 
     class Meta:
         unique_together = (('age', 'gender'),)
+        verbose_name = 'AME'
+        verbose_name_plural = 'AME'
 
 
 class Answer(models.Model):
@@ -47,6 +50,8 @@ class Answer(models.Model):
 
     class Meta:
         unique_together = (('dataset_id', 'row_id'),)
+        verbose_name = 'Answer'
+        verbose_name_plural = 'Answers'
 
 
 class AnswerGPS(models.Model):
@@ -57,6 +62,10 @@ class AnswerGPS(models.Model):
     lat = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     long = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     geom = models.PointField(null=True)
+
+    class Meta:
+        verbose_name = 'GPS'
+        verbose_name_plural = 'GPS'
 
 
 class AnswerGS(models.Model):
@@ -70,6 +79,10 @@ class AnswerGS(models.Model):
     quantity = models.IntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Good or Service'
+        verbose_name_plural = 'Goods and Services'
+
 
 class AnswerHHMembers(models.Model):
     answer = models.ForeignKey(
@@ -81,6 +94,10 @@ class AnswerHHMembers(models.Model):
     ethnicity = models.TextField(blank=True, null=True)
     head = models.NullBooleanField()
 
+    class Meta:
+        verbose_name = 'HH Members'
+        verbose_name_plural = 'HH Members'
+
 
 class AnswerNR(models.Model):
     answer = models.ForeignKey(
@@ -90,3 +107,6 @@ class AnswerNR(models.Model):
     nr = models.TextField()
     nr_collect = models.IntegerField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Natural Resource'
+        verbose_name_plural = 'Natural Resources'

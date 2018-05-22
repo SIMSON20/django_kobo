@@ -7,26 +7,45 @@ from requests.auth import HTTPBasicAuth
 import json
 
 
-class KoboDataResource(resources.ModelResource):
+class KoboDataFromFileResource(resources.ModelResource):
+    class Meta:
+        model = KoboData
+        import_id_fields = ('dataset_uuid',)
+
+
+class KoboDataFromKoboResource(resources.ModelResource):
     """
     Resource for import Kobo Data directly from the Kobo API
     Existing data will be overwritten with new data
     Data no longer available on Kobo will be delete after import
     """
 
-    def __init__(self):
-        """
-        Map fields from Kobo API to table
-        Set start time to find out later which data were updated
-        Set connection
-        """
-        self.start_time = datetime.now()
-        self.connection = None
-        self.dataset_id = Field(column_name='formid')
-        self.dataset_uuid = Field(column_name='id_string')
-        self.dataset_name = Field(column_name='title')
-        self.dataset_year = Field(column_name='date_created')
-        self.last_submission_time = Field(column_name='last_submission_time')
+    start_time = datetime.now()
+    connection = None
+    dataset_id = Field(attribute='dataset_id', column_name='formid')
+    dataset_uuid = Field(attribute='dataset_uuid', column_name='id_string')
+    dataset_name = Field(attribute='dataset_name', column_name='title')
+    dataset_year = Field(attribute='dataset_year', column_name='dataset_year')
+    dataset_owner = Field(attribute='dataset_owner', column_name='dataset_owner')
+    auth_user = Field(attribute='auth_user', column_name='auth_user')
+    last_submission_time = Field(attribute='last_submission_time', column_name='last_submission_time')
+    last_update_time = Field(attribute='last_update_time', column_name='last_update_time')
+    tags = Field(attribute='tags', column_name='tags')
+
+    class Meta:
+        model = KoboData
+        import_id_fields = ('dataset_uuid',)
+
+    def before_import_row(self, row, **kwargs):
+        row["dataset_year"] = row["date_created"][0:4]
+        row["dataset_owner"] = row["owner"][40:].split('?')[0]
+        #if row["last_submission_time"] is not None:
+        #    row["last_submission_time"] =  datetime.strptime(row["last_submission_time"], '%Y-%m-%dT%H:%M:%S.%fZ')
+        #else:
+        #    return None
+        row["last_update_time"] = datetime.now()
+        row["auth_user"] = self.connection
+        row["tags"] = self.get_kobo_assets(self.connection, row["id_string"])["tag_string"].split(",")
 
     @staticmethod
     def get_kobo_assets(connection, dataset_uuid):
@@ -43,61 +62,6 @@ class KoboDataResource(resources.ModelResource):
         r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
         return json.loads(r.text)
 
-    def dehydrate_auth_user(self, kobodata):
-        """
-        Get user name from connection
-        :param kobodata:
-        :return:
-        """
-        return self.connection.auth_user
-
-    @staticmethod
-    def dehydrate_dataset_owner(kobodata):
-        """
-        Extract dataset owner from kobo hyperlink
-        :param kobodata:
-        :return:
-        """
-        return kobodata.owner[40:].split('?')[0]
-
-    @staticmethod
-    def dehydrate_dataset_year(kobodata):
-        """
-        Extract year from created date timestamp
-        :param kobodata:
-        :return:
-        """
-        return kobodata.date_created[0:4]
-
-    @staticmethod
-    def dehydrate_last_submission_time(kobodata):
-        """
-        Convert last submission time to datetime object
-        :param kobodata:
-        :return:
-        """
-        if kobodata.last_submission_time is not None:
-           return datetime.strptime(kobodata.last_submission_time, '%Y-%m-%dT%H:%M:%S.%fZ')
-        else:
-            return None
-
-    @staticmethod
-    def dehydrate_last_update_time(kobodata):
-        """
-        Set last update time to now
-        :param kobodata:
-        :return:
-        """
-        return datetime.now()
-
-    def dehydrate_tags(self, kobodata):
-        """
-        Fetch tags from Kobo form
-        :param kobodata:
-        :return:
-        """
-        return self.get_kobo_assets(self.connection, kobodata.id_string)["tag_string"].split(",")
-
     def after_save_instance(self, instance, using_transactions, dry_run):
         """
         Delete not updated data after instance was saved
@@ -106,10 +70,9 @@ class KoboDataResource(resources.ModelResource):
         :param dry_run:
         :return:
         """
-        if not dry_run:
-            queryset = self.get_queryset()
-            q = queryset.objects.filter(last_update_time__smallerthan=self.start_time)
-            q.delete()
+        pass
+        #if not dry_run:
+        #    queryset = self.get_queryset()
+        #    q = queryset.objects.filter(last_update_time__smallerthan=self.start_time)
+        #    q.delete()
 
-    class Meta:
-        model = KoboData
