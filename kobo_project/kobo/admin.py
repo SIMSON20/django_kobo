@@ -99,6 +99,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             if not result.has_errors():
                 answer_resource.import_data(dataset, dry_run=False)
                 result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
+                if not result.has_errors():
+                    answer_gps_resource.import_data(dataset, dry_run=False)
+                else:
+                    raise forms.ValidationError("Import of AnswersGPS failed!")
             else:
                 raise forms.ValidationError("Import of Answers failed!")
 
