@@ -2,11 +2,13 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import Connection, KoboData
 from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
+from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource
 import requests
 from requests.auth import HTTPBasicAuth
 import json
 from datetime import datetime
 import tablib
+from django import forms
 
 
 @admin.register(Connection)
@@ -31,11 +33,11 @@ class ConnectionAdmin(admin.ModelAdmin):
 
             kobodata_resource = KoboDataFromKoboResource()
             kobodata_resource.connection = connection
-            result = kobodata_resource.import_data(dataset, dry_run=True)
+            result = kobodata_resource.import_data(dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 result = kobodata_resource.import_data(dataset, dry_run=False)
             else:
-                pass
+                raise forms.ValidationError("Import failed!")
 
             connection.last_update_time = datetime.now()
             connection.save()
@@ -50,15 +52,6 @@ class ConnectionAdmin(admin.ModelAdmin):
         url = "{}/{}?format=json".format(host, "forms")
         r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
         return r.text # json.loads(r.text)
-
-    @staticmethod
-    def get_kobo_data(connection, dataset_id):
-        host = connection.host_api.strip()
-        auth_user = connection.auth_user.strip()
-        auth_passwd = connection.auth_pass.strip()
-        url = "{}/{}/{}?format=json".format(host, "data", str(dataset_id))
-        r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
-        return json.loads(r.text)
 
     actions = [sync]
     sync.short_description = "Sync data"
@@ -78,26 +71,43 @@ class KoboDataAdmin(ImportExportModelAdmin):
         :return:
         """
 
-        for q in queryset:
+        for form in queryset:
+            #import pdb; pdb.set_trace()
+            dataset = self.get_kobo_data(form.auth_user, form.dataset_id)
 
-            connection = q.connection
+            # make sure every row has the same keys.
+            # get all unique keys
+            keys = set()
+            for row in dataset:
+                keys |= set(row.keys())
 
-            dataset = tablib.dict(self.get_kobo_form(connection, q.dataset_id))
+            # add missing keys to rows
+            for row in dataset:
+                key_set = set(keys)
+                key_set -= set(row.keys())
+                for key in key_set:
+                    row[key] = None
 
-            kobodata_resource = KoboDataFromKoboResource()
-            kobodata_resource.connection = connection
-            result = kobodata_resource.import_data(dataset, dry_run=True)
+            dataset = tablib.Dataset().load(json.dumps(dataset, sort_keys=True))
+
+            answer_resource = AnswerFromKoboResource()
+            answer_resource.form = form
+
+            answer_gps_resource = AnswerGPSFromKoboResource()
+
+            result = answer_resource.import_data(dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
-                result = kobodata_resource.import_data(dataset, dry_run=False)
+                answer_resource.import_data(dataset, dry_run=False)
+                result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
             else:
-                pass
+                raise forms.ValidationError("Import of Answers failed!")
 
     @staticmethod
-    def get_kobo_form(connection, form_uuid):
+    def get_kobo_data(connection, dataset_id):
         host = connection.host_api.strip()
         auth_user = connection.auth_user.strip()
         auth_passwd = connection.auth_pass.strip()
-        url = "{}/{}/{}?format=json".format(host, "forms", form_uuid)
+        url = "{}/{}/{}?format=json".format(host, "data", str(dataset_id))
         r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
         return json.loads(r.text)
 

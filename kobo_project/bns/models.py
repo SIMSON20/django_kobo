@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from kobo.models import KoboData
 import uuid
 
 
@@ -16,6 +17,7 @@ class AME(models.Model):
 
 class Answer(models.Model):
     answer_id = models.UUIDField(primary_key=True, editable=False)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.CASCADE)
     landscape = models.CharField(max_length=255, blank=True, null=True)
     surveyor = models.CharField(max_length=255, blank=True, null=True)
     participant = models.CharField(max_length=255, blank=True, null=True)
@@ -53,8 +55,8 @@ class AnswerGPS(models.Model):
         Answer,
         on_delete=models.CASCADE,
     )
-    lat = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
-    long = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
+    lat = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    long = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     geom = models.PointField(null=True)
 
     class Meta:
