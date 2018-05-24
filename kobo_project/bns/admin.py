@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 from .models import AME
-from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR
+from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
 
 
 @admin.register(AME)
@@ -57,3 +57,10 @@ class AnswerAdmin(ImportExportModelAdmin):
     #list_display = ['dataset_id']
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
 
+
+@admin.register(Price)
+class PriceAdmin(ImportExportModelAdmin):
+    """
+    Admin class for Connections
+    """
+    list_display = ['dataset_uuid', 'village', 'gs', 'price']

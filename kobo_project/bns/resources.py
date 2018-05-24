@@ -1,5 +1,6 @@
 from import_export import resources
-from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR
+from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
+from kobo.models import KoboData
 from import_export.fields import Field
 from django.contrib.gis.geos import GEOSGeometry
 
@@ -68,16 +69,33 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
         else:
             row["geom"] = None
 
-"""
+
 class AnswerGSFromKoboResource(resources.ModelResource):
-    id =
-    answer_id = Field(attribute='answer_id', column_name='_uuid')
-    gs = models.TextField()
-    necessary = models.NullBooleanField()
-    have = models.NullBooleanField()
-    quantity = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
+    # id =
+    answer_id = Field(attribute='answer_id', column_name='answer_id')
+    gs = Field(attribute='gs', column_name='gs')
+    have = Field(attribute='have', column_name='have')
+    necessary =Field(attribute='necessary', column_name='necessary')
+    quantity = Field(attribute='quantity', column_name='quantity')
 
     class Meta:
         model = AnswerGS
-"""
+        import_id_fields = ('answer_id', 'gs', )
+
+        def before_import_row(self, row, **kwargs):
+            row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+
+
+class PriceFromKoboResource(resources.ModelResource):
+    dataset_uuid = Field(attribute='dataset_uuid', column_name='dataset_uuid')
+    gs = Field(attribute='gs', column_name='gs')
+    have = Field(attribute='have', column_name='have')
+    necessary =Field(attribute='necessary', column_name='necessary')
+    quantity = Field(attribute='quantity', column_name='quantity')
+
+    class Meta:
+        model = Price
+        import_id_fields = ('dataset_uuid', 'gs', )
+
+    def before_import_row(self, row, **kwargs):
+        row["dataset_uuid"] = KoboData.objects.get(dataset_uuid=row["dataset_uuid"])

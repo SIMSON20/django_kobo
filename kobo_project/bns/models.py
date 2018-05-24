@@ -73,18 +73,15 @@ class AnswerGS(models.Model):
     necessary = models.NullBooleanField()
     have = models.NullBooleanField()
     quantity = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
 
     class Meta:
+        unique_together = (('answer', 'gs'),)
         verbose_name = 'Good or Service'
         verbose_name_plural = 'Goods and Services'
 
 
 class AnswerHHMembers(models.Model):
-    answer = models.ForeignKey(
-        Answer,
-        on_delete=models.CASCADE,
-    )
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE,)
     gender = models.TextField(blank=True, null=True)
     birth = models.IntegerField(blank=True, null=True)
     ethnicity = models.TextField(blank=True, null=True)
@@ -96,13 +93,23 @@ class AnswerHHMembers(models.Model):
 
 
 class AnswerNR(models.Model):
-    answer = models.ForeignKey(
-        Answer,
-        on_delete=models.CASCADE,
-    )
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE,)
     nr = models.TextField()
     nr_collect = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = 'Natural Resource'
         verbose_name_plural = 'Natural Resources'
+
+
+class Price(models.Model):
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.CASCADE)
+    village = models.TextField()
+    surveyor = models.TextField(blank=True, null=True)
+    gs = models.TextField()
+    price = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        unique_together = (('dataset_uuid', 'village', 'gs'),)
+        verbose_name = 'Price'
+        verbose_name_plural = 'Prices'

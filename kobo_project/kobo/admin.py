@@ -3,7 +3,7 @@ from django.contrib import admin, messages
 from import_export.admin import ImportExportModelAdmin
 from .models import Connection, KoboData
 from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
-from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource
+from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource, AnswerGSFromKoboResource, PriceFromKoboResource
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -78,6 +78,17 @@ class KoboDataAdmin(ImportExportModelAdmin):
             if "bns" in form.tags:
                 self._sync_bns(dataset, form, request)
 
+            elif "bnsprice" in form.tags:
+                tag = form.tags
+                tag.remove('bnsprice')
+                #import pdb; pdb.set_trace()
+                if len(tag) > 1:
+                    self.message_user(request,
+                                      "Cannot sync {}. Dataset UUID is ambiguous. Too many tags.".format(form.dataset_name),
+                                      level=messages.ERROR)
+                else:
+                    self._sync_bns_price(dataset, tag[0], form, request)
+
     def _sync_bns(self, dataset, form, request):
         """
         Syncs selected BNS data with Kobo
@@ -89,16 +100,19 @@ class KoboDataAdmin(ImportExportModelAdmin):
         dataset = self._normalize_data(dataset)
 
         answer_resource = AnswerFromKoboResource()
+        answer_gps_resource = AnswerGPSFromKoboResource()
+        answer_gs_resource = AnswerGSFromKoboResource()
+
         answer_resource.form = form
 
-        answer_gps_resource = AnswerGPSFromKoboResource()
-
+        # Update main Answer table
         result = answer_resource.import_data(dataset, raise_errors=True, dry_run=True)
         if not result.has_errors():
             answer_resource.import_data(dataset, dry_run=False)
             self.message_user(request,
                               "Successfully updated {} answers for form {}".format(len(dataset), form.dataset_name))
 
+            # Update AnswerGPS table
             result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 answer_gps_resource.import_data(dataset, dry_run=False)
@@ -108,11 +122,51 @@ class KoboDataAdmin(ImportExportModelAdmin):
                 self.message_user(request, "Failed to updated GPS coordinates for form {}".format(form.dataset_name),
                                   level=messages.ERROR)
 
-                # raise forms.ValidationError("Import of AnswersGPS failed!")
+            # Update AnswerGS table
+            gs_dataset = self._extract_gs(dataset.dict)
+
+            result = answer_gs_resource.import_data(gs_dataset, raise_errors=True, dry_run=True)
+            if not result.has_errors():
+                answer_gs_resource.import_data(gs_dataset, dry_run=False)
+                self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(len(gs_dataset),
+                                                                                                        form.dataset_name))
+            else:
+                self.message_user(request, "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
+                                  level=messages.ERROR)
+
         else:
             self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
                               level=messages.ERROR)
             # raise forms.ValidationError("Import of Answers failed!")
+
+    def _sync_bns_price(self, dataset, dataset_uuid, form, request):
+
+        price_resource = PriceFromKoboResource()
+
+        new_dataset = list()
+        for data_row in dataset:
+
+            for gs in data_row["good"]:
+                row = dict()
+                row["dataset_uuid"] = dataset_uuid
+                row["village"] = data_row["village"]
+                row["gs"] = gs["good/name"]
+                row["price"] = gs["good/price"]
+
+                new_dataset.append(row)
+
+        dataset = tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+        # Update AnswerGPS table
+        result = price_resource.import_data(dataset, raise_errors=True, dry_run=True)
+        if not result.has_errors():
+            price_resource.import_data(dataset, dry_run=False)
+            self.message_user(request, "Successfully updated {} prices for form {}".format(len(dataset),
+                                                                                                    form.dataset_name))
+        else:
+            self.message_user(request, "Failed to updated prices for form {}".format(form.dataset_name),
+                              level=messages.ERROR)
+
 
     @staticmethod
     def _normalize_data(dataset):
@@ -137,6 +191,39 @@ class KoboDataAdmin(ImportExportModelAdmin):
                 row[key] = None
 
         return tablib.Dataset().load(json.dumps(dataset, sort_keys=True))
+
+    @staticmethod
+    def _extract_gs(dataset):
+        """
+        Read Kobo data and extract Good and Services answers
+        Convert table and write each GS answer in a seperate row
+        :param dataset:
+        :return:
+        """
+
+        matrix_group_prefix = "bns_matrix"
+        new_dataset = list()
+        for data_row in dataset:
+            answer_id = data_row["_uuid"]
+            filtered_row = {k: v for (k, v) in data_row.items() if matrix_group_prefix in k}
+            gs = set([k.split('/')[0][len(matrix_group_prefix)+1:] for k in filtered_row.keys()])
+
+            for item in gs:
+                row = dict()
+                row["answer_id"] = answer_id
+                row["gs"] = item
+                row["have"] = True if filtered_row[
+                                          "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "possess")] == 'yes' else False
+                row["necessary"] = True if filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix,item,
+                                                                                                     "necessary")] == 'yes' else False
+                if "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix,item, "number") not in filtered_row or not row["have"]:
+                    row["quantity"] = None
+                else:
+                    row["quantity"] = filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "number")]
+
+                new_dataset.append(row)
+
+        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
 
     @staticmethod
     def get_kobo_data(connection, dataset_id):
