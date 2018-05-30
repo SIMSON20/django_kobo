@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from kobo.models import KoboData
 import uuid
+from datetime import datetime
 
 
 class AME(models.Model):
@@ -16,7 +17,7 @@ class AME(models.Model):
 
 
 class Answer(models.Model):
-    answer_id = models.UUIDField(primary_key=True, editable=False)
+    answer_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.CASCADE)
     landscape = models.CharField(max_length=255, blank=True, null=True)
     surveyor = models.CharField(max_length=255, blank=True, null=True)
@@ -39,11 +40,7 @@ class Answer(models.Model):
     explain_benef_pa = models.CharField(max_length=255, blank=True, null=True)
     bns_plus = models.CharField(max_length=255, blank=True, null=True)
     survey_date = models.DateTimeField(blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        if not self.answer_id:
-            self.answer_id = uuid.uuid4()
-        super(Answer, self).save()
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         verbose_name = 'Answer'
@@ -55,6 +52,7 @@ class AnswerGPS(models.Model):
     lat = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     long = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     geom = models.PointField(null=True)
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         verbose_name = 'GPS'
@@ -67,6 +65,7 @@ class AnswerGS(models.Model):
     necessary = models.NullBooleanField()
     have = models.NullBooleanField()
     quantity = models.IntegerField(blank=True, null=True)
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         unique_together = (('answer', 'gs'),)
@@ -80,6 +79,7 @@ class AnswerHHMembers(models.Model):
     birth = models.IntegerField(blank=True, null=True)
     ethnicity = models.TextField(blank=True, null=True)
     head = models.NullBooleanField()
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         verbose_name = 'HH Members'
@@ -90,6 +90,7 @@ class AnswerNR(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE,)
     nr = models.TextField()
     nr_collect = models.IntegerField(blank=True, null=True)
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         verbose_name = 'Natural Resource'
@@ -102,6 +103,7 @@ class Price(models.Model):
     surveyor = models.TextField(blank=True, null=True)
     gs = models.TextField()
     price = models.IntegerField(blank=True, null=True)
+    last_update = models.DateTimeField(default=datetime.now(), editable=False)
 
     class Meta:
         unique_together = (('dataset_uuid', 'village', 'gs'),)
