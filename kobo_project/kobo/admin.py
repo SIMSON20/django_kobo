@@ -3,7 +3,9 @@ from django.contrib import admin, messages
 from import_export.admin import ImportExportModelAdmin
 from .models import Connection, KoboData
 from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
-from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource, AnswerGSFromKoboResource, PriceFromKoboResource
+from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource, \
+                            AnswerGSFromKoboResource, AnswerHHMembersFromKoboResource, \
+                            AnswerNRFromKoboResource, PriceFromKoboResource
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -102,6 +104,8 @@ class KoboDataAdmin(ImportExportModelAdmin):
         answer_resource = AnswerFromKoboResource()
         answer_gps_resource = AnswerGPSFromKoboResource()
         answer_gs_resource = AnswerGSFromKoboResource()
+        answer_hh_members_resource = AnswerHHMembersFromKoboResource()
+        answer_nr_resource = AnswerNRFromKoboResource()
 
         answer_resource.form = form
 
@@ -132,6 +136,34 @@ class KoboDataAdmin(ImportExportModelAdmin):
                                                                                                         form.dataset_name))
             else:
                 self.message_user(request, "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
+                                  level=messages.ERROR)
+
+            # Update HH Member table
+            hh_member_dataset = self._extract_hh_members(dataset.dict)
+
+            result = answer_hh_members_resource.import_data(hh_member_dataset, raise_errors=True, dry_run=True)
+            if not result.has_errors():
+                answer_hh_members_resource.import_data(hh_member_dataset, dry_run=False)
+                self.message_user(request,
+                                  "Successfully updated {} household member entries for form {}".format(len(hh_member_dataset),
+                                                                                                       form.dataset_name))
+            else:
+                self.message_user(request,
+                                  "Failed to updated household member entries for form {}".format(form.dataset_name),
+                                  level=messages.ERROR)
+
+            # Update NR table
+            nr_dataset = self._extract_nr(dataset.dict)
+
+            result = answer_nr_resource.import_data(nr_dataset, raise_errors=True, dry_run=True)
+            if not result.has_errors():
+                answer_nr_resource.import_data(nr_dataset, dry_run=False)
+                self.message_user(request,
+                                  "Successfully updated {} natural resource entries for form {}".format(len(nr_dataset),
+                                                                                                       form.dataset_name))
+            else:
+                self.message_user(request,
+                                  "Failed to updated natural resource entries for form {}".format(form.dataset_name),
                                   level=messages.ERROR)
 
         else:
@@ -221,6 +253,64 @@ class KoboDataAdmin(ImportExportModelAdmin):
                 else:
                     row["quantity"] = filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "number")]
 
+                new_dataset.append(row)
+
+        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+
+    @staticmethod
+    def _extract_hh_members(dataset):
+        """
+        Read Kobo data and extract Household Members from answers
+        Convert table and write each HH Member in a seperate row
+        :param dataset:
+        :return:
+        """
+
+        new_dataset = list()
+
+        for data_row in dataset:
+
+            row = dict()
+            row["answer_id"] = data_row["_uuid"]
+            row["gender"] = data_row["gender_head"]
+            row["birth"] = data_row["birth_head"]
+            row["ethnicity"] = data_row["ethnicity_head"]
+            row["head"] = True
+            new_dataset.append(row)
+
+            if data_row["hh_members"] is not None:
+                for member in data_row["hh_members"]:
+                    row = dict()
+                    row["answer_id"] = data_row["_uuid"]
+                    row["gender"] = member["hh_members/gender"]
+                    row["birth"] = member["hh_members/birth"]
+                    row["ethnicity"] = member["hh_members/ethnicity"]
+                    row["head"] = False
+                    new_dataset.append(row)
+
+        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+    @staticmethod
+    def _extract_nr(dataset):
+        """
+        Read Kobo data and extract Good and Services answers
+        Convert table and write each GS answer in a seperate row
+        :param dataset:
+        :return:
+        """
+
+        nr_prefix = "nr"
+        new_dataset = list()
+        for data_row in dataset:
+            answer_id = data_row["_uuid"]
+            filtered_row = {k: v for (k, v) in data_row.items() if k[:3] == "{}/".format(nr_prefix)}
+
+            for key in filtered_row.keys():
+                row = dict()
+                row["answer_id"] = answer_id
+                row["nr"] = key.split('/')[1]
+                row["nr_collect"] = filtered_row[key]
                 new_dataset.append(row)
 
         return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))

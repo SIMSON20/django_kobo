@@ -40,7 +40,7 @@ class Answer(models.Model):
     bns_plus = models.CharField(max_length=255, blank=True, null=True)
     survey_date = models.DateTimeField(blank=True, null=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if not self.answer_id:
             self.answer_id = uuid.uuid4()
         super(Answer, self).save()
@@ -51,10 +51,7 @@ class Answer(models.Model):
 
 
 class AnswerGPS(models.Model):
-    answer = models.OneToOneField(
-        Answer,
-        on_delete=models.CASCADE,
-    )
+    answer = models.OneToOneField(Answer, on_delete=models.CASCADE, )
     lat = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     long = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     geom = models.PointField(null=True)
@@ -65,10 +62,7 @@ class AnswerGPS(models.Model):
 
 
 class AnswerGS(models.Model):
-    answer = models.ForeignKey(
-        Answer,
-        on_delete=models.CASCADE,
-    )
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE,  )
     gs = models.TextField()
     necessary = models.NullBooleanField()
     have = models.NullBooleanField()

@@ -82,8 +82,34 @@ class AnswerGSFromKoboResource(resources.ModelResource):
         model = AnswerGS
         import_id_fields = ('answer_id', 'gs', )
 
-        def before_import_row(self, row, **kwargs):
-            row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+    # def before_import_row(self, row, **kwargs):
+        # row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+
+
+class AnswerHHMembersFromKoboResource(resources.ModelResource):
+
+    answer_id = Field(attribute='answer_id', column_name='answer_id')
+    gender = Field(attribute='gender', column_name='gender')
+    birth = Field(attribute='birth', column_name='birth')
+    ethnicity = Field(attribute='ethnicity', column_name='ethnicity')
+    head = Field(attribute='head', column_name='head')
+
+    class Meta:
+        model = AnswerHHMembers
+        import_id_fields = ('answer_id', 'gender', 'birth', ) # might cause issues with HH members of same age and gender, not sure how often this actually happens
+
+    # def before_import_row(self, row, **kwargs):
+    #     row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+
+
+class AnswerNRFromKoboResource(resources.ModelResource):
+    answer_id = Field(attribute='answer_id', column_name='answer_id')
+    nr = Field(attribute='nr', column_name='nr')
+    nr_collect = Field(attribute='nr_collect', column_name='nr_collect')
+
+    class Meta:
+        model = AnswerNR
+        import_id_fields = ('answer_id', 'nr', )
 
 
 class PriceFromKoboResource(resources.ModelResource):
