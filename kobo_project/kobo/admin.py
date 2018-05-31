@@ -232,7 +232,7 @@ class KoboDataAdmin(ImportExportModelAdmin):
             price_resource.import_data(dataset, dry_run=False)
 
             # Delete not updated records
-            Price.objects.filter(kobodata__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+            Price.objects.filter(dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
 
             self.message_user(request, "Successfully updated {} prices for form {}".format(len(dataset),
                                                                                                     form.dataset_name))
