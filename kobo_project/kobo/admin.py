@@ -50,6 +50,11 @@ class ConnectionAdmin(admin.ModelAdmin):
 
     @staticmethod
     def get_kobo_forms(connection):
+        """
+        Get metadata for Kobo form
+        :param connection:
+        :return:
+        """
         host = connection.host_api.strip()
         auth_user = connection.auth_user.strip()
         auth_passwd = connection.auth_pass.strip()
@@ -195,7 +200,14 @@ class KoboDataAdmin(ImportExportModelAdmin):
             # raise forms.ValidationError("Import of Answers failed!")
 
     def _sync_bns_price(self, dataset, dataset_uuid, form, request):
-
+        """
+        Sync Prices
+        :param dataset:
+        :param dataset_uuid:
+        :param form:
+        :param request:
+        :return:
+        """
         price_resource = PriceFromKoboResource()
 
         now = datetime.now()
@@ -346,6 +358,12 @@ class KoboDataAdmin(ImportExportModelAdmin):
 
     @staticmethod
     def get_kobo_data(connection, dataset_id):
+        """
+        Get data for Kobo form
+        :param connection:
+        :param dataset_id:
+        :return:
+        """
         host = connection.host_api.strip()
         auth_user = connection.auth_user.strip()
         auth_passwd = connection.auth_pass.strip()
