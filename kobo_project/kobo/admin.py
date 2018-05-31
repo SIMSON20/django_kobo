@@ -6,6 +6,7 @@ from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
 from bns.resources import AnswerFromKoboResource, AnswerGPSFromKoboResource, \
                             AnswerGSFromKoboResource, AnswerHHMembersFromKoboResource, \
                             AnswerNRFromKoboResource, PriceFromKoboResource
+from bns.models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -109,10 +110,16 @@ class KoboDataAdmin(ImportExportModelAdmin):
 
         answer_resource.form = form
 
+        now = datetime.now()
+
         # Update main Answer table
         result = answer_resource.import_data(dataset, raise_errors=True, dry_run=True)
         if not result.has_errors():
             answer_resource.import_data(dataset, dry_run=False)
+
+            # Delete not updated records
+            Answer.objects.filter(dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
             self.message_user(request,
                               "Successfully updated {} answers for form {}".format(len(dataset), form.dataset_name))
 
@@ -120,6 +127,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 answer_gps_resource.import_data(dataset, dry_run=False)
+
+                # Delete not updated records
+                AnswerGPS.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
                 self.message_user(request, "Successfully updated {} GPS coordinates for form {}".format(len(dataset),
                                                                                                         form.dataset_name))
             else:
@@ -132,6 +143,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             result = answer_gs_resource.import_data(gs_dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 answer_gs_resource.import_data(gs_dataset, dry_run=False)
+
+                # Delete not updated records
+                AnswerGS.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
                 self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(len(gs_dataset),
                                                                                                         form.dataset_name))
             else:
@@ -144,6 +159,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             result = answer_hh_members_resource.import_data(hh_member_dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 answer_hh_members_resource.import_data(hh_member_dataset, dry_run=False)
+
+                # Delete not updated records
+                AnswerHHMembers.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
                 self.message_user(request,
                                   "Successfully updated {} household member entries for form {}".format(len(hh_member_dataset),
                                                                                                        form.dataset_name))
@@ -158,6 +177,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             result = answer_nr_resource.import_data(nr_dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 answer_nr_resource.import_data(nr_dataset, dry_run=False)
+
+                # Delete not updated records
+                AnswerNR.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
                 self.message_user(request,
                                   "Successfully updated {} natural resource entries for form {}".format(len(nr_dataset),
                                                                                                        form.dataset_name))
@@ -174,6 +197,8 @@ class KoboDataAdmin(ImportExportModelAdmin):
     def _sync_bns_price(self, dataset, dataset_uuid, form, request):
 
         price_resource = PriceFromKoboResource()
+
+        now = datetime.now()
 
         new_dataset = list()
         for data_row in dataset:
@@ -193,6 +218,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
         result = price_resource.import_data(dataset, raise_errors=True, dry_run=True)
         if not result.has_errors():
             price_resource.import_data(dataset, dry_run=False)
+
+            # Delete not updated records
+            Price.objects.filter(kobodata__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
+
             self.message_user(request, "Successfully updated {} prices for form {}".format(len(dataset),
                                                                                                     form.dataset_name))
         else:

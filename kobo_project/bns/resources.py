@@ -3,6 +3,7 @@ from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR,
 from kobo.models import KoboData
 from import_export.fields import Field
 from django.contrib.gis.geos import GEOSGeometry
+from datetime import datetime
 
 
 class AnswerFromKoboResource(resources.ModelResource):
@@ -31,6 +32,7 @@ class AnswerFromKoboResource(resources.ModelResource):
     explain_benef_pa = Field(attribute='explain_benef_pa', column_name='explain_benef_PA')
     bns_plus = Field(attribute='bns_plus', column_name='bns_plus')
     survey_date = Field(attribute='survey_date', column_name='_submission_time')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = Answer
@@ -46,6 +48,7 @@ class AnswerFromKoboResource(resources.ModelResource):
         row["benef_project"] = None if row["benef_project"] is None else True if row["benef_project"].lower() == 'yes' else False
         row["benef_pa"] = None if row["benef_PA"] is None else True if row["benef_PA"].lower() == 'yes' else False
         row["know_pa"] = None if row["know_PA"] is None else True if row["know_PA"].lower() == 'yes' else False
+        row["last_update"] = datetime.now()
 
 
 class AnswerGPSFromKoboResource(resources.ModelResource):
@@ -53,6 +56,7 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
     lat = Field(attribute='lat', column_name='lat')
     long = Field(attribute='long', column_name='long')
     geom = Field(attribute='geom', column_name='geom')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = AnswerGPS
@@ -61,13 +65,27 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
 
         row["answer_id"] = Answer.objects.get(answer_id=row["_uuid"])
-        row["lat"] = None if row["gps/lat"] is None and row["_geolocation"][0] is None else float(row["gps/lat"]) if row["_geolocation"][0] is None else row["_geolocation"][0]
-        row["long"] = None if row["gps/long"] is None and row["_geolocation"][1] is None else float(row["gps/long"]) if row["_geolocation"][1] is None else row["_geolocation"][1]
+
+        if row["_geolocation"][0] is not None:
+            row["lat"] = row["_geolocation"][0]
+        elif row["gps/lat"] is not None:
+            row["lat"] = float(row["gps/lat"])
+        else:
+            row["lat"] = None
+
+        if row["_geolocation"][1] is not None:
+            row["long"] = row["_geolocation"][1]
+        elif row["gps/long"] is not None:
+            row["long"] = float(row["gps/long"])
+        else:
+            row["long"] = None
 
         if not (row["lat"] is None or row["long"] is None) and -90 <= row["lat"] <= 90 and -180 <= row["long"] <= 180:
             row["geom"] = GEOSGeometry('POINT({} {})'.format(row["long"], row["lat"]), srid=4326)
         else:
             row["geom"] = None
+
+        row["last_update"] = datetime.now()
 
 
 class AnswerGSFromKoboResource(resources.ModelResource):
@@ -77,12 +95,14 @@ class AnswerGSFromKoboResource(resources.ModelResource):
     have = Field(attribute='have', column_name='have')
     necessary =Field(attribute='necessary', column_name='necessary')
     quantity = Field(attribute='quantity', column_name='quantity')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = AnswerGS
         import_id_fields = ('answer_id', 'gs', )
 
-    # def before_import_row(self, row, **kwargs):
+    def before_import_row(self, row, **kwargs):
+        row["last_update"] = datetime.now()
         # row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
 
 
@@ -93,23 +113,29 @@ class AnswerHHMembersFromKoboResource(resources.ModelResource):
     birth = Field(attribute='birth', column_name='birth')
     ethnicity = Field(attribute='ethnicity', column_name='ethnicity')
     head = Field(attribute='head', column_name='head')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = AnswerHHMembers
         import_id_fields = ('answer_id', 'gender', 'birth', ) # might cause issues with HH members of same age and gender, not sure how often this actually happens
 
-    # def before_import_row(self, row, **kwargs):
-    #     row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+    def before_import_row(self, row, **kwargs):
+        row["last_update"] = datetime.now()
+        # row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
 
 
 class AnswerNRFromKoboResource(resources.ModelResource):
     answer_id = Field(attribute='answer_id', column_name='answer_id')
     nr = Field(attribute='nr', column_name='nr')
     nr_collect = Field(attribute='nr_collect', column_name='nr_collect')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = AnswerNR
         import_id_fields = ('answer_id', 'nr', )
+
+    def before_import_row(self, row, **kwargs):
+        row["last_update"] = datetime.now()
 
 
 class PriceFromKoboResource(resources.ModelResource):
@@ -118,6 +144,7 @@ class PriceFromKoboResource(resources.ModelResource):
     have = Field(attribute='have', column_name='have')
     necessary =Field(attribute='necessary', column_name='necessary')
     quantity = Field(attribute='quantity', column_name='quantity')
+    last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = Price
@@ -125,3 +152,4 @@ class PriceFromKoboResource(resources.ModelResource):
 
     def before_import_row(self, row, **kwargs):
         row["dataset_uuid"] = KoboData.objects.get(dataset_uuid=row["dataset_uuid"])
+        row["last_update"] = datetime.now()
