@@ -39,15 +39,21 @@ class AnswerFromKoboResource(resources.ModelResource):
         import_id_fields = ('answer_id',)
 
     def before_import_row(self, row, **kwargs):
-        #import pdb; pdb.set_trace()
+
         row["dataset_uuid"] = self.form
         row["hh_type_control"] = None if row["hh_type"] is None else True if 'control' in row["hh_type"] else False
-        row["hh_type_org_benef"] = None if row["hh_type"] is None else True if 'org_benef' in row["hh_type"] else False
+        row["hh_type_org_benef"] = None if row["hh_type"] is None else True if 'org_benef' in row["hh_type"] or 'wcs_benef' in row["hh_type"] else False
         row["hh_type_other_benef"] = None if row["hh_type"] is None else True if 'other_benef' in row["hh_type"] else False
-        row["hh_id"] = row["_uuid"] if (row["hh_id"] is None or row["hh_id"].upper() == "NEW") else row["hh_id"]
+
+        if "hh_id" in row.keys() and not (row["hh_id"] is None or row["hh_id"].upper() == "NEW"):
+            row["hh_id"] = row["hh_id"]
+        else:
+            row["hh_id"] = row["_uuid"]
+
         row["benef_project"] = None if row["benef_project"] is None else True if row["benef_project"].lower() == 'yes' else False
-        row["benef_pa"] = None if row["benef_PA"] is None else True if row["benef_PA"].lower() == 'yes' else False
-        row["know_pa"] = None if row["know_PA"] is None else True if row["know_PA"].lower() == 'yes' else False
+
+        row["benef_pa"] = None if "benef_PA" not in row.keys() or row["benef_PA"] is None else True if row["benef_PA"].lower() == 'yes' else False
+        row["know_pa"] = None if "know_PA" not in row.keys() or row["know_PA"] is None else True if row["know_PA"].lower() == 'yes' else False
         row["last_update"] = datetime.now()
 
 
@@ -68,14 +74,14 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
 
         if row["_geolocation"][0] is not None:
             row["lat"] = row["_geolocation"][0]
-        elif row["gps/lat"] is not None:
+        elif "gps/lat" in row.keys() and row["gps/lat"] is not None:
             row["lat"] = float(row["gps/lat"])
         else:
             row["lat"] = None
 
         if row["_geolocation"][1] is not None:
             row["long"] = row["_geolocation"][1]
-        elif row["gps/long"] is not None:
+        elif "gps/long" in row.keys() and row["gps/long"] is not None:
             row["long"] = float(row["gps/long"])
         else:
             row["long"] = None

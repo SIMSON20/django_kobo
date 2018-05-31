@@ -316,7 +316,10 @@ class KoboDataAdmin(ImportExportModelAdmin):
             row["answer_id"] = data_row["_uuid"]
             row["gender"] = data_row["gender_head"]
             row["birth"] = data_row["birth_head"]
-            row["ethnicity"] = data_row["ethnicity_head"]
+            if "ethnicity_head" in data_row.keys():
+                row["ethnicity"] = data_row["ethnicity_head"]
+            else:
+                row["ethnicity"] = None
             row["head"] = True
             new_dataset.append(row)
 
@@ -324,9 +327,21 @@ class KoboDataAdmin(ImportExportModelAdmin):
                 for member in data_row["hh_members"]:
                     row = dict()
                     row["answer_id"] = data_row["_uuid"]
-                    row["gender"] = member["hh_members/gender"]
-                    row["birth"] = member["hh_members/birth"]
-                    row["ethnicity"] = member["hh_members/ethnicity"]
+                    if "gender" in member.keys():
+                        row["gender"] = member["hh_members/gender"]
+                    else:
+                        row["gender"] = None
+
+                    if "birth" in member.keys():
+                        row["birth"] = member["hh_members/birth"]
+                    else:
+                        row["birth"] = None
+
+                    if "hh_members/ethnicity" in member.keys():
+                        row["ethnicity"] = member["hh_members/ethnicity"]
+                    else:
+                        row["ethnicity"] = None
+
                     row["head"] = False
                     new_dataset.append(row)
 
