@@ -29,7 +29,7 @@ class KoboDataFromKoboResource(resources.ModelResource):
     dataset_owner = Field(attribute='dataset_owner', column_name='dataset_owner')
     auth_user = Field(attribute='auth_user', column_name='auth_user')
     last_submission_time = Field(attribute='last_submission_time', column_name='last_submission_time')
-    last_update_time = Field(attribute='last_update_time', column_name='last_update_time')
+    last_checked_time = Field(attribute='last_checked_time', column_name='last_checked_time')
     tags = Field(attribute='tags', column_name='tags')
 
     class Meta:
@@ -43,7 +43,7 @@ class KoboDataFromKoboResource(resources.ModelResource):
         #    row["last_submission_time"] =  datetime.strptime(row["last_submission_time"], '%Y-%m-%dT%H:%M:%S.%fZ')
         #else:
         #    return None
-        row["last_update_time"] = datetime.now()
+        row["last_checked_time"] = datetime.now()
         row["auth_user"] = self.connection
         row["tags"] = self.get_kobo_assets(self.connection, row["id_string"])["tag_string"].split(",")
 
@@ -62,17 +62,4 @@ class KoboDataFromKoboResource(resources.ModelResource):
         r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
         return json.loads(r.text)
 
-    def after_save_instance(self, instance, using_transactions, dry_run):
-        """
-        Delete not updated data after instance was saved
-        :param instance:
-        :param using_transactions:
-        :param dry_run:
-        :return:
-        """
-        pass
-        #if not dry_run:
-        #    queryset = self.get_queryset()
-        #    q = queryset.objects.filter(last_update_time__smallerthan=self.start_time)
-        #    q.delete()
 

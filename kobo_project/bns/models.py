@@ -40,7 +40,7 @@ class Answer(models.Model):
     explain_benef_pa = models.TextField(blank=True, null=True)
     bns_plus = models.TextField(blank=True, null=True)
     survey_date = models.DateTimeField(blank=True, null=True)
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'Answer'
@@ -52,7 +52,7 @@ class AnswerGPS(models.Model):
     lat = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     long = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     geom = models.PointField(null=True)
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'GPS'
@@ -65,7 +65,7 @@ class AnswerGS(models.Model):
     necessary = models.NullBooleanField()
     have = models.NullBooleanField()
     quantity = models.IntegerField(blank=True, null=True)
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         unique_together = (('answer', 'gs'),)
@@ -79,7 +79,7 @@ class AnswerHHMembers(models.Model):
     birth = models.IntegerField(blank=True, null=True)
     ethnicity = models.TextField(blank=True, null=True)
     head = models.NullBooleanField()
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'HH Members'
@@ -90,7 +90,7 @@ class AnswerNR(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE,)
     nr = models.TextField()
     nr_collect = models.IntegerField(blank=True, null=True)
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'Natural Resource'
@@ -103,9 +103,69 @@ class Price(models.Model):
     surveyor = models.TextField(blank=True, null=True)
     gs = models.TextField()
     price = models.IntegerField(blank=True, null=True)
-    last_update = models.DateTimeField(default=datetime.now(), editable=False)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         unique_together = (('dataset_uuid', 'village', 'gs'),)
         verbose_name = 'Price'
         verbose_name_plural = 'Prices'
+
+
+class AMEPerHH(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    dataset_owner = models.TextField()
+    hh_id = models.TextField()
+    dataset_year = models.IntegerField(null=True)
+    village = models.TextField()
+    district = models.TextField()
+    landscape = models.TextField()
+    hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ame_per_hh'
+
+
+class AMEPerVillage(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ame_per_village'
+
+
+class AMEPerDistrict(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ame_per_district'
+
+
+class AMEPerLandscape(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ame_per_landscape'

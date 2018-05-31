@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from django.contrib.postgres.fields import JSONField
+from datetime import datetime
 
 
 class Connection(models.Model):
@@ -26,8 +26,8 @@ class KoboData(models.Model):
     dataset_name = models.TextField(null=True)
     dataset_year = models.IntegerField(null=True)
     last_submission_time = models.DateTimeField(null=True)
-    last_update_time = models.DateTimeField(null=True)
-    #dataset = JSONField(null=True)
+    last_checked_time = models.DateTimeField(null=True)
+    last_update_time = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'Kobo data'

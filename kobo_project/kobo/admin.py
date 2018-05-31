@@ -13,7 +13,7 @@ import json
 from datetime import datetime
 import tablib
 from django import forms
-
+import copy
 
 @admin.register(Connection)
 class ConnectionAdmin(admin.ModelAdmin):
@@ -80,22 +80,48 @@ class KoboDataAdmin(ImportExportModelAdmin):
         :return:
         """
 
+        bns = list()
+        bnsprice = list()
+        nrgt = list()
+
         for form in queryset:
-            dataset = self.get_kobo_data(form.auth_user, form.dataset_id)
+            # TODO: make sure to remove archived forms from queryset
 
             if "bns" in form.tags:
-                self._sync_bns(dataset, form, request)
+                bns.append(form)
 
             elif "bnsprice" in form.tags:
-                tag = form.tags
-                tag.remove('bnsprice')
-                #import pdb; pdb.set_trace()
-                if len(tag) > 1:
-                    self.message_user(request,
-                                      "Cannot sync {}. Dataset UUID is ambiguous. Too many tags.".format(form.dataset_name),
-                                      level=messages.ERROR)
-                else:
-                    self._sync_bns_price(dataset, tag[0], form, request)
+                bnsprice.append(form)
+
+            elif "nrgt" in form.tags:
+                nrgt.append(form)
+
+        for form in bns:
+            dataset = self.get_kobo_data(form.auth_user, form.dataset_id)
+            self._sync_bns(dataset, form, request)
+            form.last_update_time = datetime.now()
+            form.save()
+
+        for form in bnsprice:
+            dataset = self.get_kobo_data(form.auth_user, form.dataset_id)
+            tags = copy.deepcopy(form.tags)
+            tags.remove('bnsprice')
+            # import pdb; pdb.set_trace()
+            if len(tags) > 1:
+                self.message_user(request,
+                                    "Cannot sync {}. Dataset UUID is ambiguous. Too many tags.".format(
+                                        form.dataset_name),
+                                    level=messages.ERROR)
+            else:
+                self._sync_bns_price(dataset, tags[0], form, request)
+
+            form.last_update_time = datetime.now()
+            form.save()
+
+        for form in nrgt:
+            #dataset = self.get_kobo_data(form.auth_user, form.dataset_id)
+            form.last_update_time = datetime.now()
+            form.save()
 
     def _sync_bns(self, dataset, form, request):
         """
@@ -214,15 +240,25 @@ class KoboDataAdmin(ImportExportModelAdmin):
 
         new_dataset = list()
         for data_row in dataset:
+            if "good" in data_row.keys():
+                for gs in data_row["good"]:
+                    if "good/name" in gs.keys() and "good/price" in gs.keys():
+                        row = dict()
+                        row["dataset_uuid"] = dataset_uuid
+                        row["village"] = data_row["village"]
+                        row["gs"] = gs["good/name"]
+                        row["price"] = gs["good/price"]
+                        new_dataset.append(row)
 
-            for gs in data_row["good"]:
-                row = dict()
-                row["dataset_uuid"] = dataset_uuid
-                row["village"] = data_row["village"]
-                row["gs"] = gs["good/name"]
-                row["price"] = gs["good/price"]
-
-                new_dataset.append(row)
+            elif "group_prices" in data_row.keys():
+                for gs in data_row["group_prices"]:
+                    if "group_prices/good_name" in gs.keys() and "group_prices/good_price" in gs.keys():
+                        row = dict()
+                        row["dataset_uuid"] = dataset_uuid
+                        row["village"] = data_row["group_info/village"]
+                        row["gs"] = gs["group_prices/good_name"]
+                        row["price"] = gs["group_prices/good_price"]
+                        new_dataset.append(row)
 
         dataset = tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
 
