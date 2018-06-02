@@ -1,5 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from django.contrib.gis.admin import GeoModelAdmin
+
 
 from .models import AME
 from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
@@ -17,6 +19,9 @@ class AnswerGPSAdmin(ImportExportModelAdmin):
 
 class AnswerGPSInline(admin.StackedInline):
     model = AnswerGPS
+
+# TODO get base map to show
+# admin.site.register(AnswerGPS, GeoModelAdmin)
 
 
 @admin.register(AnswerGS)
@@ -64,3 +69,5 @@ class PriceAdmin(ImportExportModelAdmin):
     Admin class for Connections
     """
     list_display = ['dataset_uuid', 'village', 'gs', 'price']
+
+

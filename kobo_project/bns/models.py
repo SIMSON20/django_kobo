@@ -112,6 +112,9 @@ class Price(models.Model):
 
 
 class AMEPerHH(models.Model):
+
+    table_name = "AME per Household"
+
     id = models.BigIntegerField(primary_key=True)
     dataset_owner = models.TextField()
     hh_id = models.TextField()
@@ -127,6 +130,8 @@ class AMEPerHH(models.Model):
 
 
 class AMEPerVillage(models.Model):
+    table_name = "AME per Village"
+
     id = models.BigIntegerField(primary_key=True)
     dataset_owner = models.TextField(blank=True, null=True)
     dataset_year = models.IntegerField(blank=True, null=True)
@@ -143,6 +148,7 @@ class AMEPerVillage(models.Model):
 
 
 class AMEPerDistrict(models.Model):
+    table_name = "AME per District"
     id = models.BigIntegerField(primary_key=True)
     dataset_owner = models.TextField(blank=True, null=True)
     dataset_year = models.IntegerField(blank=True, null=True)
@@ -158,6 +164,7 @@ class AMEPerDistrict(models.Model):
 
 
 class AMEPerLandscape(models.Model):
+    table_name = "AME per Landscape"
     id = models.BigIntegerField(primary_key=True)
     dataset_owner = models.TextField(blank=True, null=True)
     dataset_year = models.IntegerField(blank=True, null=True)

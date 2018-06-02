@@ -1,0 +1,142 @@
+.querywrapper {
+    width:100%;
+    overflow: hidden;
+}
+
+.sidenav {
+ //   height: 100%;
+    width: 160px;
+  //  position: fixed;
+    float:left;
+    z-index: 1;
+  //  top: 100;
+   // left: 0;
+    background-color: #111;
+   // overflow-x: hidden;
+     margin-top: 20px;
+}
+
+.sidenav a,.dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+ //   font-size: 25px;
+ //   color: #818181;
+    color: #FFFFFF;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.sidenav p {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+ //   font-size: 25px;
+    color: #63B671;
+ //   color: #FFFFFF;
+    display: block;
+    text-transform:capitalize;
+    font-variant:small-caps;
+    font-weight:bold;
+  //  text-align:center;
+}
+
+.sidenav a:hover, .dropdown-btn:hover {
+ //   color: #f1f1f1;
+    color: #63B671;
+}
+/* Add an active class to the active dropdown button */
+.active {
+ // background-color: green;
+  color: #63B671;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.btn-link:focus, .btn:focus, .form-control:focus, button:focus, input:focus {
+    outline-color: none;
+    box-shadow: none;
+ }
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-top: 1px solid #FFFFFF;
+}
+
+
+
+   .pager .next>a, .pager .previous>a {
+        color: #61b66f;
+    }
+
+    .pager .next>a:focus, .pager .next>a:hover, .pager .previous>a:focus, .pager .previous>a:hover {
+        background-color: #61b66f;
+        color: #fff;
+    }
+
+    a.btn-default:hover, a.btn-default:focus, button.btn-default:hover, button.btn-default:focus, button.btn-default:active, .btn-default:hover, .btn-defaut:focus, .btn-default:active {
+    border-color: #61b66f;
+    color: #ffffff;
+    fill: #ffffff;
+    background-color: #61b66f;
+}
+
+.pager .next>a, .pager .previous>a {
+    color: #61b66f;
+}
+
+a.btn-default:active, a.btn-default:focus, a.btn-default:hover, button.btn-default.active, button.btn-default:active, button.btn-default:active:focus, button.btn-default:focus, button.btn-default:hover, button.open>.dropdown-toggle.btn-default {
+    border-color: #61b66f;
+    background-color: #61b66f;
+    color: #fff;
+}
+
+.btn-default.active, .btn-default:active, .btn-default:hover, .open>.btn-default.dropdown-toggle {
+    color: #61b66f;
+    background-color: #e6e6e6;
+    border-color: #61b66f;
+}
+
+.btn.focus, .btn:focus, .btn:hover {
+    color: #61b66f;
+    text-decoration: none;
+}
+
+a:hover, a:focus, .btn-link:hover {
+    color: #61b66f;
+    outline-color: #84c68f;
+}
+
+a:focus, a:hover {
+    color: #84c68f;
+    text-decoration: underline;
+}
+
+a:hover, a:focus {
+    color: #84c68f;
+    text-decoration: underline;
+}

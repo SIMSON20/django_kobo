@@ -1,0 +1,167 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+
+<div class="querywrapper">
+    <div class="sidenav">
+      <a href="#about">My Surveys</a>
+      <hr/>
+      <p>Bateke 2017</p>
+      <hr/>
+
+     <button class="dropdown-btn">
+        AME
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/AMEperHH">Household</a>
+        <a href="/bns/query/AMEperVillage">Village</a>
+        <a href="/bns/query/AMEperDistrict">District</a>
+        <a href="/bns/query/AMEperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Ethnicity
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/EthnicityperVillage">Village</a>
+        <a href="/bns/query/EthnicityperDistrict">District</a>
+        <a href="/bns/query/EthnicityperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Gender of household head
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/GenderHeadperVillage">Village</a>
+        <a href="/bns/query/GenderHeadperDistrict">District</a>
+        <a href="/bns/query/GenderHeadperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Livelihoods
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/LivelihoodsperVillage">Village</a>
+        <a href="/bns/query/LivelihoodsperDistrict">District</a>
+        <a href="/bns/query/LivelihoodsperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Natural resource collection
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/NRCollectperVillage">Village</a>
+        <a href="/bns/query/NRCollectperDistrict">District</a>
+        <a href="/bns/query/NRCollectperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Protected area projects
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/PAProjectsperVillage">Village</a>
+        <a href="/bns/query/PAProjectsperDistrict">District</a>
+        <a href="/bns/query/PAProjectsperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WBIperVillage">Village</a>
+        <a href="/bns/query/WBIperDistrict">District</a>
+        <a href="/bns/query/WBIperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per ethnicity
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WBIEthnicityperVillage">Village</a>
+        <a href="/bns/query/WBIEthnicityperDistrict">District</a>
+        <a href="/bns/query/WBIEthnicityperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per gender
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WBIGenderperVillage">Village</a>
+        <a href="/bns/query/WBIGenderperDistrict">District</a>
+        <a href="/bns/query/WBIGenderperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per household type
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WBIHHTypeperVillage">Village</a>
+        <a href="/bns/query/WBIHHTypeperDistrict">District</a>
+        <a href="/bns/query/WBIHHTypeperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per livelihood
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WBILivelihoodperVillage">Village</a>
+        <a href="/bns/query/WBILivelihoodperDistrict">District</a>
+        <a href="/bns/query/WBILivelihoodperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Wealth Index
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/query/WealthIDXperVillage">Village</a>
+        <a href="/bns/query/WealthIDXperDistrict">District</a>
+        <a href="/bns/query/WealthIDXperLandscape">Landscape</a>
+      </div>
+
+    </div>
+
+    <script>
+//* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+    </script>
+    <div class="main">
+
+    <h2>{{ table.name }}</h2>
+    {% render_table table %}
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
