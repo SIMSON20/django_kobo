@@ -13,8 +13,8 @@
     h2 { font-size: 30px;}
     h3 { font-size: 28px;}
     h4 { font-size: 24px;}
-    h5 { font-size: 22px;}
-    h6 { font-size: 16px;}
+    h5 { font-size: 16px;}
+    h6 { font-size: 14px;}
     .extra-small { font-size: 10px;}
     .small { font-size: 12px;}
     .large { font-size: 18px;}
@@ -605,14 +605,19 @@
        background-color:#101010;
      }
 
-    h1, h2, h3, h4 {
+    h1, h2, h3, h4, h5 {
         text-align:center;
+    }
+
+    h5 {
+        font-style:italic;
+        margin-bottom:20px;
     }
 
      .greenbar {
         width: 30px;
         height: 3px;
-        margin: 0 auto 30px auto;
+        margin: 0 auto 20px auto;
         background: #84c68f !important;
         box-sizing: border-box;
         visibility: visible;
@@ -620,4 +625,5 @@
 
     .form-login {
         margin: 0 auto 0 auto;
+        align:center;
     }

@@ -1,0 +1,22 @@
+
+{% extends 'bns_base.html' %}
+
+{% block title %}BNS Landscapes{% endblock %}
+
+{% block main %}
+
+
+    <h2>BNS Landscapes</h2>
+
+    {% for landscape in landscapes %}
+
+    <a href="/bns/landscapes/{{ landscape.landscape }}">{{ landscape.landscape }}</a><br />
+    {% endfor %}
+
+
+
+
+
+
+{% endblock main %}
+
