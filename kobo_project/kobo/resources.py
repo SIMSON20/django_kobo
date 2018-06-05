@@ -24,7 +24,7 @@ class KoboDataFromKoboResource(resources.ModelResource):
     connection = None
     dataset_id = Field(attribute='dataset_id', column_name='formid')
     dataset_uuid = Field(attribute='dataset_uuid', column_name='id_string')
-    dataset_name = Field(attribute='dataset_name', column_name='title')
+    dataset_name = Field(attribute='dataset_name', column_name='dataset_name')
     dataset_year = Field(attribute='dataset_year', column_name='dataset_year')
     dataset_owner = Field(attribute='dataset_owner', column_name='dataset_owner')
     auth_user = Field(attribute='auth_user', column_name='auth_user')
@@ -37,6 +37,8 @@ class KoboDataFromKoboResource(resources.ModelResource):
         import_id_fields = ('dataset_uuid',)
 
     def before_import_row(self, row, **kwargs):
+        assets = self.get_kobo_assets(self.connection, row["id_string"])
+        row["dataset_name"] = assets["name"]
         row["dataset_year"] = row["date_created"][0:4]
         row["dataset_owner"] = row["owner"][40:].split('?')[0]
         #if row["last_submission_time"] is not None:
@@ -45,7 +47,7 @@ class KoboDataFromKoboResource(resources.ModelResource):
         #    return None
         row["last_checked_time"] = datetime.now()
         row["auth_user"] = self.connection
-        row["tags"] = self.get_kobo_assets(self.connection, row["id_string"])["tag_string"].split(",")
+        row["tags"] = assets["tag_string"].split(",")
 
     @staticmethod
     def get_kobo_assets(connection, dataset_uuid):

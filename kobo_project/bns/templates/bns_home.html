@@ -1,0 +1,25 @@
+{% extends 'bns_base.html' %}
+{% load static %}
+{% block title %}Basic Necessities Surveys{% endblock %}
+
+{% block main %}
+  <h2>Basic Necessities Survey</h2>
+
+<p>The Basic Necessities Survey (BNS) is a method of measuring poverty that is:</p>
+
+<p>Simple to design and implement. The results are easy to analyse and to communicate to others
+Democratic in the way that it identifies what constitutes poverty and who is poor
+Rights-based, in its emphasis on entitlement
+The Basic Necessities Survey (BNS) builds on and adapts earlier methods that have been used to measure poverty by measuring deprivation and which emphasise the “consensual” definition of poverty (See below). However, the BNS is innovative in the way in which (a) individual poverty scores and (b) a poverty line are both generated from respondents’ survey responses.
+</p>
+
+<p>Basic necessities are democratically defined as those items in a survey instrument that 50% or more of respondents agree “are basic necessities that everyone should be able to have and nobody should have to go without”  Items are weighted for importance according to the percentage of respondents who say an item is a basic necessity (i.e. between 50% and 100%). Respondents’ poverty (BNS) scores are based on the sum of the weightings of the basic necessities they have, as a percentage of the total they could have if they had all basic necessities. The identification of a poverty line is described below.
+</p><p>
+The BNS combines two aspects of peoples lives: (a) their material conditions, (b) their perceptions of these material conditions. Both have consequences for the quality of their lives.
+</p><p>
+The BNS was developed by Rick Davies in 1997, and implemented by ActionAid Vietnam in 1997, 1998, 1999 and by the Pro Poor Centre (a Vietnamese NGO) in 2006. Its design built on earlier work by poverty researchers in the UK and Sweden (See below)
+</p>
+<center>
+<a href = "{% static 'pdf/GuideBNS_2015_EN_FINAL.pdf' %}"><img src="{% static 'img/bns.png' %}" /></a>
+</center>
+{% endblock main %}

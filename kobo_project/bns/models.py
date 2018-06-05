@@ -116,7 +116,7 @@ class AMEPerHH(models.Model):
     table_name = "AME per Household"
 
     id = models.BigIntegerField(primary_key=True)
-    dataset_owner = models.TextField()
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     hh_id = models.TextField()
     dataset_year = models.IntegerField(null=True)
     village = models.TextField()
@@ -133,7 +133,7 @@ class AMEPerVillage(models.Model):
     table_name = "AME per Village"
 
     id = models.BigIntegerField(primary_key=True)
-    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
     village = models.TextField(blank=True, null=True)
     district = models.TextField(blank=True, null=True)
@@ -150,7 +150,7 @@ class AMEPerVillage(models.Model):
 class AMEPerDistrict(models.Model):
     table_name = "AME per District"
     id = models.BigIntegerField(primary_key=True)
-    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
     district = models.TextField(blank=True, null=True)
     landscape = models.TextField(blank=True, null=True)
@@ -166,7 +166,7 @@ class AMEPerDistrict(models.Model):
 class AMEPerLandscape(models.Model):
     table_name = "AME per Landscape"
     id = models.BigIntegerField(primary_key=True)
-    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
     landscape = models.TextField(blank=True, null=True)
     avg_hh_ame = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)

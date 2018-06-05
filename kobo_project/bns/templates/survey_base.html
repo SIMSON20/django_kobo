@@ -1,0 +1,153 @@
+
+{% extends 'bns_base.html' %}
+
+{% block title %}Basic Necessity Surveys - {{ survey_name }}{% endblock title %}
+
+
+{% block sidenav %}
+
+      <hr/>
+      <p>{{ survey_name }}</p>
+      <hr/>
+
+     <button class="dropdown-btn">
+        AME
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/AMEperHH">Household</a>
+        <a href="/bns/surveys/{{ survey_name }}/AMEperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/AMEperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/AMEperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Ethnicity
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/EthnicityperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/EthnicityperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/EthnicityperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Gender of household head
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Livelihoods
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/LivelihoodsperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/LivelihoodsperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/LivelihoodsperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Natural resource collection
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/NRCollectperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/NRCollectperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/NRCollectperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Protected area projects
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/PAProjectsperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/PAProjectsperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/PAProjectsperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WBIperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per ethnicity
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WBIEthnicityperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIEthnicityperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIEthnicityperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per gender
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WBIGenderperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIGenderperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIGenderperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per household type
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WBIHHTypeperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIHHTypeperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBIHHTypeperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Well being index per livelihood
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WBILivelihoodperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBILivelihoodperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WBILivelihoodperLandscape">Landscape</a>
+      </div>
+
+      <button class="dropdown-btn">
+        Wealth Index
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="/bns/surveys/{{ survey_name }}/WealthIDXperVillage">Village</a>
+        <a href="/bns/surveys/{{ survey_name }}/WealthIDXperDistrict">District</a>
+        <a href="/bns/surveys/{{ survey_name }}/WealthIDXperLandscape">Landscape</a>
+      </div>
+
+
+      <script>
+            //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+              dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                  dropdownContent.style.display = "none";
+                } else {
+                  dropdownContent.style.display = "block";
+                }
+              });
+            }
+      </script>
+
+{% endblock sidenav %}

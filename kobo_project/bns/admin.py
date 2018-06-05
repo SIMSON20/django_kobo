@@ -13,7 +13,7 @@ class AMEAdmin(ImportExportModelAdmin):
 
 
 @admin.register(AnswerGPS)
-class AnswerGPSAdmin(ImportExportModelAdmin):
+class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin ):
     pass
 
 

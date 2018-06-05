@@ -19,7 +19,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 
-url
+
 urlpatterns = [
     path('bns/', include('bns.urls')),
     path('kobo/', include('kobo.urls')),
