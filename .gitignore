@@ -64,4 +64,4 @@ config/*.config
 venv/*
 
 #django
-settings.py
+#settings.py
