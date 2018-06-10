@@ -176,3 +176,54 @@ class AMEPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_ame_per_landscape'
+
+
+class EthnicityPerVillage(models.Model):
+    table_name = "Ethnicity per village"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ethnicity_per_village'
+
+
+class EthnicityPerDistrict(models.Model):
+    table_name = "Ethnicity per district"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ethnicity_per_district'
+
+
+class EthnicityPerLandscape(models.Model):
+    table_name = "Ethnicity per landscape"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_ethnicity_per_landscape'

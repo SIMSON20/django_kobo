@@ -61,7 +61,7 @@ config/*.config
 .idea/
 
 #venv
-venv/*
+cdvenv/*
 
 #django
 #settings.py
