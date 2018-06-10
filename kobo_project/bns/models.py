@@ -227,3 +227,54 @@ class EthnicityPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_ethnicity_per_landscape'
+
+
+class GenderHeadPerVillage(models.Model):
+    table_name = "Gender of household head per village"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_gender_head_per_village'
+
+
+class GenderHeadPerDistrict(models.Model):
+    table_name = "Gender of household head per district"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_gender_head_per_district'
+
+
+class GenderHeadPerLandscape(models.Model):
+    table_name = "Gender of household head per landscape"
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    ratio = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_gender_head_per_landscape'
