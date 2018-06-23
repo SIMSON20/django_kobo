@@ -9,6 +9,9 @@ from django_tables2.export.export import TableExport
 from django.db.models import Count
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+import django_filters
+from django import forms
+from bootstrap_select import BootstrapSelect
 
 # Create your views here.
 
@@ -16,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'bns_home.html')
     #return HttpResponse("Hello, world. You're at the bns index.")
+
 
 
 @login_required
@@ -42,9 +46,20 @@ def survey_query(request, survey_name, query_name):
             model = mymodel
             template_name = 'django_tables2/bootstrap.html'
 
+    class myFilter(django_filters.FilterSet):
+        class Meta:
+            model = mymodel
+            fields = mymodel.filter_fields
+
     queryset = mymodel.objects.filter(dataset_uuid__dataset_name=survey_name)
 
-    table = myTable(queryset)
+    filter = myFilter(request.GET, queryset=queryset)
+
+    # for field in filter.form.fields:
+    #    filter.form.fields[field].widget = BootstrapSelect(choices=[('AAAAABB','AAAAABB'),('BBAAAA','BBAAAA')],
+    #                                                       attrs={'data-live-search': 'true'})
+
+    table = myTable(filter.qs)
     RequestConfig(request).configure(table)
 
     export_format = request.GET.get('_export', None)
@@ -53,8 +68,9 @@ def survey_query(request, survey_name, query_name):
         return exporter.response('{}.{}'.format(mymodel.table_name, export_format))
 
     table.paginate(page=request.GET.get('page', 1), per_page=request.GET.get('per_page', 10))
+    table.export_formats = ['csv', 'xls', 'json', 'tsv']
 
-    return render(request, 'survey_query.html', {'table': table, 'survey_name': survey_name})
+    return render(request, 'survey_query.html', {'table': table, 'filter': filter, 'survey_name': survey_name})
 
 
 @login_required
@@ -81,9 +97,20 @@ def landscape_query(request, landscape_name, query_name):
             model = mymodel
             template_name = 'django_tables2/bootstrap.html'
 
+    class myFilter(django_filters.FilterSet):
+        class Meta:
+            model = mymodel
+            fields = mymodel.filter_fields
+
     queryset = mymodel.objects.filter(landscape=landscape_name)
 
-    table = myTable(queryset)
+    filter = myFilter(request.GET, queryset=queryset)
+
+    #for field in filter.form.fields:
+    #    filter.form.fields[field].widget = forms.BootstrapSelect(choices=self.CHOICES,
+    #                               attrs={'data-live-search': 'true'})
+
+    table = myTable(filter.qs)
     RequestConfig(request).configure(table)
 
     export_format = request.GET.get('_export', None)
@@ -92,5 +119,6 @@ def landscape_query(request, landscape_name, query_name):
         return exporter.response('{}.{}'.format(mymodel.table_name, export_format))
 
     table.paginate(page=request.GET.get('page', 1), per_page=request.GET.get('per_page', 10))
+    table.export_formats = ['csv', 'xls', 'json', 'tsv']
 
-    return render(request, 'landscape_query.html', {'table': table, 'landscape_name': landscape_name})
+    return render(request, 'landscape_query.html', {'table': table, 'filter': filter, 'landscape_name': landscape_name})
