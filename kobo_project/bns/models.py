@@ -2,6 +2,15 @@ from django.contrib.gis.db import models
 from kobo.models import KoboData
 import uuid
 from datetime import datetime
+import django.db.models.options as options
+
+
+# options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('bns',)
+
+
+# class BNSMeta:
+#     table_name = ""
+#     filter_fields = list()
 
 
 class AME(models.Model):
@@ -114,6 +123,7 @@ class Price(models.Model):
 class AMEPerHH(models.Model):
 
     table_name = "AME per Household"
+    filter_fields = ['hh_id', 'village', 'district', 'landscape']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -127,10 +137,14 @@ class AMEPerHH(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_ame_per_hh'
+        #bns = BNSMeta
+        #bns.table_name = "AME per Household"
+        #bns.filter_fields = ['hh_id', 'village', 'district', 'landscape']
 
 
 class AMEPerVillage(models.Model):
     table_name = "AME per Village"
+    filter_fields = ['village', 'district', 'landscape']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -149,6 +163,8 @@ class AMEPerVillage(models.Model):
 
 class AMEPerDistrict(models.Model):
     table_name = "AME per District"
+    filter_fields = ['district', 'landscape']
+
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
@@ -165,6 +181,8 @@ class AMEPerDistrict(models.Model):
 
 class AMEPerLandscape(models.Model):
     table_name = "AME per Landscape"
+    filter_fields = ['landscape']
+
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
@@ -180,6 +198,7 @@ class AMEPerLandscape(models.Model):
 
 class EthnicityPerVillage(models.Model):
     table_name = "Ethnicity per village"
+    filter_fields = ['village', 'district', 'landscape', 'ethnicity']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -198,6 +217,7 @@ class EthnicityPerVillage(models.Model):
 
 class EthnicityPerDistrict(models.Model):
     table_name = "Ethnicity per district"
+    filter_fields = ['district', 'landscape', 'ethnicity']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -215,6 +235,7 @@ class EthnicityPerDistrict(models.Model):
 
 class EthnicityPerLandscape(models.Model):
     table_name = "Ethnicity per landscape"
+    filter_fields = ['landscape', 'ethnicity']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -231,6 +252,7 @@ class EthnicityPerLandscape(models.Model):
 
 class GenderHeadPerVillage(models.Model):
     table_name = "Gender of household head per village"
+    filter_fields = ['village', 'district', 'landscape', 'gender']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -249,6 +271,7 @@ class GenderHeadPerVillage(models.Model):
 
 class GenderHeadPerDistrict(models.Model):
     table_name = "Gender of household head per district"
+    filter_fields = ['district', 'landscape', 'gender']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -266,6 +289,7 @@ class GenderHeadPerDistrict(models.Model):
 
 class GenderHeadPerLandscape(models.Model):
     table_name = "Gender of household head per landscape"
+    filter_fields = ['landscape', 'gender']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
@@ -278,3 +302,117 @@ class GenderHeadPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_gender_head_per_landscape'
+
+
+class LivelihoodNBPerVillage(models.Model):
+    table_name = "Average number of livelihoods per village"
+    filter_fields = ['village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_livelihood_nb_per_village'
+
+
+class LivelihoodNBPerDistrict(models.Model):
+    table_name = "Average number of livelihoods per district"
+    filter_fields = ['district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_livelihood_nb_per_district'
+
+
+class LivelihoodNBPerLandscape(models.Model):
+    table_name = "Average number of livelihoods per landscape"
+    filter_fields = ['landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_lh_number = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_livelihood_nb_per_landscape'
+
+
+class NRCollectPerVillage(models.Model):
+    table_name = "Natural Resources collected per week and village"
+    filter_fields = ['nr', 'village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    nr = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_hh_collect = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_nr_collect_village'
+
+
+class NRCollectPerDistrict(models.Model):
+    table_name = "Natural Resources collected per week and district"
+    filter_fields = ['nr', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    nr = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_hh_collect = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_nr_collect_district'
+
+
+class NRCollectPerLandscape(models.Model):
+    table_name = "Natural Resources collected per week and landscape"
+    filter_fields = ['nr', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    nr = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_hh_collect = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_collect_week = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_nr_collect_landscape'

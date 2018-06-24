@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'import_export',
     'django_tables2',
+    'django_filters',
+    'bootstrap4',
+    'bootstrap_select.apps.BootstrapSelectConfig',
 ]
 
 MIDDLEWARE = [

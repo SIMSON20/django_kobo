@@ -140,3 +140,10 @@ a:hover, a:focus {
     color: #84c68f;
     text-decoration: underline;
 }
+
+#filterform {
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    float: none;
+}

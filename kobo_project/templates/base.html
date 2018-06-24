@@ -3,9 +3,14 @@
 <html>
 <head>
   <meta charset="utf-8">
+    <!--
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    -->
+    <script src="{% static 'external/jquery/3.3.1/jquery.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'external/bootstrap/3.2.0/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'external/bootstrap/3.2.0/css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <link rel="stylesheet" href="{% static 'css/query.css' %}">
@@ -23,7 +28,7 @@
                         <div class="navbar-brand">
                             <div class="site-logo">
                                 <a href="http://carpe.umd.edu/">
-                                    <img class="carpe" src="https://assets.forest-atlas.org/shared/img/carpe_header37_8.png" alt="logo" />
+                                    <img class="carpe" src="{% static '/img/carpe_header37_8.png' %}" alt="logo" />
                                 </a>
                             </div>
                         </div>
@@ -40,7 +45,7 @@
                         </li>
                         <li class="usaid-logo">
                             <a href="https://www.usaid.gov/" target="_blank">
-                                <img src="https://assets.forest-atlas.org/shared/img/usaid_logo_color.png" />
+                                <img src="{% static 'img/usaid_logo_color.png' %}" />
                             </a>
                         </li>
                     </ul>
@@ -56,7 +61,7 @@
                         {% if user.is_authenticated %}
                             <li id="ember516" class="ember-view">
                                 <a class="od-user-dropdown-component" >
-                                    <img src="//d1iq7pbacwn5rb.cloudfront.net/opendata-ui/assets/assets/images/no-user-thumb-33cbcf92f9094461496cec36012e7cf4.jpg" alt="Account Settings" class="profile-image" />
+                                    <img src="{% static 'img/no-user-thumb-33cbcf92f9094461496cec36012e7cf4.jpg' %}" alt="Account Settings" class="profile-image" />
                                     <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link dropdown-toggle">
                                         <span class="profilename">{{ user.username }}</span>
                                         <span class="caret"/>
