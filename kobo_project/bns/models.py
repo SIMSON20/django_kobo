@@ -416,3 +416,60 @@ class NRCollectPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_nr_collect_landscape'
+
+
+class PAProjectsPerVillage(models.Model):
+    table_name = "Protected area project beneficiary per village"
+    filter_fields = ['village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    perc_benef_project = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_know_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_benef_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_project_pa_village'
+
+
+class PAProjectsPerDistrict(models.Model):
+    table_name = "Protected area project beneficiary per district"
+    filter_fields = ['district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    perc_benef_project = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_know_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_benef_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_project_pa_district'
+
+
+class PAProjectsPerLandscape(models.Model):
+    table_name = "Protected area project beneficiary per landscape"
+    filter_fields = ['landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    perc_benef_project = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_know_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    perc_benef_pa = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_project_pa_landscape'
