@@ -1,5 +1,4 @@
-from django.shortcuts import render, render_to_response
-from django.http import HttpResponse
+from django.shortcuts import render
 from .models import Answer
 from kobo.models import KoboData
 from django_tables2 import RequestConfig
@@ -10,8 +9,6 @@ from django.db.models import Count
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import django_filters
-from django import forms
-from bootstrap_select import BootstrapSelect
 
 # Create your views here.
 
@@ -54,10 +51,6 @@ def survey_query(request, survey_name, query_name):
     queryset = mymodel.objects.filter(dataset_uuid__dataset_name=survey_name)
 
     filter = myFilter(request.GET, queryset=queryset)
-
-    # for field in filter.form.fields:
-    #    filter.form.fields[field].widget = BootstrapSelect(choices=[('AAAAABB','AAAAABB'),('BBAAAA','BBAAAA')],
-    #                                                       attrs={'data-live-search': 'true'})
 
     table = myTable(filter.qs)
     RequestConfig(request).configure(table)
