@@ -473,3 +473,83 @@ class PAProjectsPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_project_pa_landscape'
+
+
+class WBIPerHousehold(models.Model):
+    table_name = "Well-being index per household"
+    filter_fields = ['hh_id', 'village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    hh_id = models.TextField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    livelihood_1 = models.TextField(blank=True, null=True)
+    gender = models.TextField(blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
+    hh_type_control = models.NullBooleanField()
+    hh_type_org_benef = models.NullBooleanField()
+    hh_type_other_benef = models.NullBooleanField()
+    hh_score = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    max_score = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_hh'
+
+
+class WBIPerVillage(models.Model):
+    table_name = "Well-being index per village"
+    filter_fields = ['village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_village'
+
+
+class WBIPerDistrict(models.Model):
+    table_name = "Well-being index per district"
+    filter_fields = ['district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_district'
+
+
+class WBIPerLandscape(models.Model):
+    table_name = "Well-being index per landscape"
+    filter_fields = ['landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    avg_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    stddev_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    n = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_landscape'
