@@ -26,7 +26,7 @@ class AME(models.Model):
 
 
 class Answer(models.Model):
-    answer_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    answer_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.CASCADE)
     landscape = models.TextField(blank=True, null=True)
     surveyor = models.TextField(blank=True, null=True)
