@@ -15,10 +15,7 @@ class Connection(models.Model):
 
 
 class KoboData(models.Model):
-    auth_user = models.ForeignKey(
-        Connection,
-        on_delete=models.CASCADE,
-    )
+    auth_user = models.ForeignKey(Connection, on_delete=models.CASCADE)
     dataset_id = models.BigIntegerField(null=True)
     dataset_uuid = models.TextField(primary_key=True)
     dataset_owner = models.TextField(null=True)

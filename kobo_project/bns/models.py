@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from kobo.models import KoboData
+from kobo.models import Connection, KoboData
 import uuid
 from datetime import datetime
 import django.db.models.options as options
@@ -121,7 +121,8 @@ class Price(models.Model):
 
 
 class BNSForm(models.Model):
-
+    dataset_id = models.BigIntegerField(primary_key=True)
+    auth_user = models.ForeignKey(Connection, on_delete=models.DO_NOTHING)
     dataset_name = models.TextField(blank=True, null=True)
     dataset_year = models.TextField(blank=True, null=True)
     dataset_owner = models.TextField(blank=True, null=True)
@@ -131,7 +132,6 @@ class BNSForm(models.Model):
     last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        unique_together = (('dataset_uuid',),)
         verbose_name = 'BNS Form'
         verbose_name_plural = 'BNS Forms'
         managed = False
@@ -139,8 +139,11 @@ class BNSForm(models.Model):
 
 
 class BNSFormPrice(models.Model):
+    dataset_id = models.BigIntegerField(primary_key=True)
+    auth_user = models.ForeignKey(Connection, on_delete=models.DO_NOTHING)
     dataset_name = models.TextField(blank=True, null=True)
     related_dataset = models.TextField(blank=True, null=True)
+    related_uuid = models.TextField(blank=True, null=True)
     dataset_year = models.TextField(blank=True, null=True)
     dataset_owner = models.TextField(blank=True, null=True)
     dataset_uuid = models.TextField(blank=True, null=True)
@@ -149,7 +152,6 @@ class BNSFormPrice(models.Model):
     last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        unique_together = (('dataset_uuid',),)
         verbose_name = 'BNS Form - Price'
         verbose_name_plural = 'BNS Forms - Prices'
         managed = False
