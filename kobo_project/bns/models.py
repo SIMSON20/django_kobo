@@ -853,3 +853,49 @@ class WealthIdxPerLandscape(models.Model):
     class Meta:
         managed = False
         db_table = 'bns_wealth_idx_landscape'
+
+
+class WBIPerHHDiff20152017(models.Model):
+    table_name = "Well being index difference for households between 2015 and 2017"
+    filter_fields = ['hh_id', 'village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    hh_id = models.TextField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    hh_type_control = models.NullBooleanField()
+    hh_type_org_benef = models.NullBooleanField()
+    hh_type_other_benef = models.NullBooleanField()
+    wbi_2015 = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    wbi_2017 = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    wbi_diff = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    geom = models.PointField(null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_hh_diff_2015_2017'
+
+
+class WBIPerVillageDiff20152017(models.Model):
+    table_name = "Well being index difference for villages between 2015 and 2017"
+    filter_fields = ['village', 'district', 'landscape']
+
+    id = models.BigIntegerField(primary_key=True)
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    hh_id = models.TextField(blank=True, null=True)
+    village = models.TextField(blank=True, null=True)
+    district = models.TextField(blank=True, null=True)
+    landscape = models.TextField(blank=True, null=True)
+    hh_type_control = models.NullBooleanField()
+    wbi_2015 = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    wbi_2017 = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    wbi_diff = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
+    geom = models.PointField(null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'bns_wbi_village_diff_2015_2017'
