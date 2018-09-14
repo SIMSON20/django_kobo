@@ -4,7 +4,7 @@ from django.contrib.gis.admin import GeoModelAdmin
 
 
 from .models import AME
-from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
+from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price, BNSForm, BNSFormPrice
 
 
 @admin.register(AME)
@@ -71,3 +71,19 @@ class PriceAdmin(ImportExportModelAdmin):
     list_display = ['dataset_uuid', 'village', 'gs', 'price']
 
 
+@admin.register(BNSForm)
+class PriceAdmin(ImportExportModelAdmin):
+    """
+    Admin class for BNS FormsConnections
+    """
+    list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
+                    'last_submission_time', 'last_update_time', 'last_checked_time']
+
+
+@admin.register(BNSFormPrice)
+class PriceAdmin(ImportExportModelAdmin):
+    """
+    Admin class for BNS Price Forms
+    """
+    list_display = ['dataset_name', 'related_dataset', 'dataset_year', 'dataset_owner', 'dataset_uuid',
+                    'last_submission_time', 'last_update_time', 'last_checked_time']

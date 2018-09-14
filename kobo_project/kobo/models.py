@@ -30,8 +30,8 @@ class KoboData(models.Model):
     last_update_time = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        verbose_name = 'Kobo data'
-        verbose_name_plural = 'Kobo data'
+        verbose_name = 'Kobo form'
+        verbose_name_plural = 'Kobo forms'
 
     def __str__(self):
         return "{}, {}, {}".format(self.dataset_owner, self.dataset_name, self.dataset_year)

@@ -64,8 +64,8 @@ class AnswerGPS(models.Model):
     last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        verbose_name = 'GPS'
-        verbose_name_plural = 'GPS'
+        verbose_name = 'Answer - GPS'
+        verbose_name_plural = 'Answers - GPS'
 
 
 class AnswerGS(models.Model):
@@ -78,8 +78,8 @@ class AnswerGS(models.Model):
 
     class Meta:
         unique_together = (('answer', 'gs'),)
-        verbose_name = 'Good or Service'
-        verbose_name_plural = 'Goods and Services'
+        verbose_name = 'Answer - Good or Service'
+        verbose_name_plural = 'Answers - Goods and Services'
 
 
 class AnswerHHMembers(models.Model):
@@ -91,8 +91,8 @@ class AnswerHHMembers(models.Model):
     last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        verbose_name = 'HH Members'
-        verbose_name_plural = 'HH Members'
+        verbose_name = 'Answer - HH Members'
+        verbose_name_plural = 'Answers - HH Members'
 
 
 class AnswerNR(models.Model):
@@ -102,8 +102,8 @@ class AnswerNR(models.Model):
     last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
-        verbose_name = 'Natural Resource'
-        verbose_name_plural = 'Natural Resources'
+        verbose_name = 'Answer - Natural Resource'
+        verbose_name_plural = 'Answers - Natural Resources'
 
 
 class Price(models.Model):
@@ -116,8 +116,44 @@ class Price(models.Model):
 
     class Meta:
         unique_together = (('dataset_uuid', 'village', 'gs'),)
-        verbose_name = 'Price'
-        verbose_name_plural = 'Prices'
+        verbose_name = 'Answer - Price'
+        verbose_name_plural = 'Answers - Prices'
+
+
+class BNSForm(models.Model):
+
+    dataset_name = models.TextField(blank=True, null=True)
+    dataset_year = models.TextField(blank=True, null=True)
+    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_uuid = models.TextField(blank=True, null=True)
+    last_submission_time = models.DateTimeField(default=datetime.now, editable=False)
+    last_update_time = models.DateTimeField(default=datetime.now, editable=False)
+    last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
+
+    class Meta:
+        unique_together = (('dataset_uuid',),)
+        verbose_name = 'BNS Form'
+        verbose_name_plural = 'BNS Forms'
+        managed = False
+        db_table = 'bns_form'
+
+
+class BNSFormPrice(models.Model):
+    dataset_name = models.TextField(blank=True, null=True)
+    related_dataset = models.TextField(blank=True, null=True)
+    dataset_year = models.TextField(blank=True, null=True)
+    dataset_owner = models.TextField(blank=True, null=True)
+    dataset_uuid = models.TextField(blank=True, null=True)
+    last_submission_time = models.DateTimeField(default=datetime.now, editable=False)
+    last_update_time = models.DateTimeField(default=datetime.now, editable=False)
+    last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
+
+    class Meta:
+        unique_together = (('dataset_uuid',),)
+        verbose_name = 'BNS Form - Price'
+        verbose_name_plural = 'BNS Forms - Prices'
+        managed = False
+        db_table = 'bns_form_price'
 
 
 class AMEPerHH(models.Model):
