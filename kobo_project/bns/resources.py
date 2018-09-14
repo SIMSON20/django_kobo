@@ -40,7 +40,7 @@ class AnswerFromKoboResource(resources.ModelResource):
 
     def before_import_row(self, row, **kwargs):
 
-        #row["dataset_uuid"] = self.form
+        row["dataset_uuid"] = KoboData.objects.get(dataset_uuid=row["_xform_id_string"])
         row["hh_type_control"] = None if row["hh_type"] is None else True if 'control' in row["hh_type"] else False
         row["hh_type_org_benef"] = None if row["hh_type"] is None else True if 'org_benef' in row["hh_type"] or 'wcs_benef' in row["hh_type"] else False
         row["hh_type_other_benef"] = None if row["hh_type"] is None else True if 'other_benef' in row["hh_type"] else False
