@@ -4,6 +4,8 @@
 
 {% block content %}
 <div class="form-login">
+  <h2>ArcGIS Online</h2>
+  <a href="{% url "social:begin" "carpe" %}">CARPE GIS Portal</a>
   <h2>Login</h2>
   <form method="post">
     {% csrf_token %}

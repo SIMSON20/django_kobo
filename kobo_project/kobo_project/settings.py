@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django_tables2',
     'django_filters',
     'bootstrap4',
+    'social_django',
+    'custom_auth.apps.CustomAuthConfig',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -111,6 +115,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'custom_auth.carpe.CARPEOAuth2',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -144,3 +152,8 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = 'home'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+#Social Login settings
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_CARPE_KEY = 'KfOxiwZYKay4eVoc'
+SOCIAL_AUTH_CARPE_SECRET = 'ddb27780429d418486f033a40d4996ad'
