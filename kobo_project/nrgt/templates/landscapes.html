@@ -1,0 +1,22 @@
+
+{% extends 'nrgt_base.html' %}
+
+{% block title %}NRGT Landscapes{% endblock %}
+
+{% block main %}
+
+
+    <h2>NRGT Landscapes</h2>
+
+    {% for landscape in landscapes %}
+
+    <a href="/nrgt/landscapes/{{ landscape.landscape }}">{{ landscape.landscape }}</a><br />
+    {% endfor %}
+
+
+
+
+
+
+{% endblock main %}
+

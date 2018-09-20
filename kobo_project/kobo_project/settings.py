@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'kobo.apps.KoboConfig',
     'bns.apps.BnsConfig',
+    'nrgt.apps.NRGTConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
