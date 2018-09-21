@@ -1,4 +1,5 @@
 from import_export import resources
+# from import_export.instance_loaders import CachedInstanceLoader
 from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
 from kobo.models import KoboData
 from import_export.fields import Field
@@ -37,6 +38,7 @@ class AnswerFromKoboResource(resources.ModelResource):
     class Meta:
         model = Answer
         import_id_fields = ('answer_id',)
+        # instance_loader_class = CachedInstanceLoader
 
     def before_import_row(self, row, **kwargs):
 
@@ -67,6 +69,7 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
     class Meta:
         model = AnswerGPS
         import_id_fields = ('answer_id',)
+       # instance_loader_class = CachedInstanceLoader
 
     def before_import_row(self, row, **kwargs):
 

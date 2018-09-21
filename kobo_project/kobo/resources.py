@@ -1,4 +1,5 @@
 from import_export import resources
+# from import_export.instance_loaders import CachedInstanceLoader
 from .models import KoboData
 from datetime import datetime
 from import_export.fields import Field
@@ -35,6 +36,7 @@ class KoboDataFromKoboResource(resources.ModelResource):
     class Meta:
         model = KoboData
         import_id_fields = ('dataset_uuid',)
+        # instance_loader_class = CachedInstanceLoader
 
     def before_import_row(self, row, **kwargs):
         assets = self.get_kobo_assets(self.connection, row["id_string"])

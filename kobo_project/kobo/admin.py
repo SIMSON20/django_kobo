@@ -25,6 +25,8 @@ class ConnectionAdmin(admin.ModelAdmin):
         :return:
         """
 
+        now = datetime.now()
+
         for connection in queryset:
 
             dataset = tablib.Dataset().load(self.get_kobo_forms(connection))
@@ -34,6 +36,11 @@ class ConnectionAdmin(admin.ModelAdmin):
             result = kobodata_resource.import_data(dataset, raise_errors=True, dry_run=True)
             if not result.has_errors():
                 kobodata_resource.import_data(dataset, dry_run=False)
+
+                # mark missing forms on kobo as legancy - don't delete!
+                update = {"auth_user": None, "kobo_managed": False}
+                KoboData.objects.filter(auth_user=connection.auth_user).filter(last_checked_time__lt=now).update(**update)
+
             else:
                 raise forms.ValidationError("Import failed!")
 
@@ -62,6 +69,6 @@ class ConnectionAdmin(admin.ModelAdmin):
 
 @admin.register(KoboData)
 class KoboDataAdmin(ImportExportModelAdmin):
-    list_display = ['dataset_name', 'dataset_year', 'tags', 'dataset_owner', 'last_submission_time', 'last_update_time']
+    list_display = ['dataset_name', 'dataset_year', 'tags', 'dataset_owner', 'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
     ordering = ['dataset_owner', 'dataset_name', 'dataset_year']
     resource_class = KoboDataFromFileResource

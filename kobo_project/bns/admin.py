@@ -98,7 +98,7 @@ class BNSFormAdmin(ImportExportModelAdmin):
     Admin class for BNS FormsConnections
     """
     list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
-                    'last_submission_time', 'last_update_time', 'last_checked_time']
+                    'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
 
 
     def sync(self, request, queryset):
@@ -361,7 +361,7 @@ class BNSFormPriceAdmin(ImportExportModelAdmin):
     Admin class for BNS Price Forms
     """
     list_display = ['dataset_name', 'related_dataset', 'dataset_year', 'dataset_owner', 'dataset_uuid',
-                    'last_submission_time', 'last_update_time', 'last_checked_time']
+                    'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
 
     def sync(self, request, queryset):
         """

@@ -130,6 +130,7 @@ class BNSForm(models.Model):
     last_submission_time = models.DateTimeField(default=datetime.now, editable=False)
     last_update_time = models.DateTimeField(default=datetime.now, editable=False)
     last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
+    kobo_managed = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'BNS Form'
@@ -150,6 +151,7 @@ class BNSFormPrice(models.Model):
     last_submission_time = models.DateTimeField(default=datetime.now, editable=False)
     last_update_time = models.DateTimeField(default=datetime.now, editable=False)
     last_checked_time = models.DateTimeField(default=datetime.now, editable=False)
+    kobo_managed = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'BNS Form - Price'

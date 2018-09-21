@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Connection(models.Model):
-    auth_user = models.CharField(max_length=20 , primary_key=True)
+    auth_user = models.CharField(max_length=20, primary_key=True)
     auth_pass = models.CharField(max_length=200)
     host_assets = models.CharField(max_length=200)
     host_api = models.CharField(max_length=200)
@@ -15,7 +15,7 @@ class Connection(models.Model):
 
 
 class KoboData(models.Model):
-    auth_user = models.ForeignKey(Connection, on_delete=models.CASCADE)
+    auth_user = models.ForeignKey(Connection, on_delete=models.CASCADE, blank=True, null=True)
     dataset_id = models.BigIntegerField(null=True)
     dataset_uuid = models.TextField(primary_key=True)
     dataset_owner = models.TextField(null=True)
@@ -25,6 +25,7 @@ class KoboData(models.Model):
     last_submission_time = models.DateTimeField(null=True)
     last_checked_time = models.DateTimeField(null=True)
     last_update_time = models.DateTimeField(default=datetime.now, editable=False)
+    kobo_managed = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Kobo form'
