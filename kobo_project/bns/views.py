@@ -22,13 +22,13 @@ def index(request):
 @login_required
 def surveys(request):
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(num_answers__gte=1)
-    return render(request, 'surveys.html', {'surveys': surveys})
+    return render(request, 'bns_surveys.html', {'surveys': surveys})
 
 
 @login_required
 def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
-    return render(request, 'survey.html', {'survey': survey, 'survey_name': survey_name})
+    return render(request, 'bns_survey.html', {'survey': survey, 'survey_name': survey_name})
 
 
 @login_required
@@ -63,19 +63,19 @@ def survey_query(request, survey_name, query_name):
     table.paginate(page=request.GET.get('page', 1), per_page=request.GET.get('per_page', 10))
     table.export_formats = ['csv', 'xls', 'json', 'tsv']
 
-    return render(request, 'survey_query.html', {'table': table, 'filter': filter, 'survey_name': survey_name})
+    return render(request, 'bns_survey_query.html', {'table': table, 'filter': filter, 'survey_name': survey_name})
 
 
 @login_required
 def landscapes(request):
     landscapes = Answer.objects.values("landscape").annotate(num_answers=Count('answer_id')).filter(num_answers__gte=1).filter(~Q(landscape=None))
-    return render(request, 'landscapes.html', {'landscapes': landscapes})
+    return render(request, 'bns_landscapes.html', {'landscapes': landscapes})
 
 
 @login_required
 def landscape(request, landscape_name):
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
-    return render(request, 'landscape.html', {'surveys': surveys, 'landscape_name': landscape_name})
+    return render(request, 'bns_landscape.html', {'surveys': surveys, 'landscape_name': landscape_name})
 
 
 @login_required
@@ -114,4 +114,4 @@ def landscape_query(request, landscape_name, query_name):
     table.paginate(page=request.GET.get('page', 1), per_page=request.GET.get('per_page', 10))
     table.export_formats = ['csv', 'xls', 'json', 'tsv']
 
-    return render(request, 'landscape_query.html', {'table': table, 'filter': filter, 'landscape_name': landscape_name})
+    return render(request, 'bns_landscape_query.html', {'table': table, 'filter': filter, 'landscape_name': landscape_name})

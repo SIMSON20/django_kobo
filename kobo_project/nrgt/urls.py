@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     # ex: /nrgt/surveys/
-    path('surveys/', views.surveys, name='surveys'),
+    path('surveys/', views.nrgt_surveys, name='nrgt_surveys'),
 
     # ex: /nrgt/surveys/bateke_2017/
     path('surveys/<str:survey_name>/', views.survey, name='survey'),
