@@ -627,3 +627,16 @@
         margin: 0 auto 0 auto;
         align:center;
     }
+
+    .home_cover{
+        min-height: 500px;
+        width: 100%;
+        background-image:  url("/static/img/cover.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: absolute;
+        left: 0px;
+        top: 87px;
+        z-index: -1;
+        }

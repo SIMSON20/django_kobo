@@ -55,6 +55,9 @@ class Answer(models.Model):
         verbose_name = 'Answer'
         verbose_name_plural = 'Answers'
 
+    def __str__(self):
+        return "{} ({})".format(self.dataset_uuid, self.answer_id)
+
 
 class AnswerGPS(models.Model):
     answer = models.OneToOneField(Answer, on_delete=models.CASCADE, )
@@ -88,6 +91,7 @@ class AnswerHHMembers(models.Model):
     birth = models.IntegerField(blank=True, null=True)
     ethnicity = models.TextField(blank=True, null=True)
     head = models.NullBooleanField()
+    seq = models.IntegerField(blank=True, null=True)
     last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:

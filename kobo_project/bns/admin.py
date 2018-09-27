@@ -2,9 +2,10 @@ from django.contrib import admin, messages
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.gis.admin import GeoModelAdmin
 from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price, BNSForm, BNSFormPrice
-from .resources import AnswerFromKoboResource, AnswerGPSFromKoboResource, \
-                            AnswerGSFromKoboResource, AnswerHHMembersFromKoboResource, \
-                            AnswerNRFromKoboResource, PriceFromKoboResource
+from .resources import AMEFromFileResource, AnswerFromFileResource, AnswerFromKoboResource, AnswerGPSFromKoboResource, \
+                            AnswerGPSFromFileResource, AnswerGSFromFileResource, AnswerGSFromKoboResource, \
+                            AnswerHHMembersFromFileResource, AnswerHHMembersFromKoboResource, \
+                            AnswerNRFromFileResource, AnswerNRFromKoboResource, PriceFromKoboResource
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -30,12 +31,15 @@ def get_kobo_data(connection, dataset_id):
 
 @admin.register(AME)
 class AMEAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ['age', 'gender', 'ame', 'calories']
+    resource_class = AMEFromFileResource
 
 
 @admin.register(AnswerGPS)
-class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin ):
-    pass
+class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin):
+    list_display = ['answer', 'lat', 'long', 'geom', 'last_update']
+    resource_class = AnswerGPSFromFileResource
+
 
 
 class AnswerGPSInline(admin.StackedInline):
@@ -47,7 +51,8 @@ class AnswerGPSInline(admin.StackedInline):
 
 @admin.register(AnswerGS)
 class AnswerGSAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ['answer', 'gs', 'necessary', 'have', 'quantity', 'last_update']
+    resource_class = AnswerGSFromFileResource
 
 
 class AnswerGSInline(admin.StackedInline):
@@ -57,7 +62,8 @@ class AnswerGSInline(admin.StackedInline):
 
 @admin.register(AnswerHHMembers)
 class AnswerHHMembersAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ['answer', 'gender', 'birth', 'ethnicity', 'head', 'last_update']
+    resource_class = AnswerHHMembersFromFileResource
 
 
 class AnswerHHMembersInline(admin.StackedInline):
@@ -67,7 +73,8 @@ class AnswerHHMembersInline(admin.StackedInline):
 
 @admin.register(AnswerNR)
 class AnswerNRAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ['answer', 'nr', 'nr_collect', 'last_update']
+    resource_class = AnswerNRFromFileResource
 
 
 class AnswerNRInline(admin.StackedInline):
@@ -80,8 +87,12 @@ class AnswerAdmin(ImportExportModelAdmin):
     """
     Admin class for Connections
     """
-    #list_display = ['dataset_id']
+    list_display = ['dataset_uuid', 'answer_id', 'landscape', 'surveyor', 'participant', 'arrival', 'district',
+                    'village', 'hh_type_control', 'hh_type_org_benef', 'hh_type_other_benef', 'hh_id', 'livelihood_1',
+                    'livelihood_2', 'livelihood_3', 'livelihood_4', 'benef_project', 'explain_project', 'know_pa',
+                    'benef_pa', 'explain_benef_pa', 'bns_plus', 'survey_date', 'last_update']
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
+    resource_class = AnswerFromFileResource
 
 
 @admin.register(Price)
@@ -291,7 +302,7 @@ class BNSFormAdmin(ImportExportModelAdmin):
         new_dataset = list()
 
         for data_row in dataset:
-
+            i = 1
             row = dict()
             row["answer_id"] = data_row["_uuid"]
             row["gender"] = data_row["gender_head"]
@@ -301,10 +312,12 @@ class BNSFormAdmin(ImportExportModelAdmin):
             else:
                 row["ethnicity"] = None
             row["head"] = True
+            row["seq"] = i
             new_dataset.append(row)
 
             if data_row["hh_members"] is not None:
                 for member in data_row["hh_members"]:
+                    i += 1
                     row = dict()
                     row["answer_id"] = data_row["_uuid"]
                     if "gender" in member.keys():
@@ -323,6 +336,7 @@ class BNSFormAdmin(ImportExportModelAdmin):
                         row["ethnicity"] = None
 
                     row["head"] = False
+                    row["seq"] = i
                     new_dataset.append(row)
 
         return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))

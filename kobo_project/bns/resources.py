@@ -7,6 +7,18 @@ from django.contrib.gis.geos import GEOSGeometry
 from datetime import datetime
 
 
+class AMEFromFileResource(resources.ModelResource):
+    class Meta:
+        model = AME
+        import_id_fields = ('age', 'gender',)
+
+
+class AnswerFromFileResource(resources.ModelResource):
+    class Meta:
+        model = Answer
+        import_id_fields = ('answer_id',)
+
+
 class AnswerFromKoboResource(resources.ModelResource):
 
     form = None
@@ -59,6 +71,12 @@ class AnswerFromKoboResource(resources.ModelResource):
         row["last_update"] = datetime.now()
 
 
+class AnswerGPSFromFileResource(resources.ModelResource):
+    class Meta:
+        model = AnswerGPS
+        import_id_fields = ('answer',)
+
+
 class AnswerGPSFromKoboResource(resources.ModelResource):
     answer_id = Field(attribute='answer_id', column_name='_uuid')
     lat = Field(attribute='lat', column_name='lat')
@@ -97,6 +115,12 @@ class AnswerGPSFromKoboResource(resources.ModelResource):
         row["last_update"] = datetime.now()
 
 
+class AnswerGSFromFileResource(resources.ModelResource):
+    class Meta:
+        model = AnswerGS
+        import_id_fields = ('answer', 'gs',)
+
+
 class AnswerGSFromKoboResource(resources.ModelResource):
     # id =
     answer_id = Field(attribute='answer_id', column_name='answer_id')
@@ -115,6 +139,12 @@ class AnswerGSFromKoboResource(resources.ModelResource):
         # row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
 
 
+class AnswerHHMembersFromFileResource(resources.ModelResource):
+    class Meta:
+        model = AnswerHHMembers
+        import_id_fields = ('answer', 'seq')
+
+
 class AnswerHHMembersFromKoboResource(resources.ModelResource):
 
     answer_id = Field(attribute='answer_id', column_name='answer_id')
@@ -122,15 +152,22 @@ class AnswerHHMembersFromKoboResource(resources.ModelResource):
     birth = Field(attribute='birth', column_name='birth')
     ethnicity = Field(attribute='ethnicity', column_name='ethnicity')
     head = Field(attribute='head', column_name='head')
+    seq = Field(attribute='seq', column_name='seq')
     last_update = Field(attribute='last_update', column_name='last_update')
 
     class Meta:
         model = AnswerHHMembers
-        import_id_fields = ('answer_id', 'gender', 'birth', ) # might cause issues with HH members of same age and gender, not sure how often this actually happens
+        import_id_fields = ('answer_id', 'seq')
 
     def before_import_row(self, row, **kwargs):
         row["last_update"] = datetime.now()
         # row["answer_id"] = Answer.objects.get(answer_id=row["answer_id"])
+
+
+class AnswerNRFromFileResource(resources.ModelResource):
+    class Meta:
+        model = AnswerNR
+        import_id_fields = ('answer', 'nr', )
 
 
 class AnswerNRFromKoboResource(resources.ModelResource):
@@ -147,6 +184,12 @@ class AnswerNRFromKoboResource(resources.ModelResource):
         row["last_update"] = datetime.now()
 
 
+class PriceFromFileResource(resources.ModelResource):
+    class Meta:
+        model = Price
+        import_id_fields = ('dataset_uuid_id', 'gs', 'village', )
+
+
 class PriceFromKoboResource(resources.ModelResource):
     dataset_uuid = Field(attribute='dataset_uuid', column_name='dataset_uuid')
     gs = Field(attribute='gs', column_name='gs')
@@ -157,7 +200,7 @@ class PriceFromKoboResource(resources.ModelResource):
 
     class Meta:
         model = Price
-        import_id_fields = ('dataset_uuid', 'gs', )
+        import_id_fields = ('dataset_uuid', 'gs', 'village',)
 
     def before_import_row(self, row, **kwargs):
         row["dataset_uuid"] = KoboData.objects.get(dataset_uuid=row["dataset_uuid"])

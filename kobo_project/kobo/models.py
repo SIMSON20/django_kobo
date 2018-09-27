@@ -32,7 +32,7 @@ class KoboData(models.Model):
         verbose_name_plural = 'Kobo forms'
 
     def __str__(self):
-        return "{}, {}, {}".format(self.dataset_owner, self.dataset_name, self.dataset_year)
+        return "{} ({} - {})".format(self.dataset_name, self.dataset_owner,  self.dataset_year)
 
     def is_uptodate(self):
         if self.last_submission_time is None:
