@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': 'django_kobo',
         'USER': 'django',
         'PASSWORD': 'django',
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.255.1',
         'PORT': '5432',
     }
 }
@@ -147,6 +147,8 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
                     os.path.join(BASE_DIR, 'kobo/static')]
+
+GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.so' #os.environ["GDAL_LIBRARY_PATH"]
 
 LOGIN_URL = '/login'
 

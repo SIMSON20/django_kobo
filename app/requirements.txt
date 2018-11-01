@@ -1,6 +1,6 @@
 django
 django_tables2
-django_filters
+django_filter
 django_bootstrap4
 django-import-export
 gdal

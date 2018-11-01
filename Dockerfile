@@ -83,21 +83,20 @@ RUN ./configure \
     && make \
     && make install
 RUN ldconfig /usr/src/gdal-2.3.2
+RUN export GDAL_LIBRARY_PATH=/usr/local/lib/libgdal.so
 
 RUN addgroup $USER \
     && adduser -s /bin/bash -D -G $USER $USER \
     && easy_install pip \
     && pip install --upgrade pip \
     && pip install -U pip setuptools \
-    && pip install virtualenv cython gevent numpy \
+    && pip install cython gevent numpy \
     # pulling pyproj directly from github because of
     # https://github.com/jswhit/pyproj/issues/136
     && pip install git+https://github.com/jswhit/pyproj.git \
-    && pip install shapely --no-binary shapely \
+    && pip install uwsgi \
     && mkdir -p /opt/$NAME \
-    && cd /opt/$NAME \
-    && virtualenv venv \
-    && source venv/bin/activate
+    && cd /opt/$NAME
 
 # setup all the configfiles
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -115,7 +114,11 @@ COPY . /home/docker/code/
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
-RUN django-admin.py startproject website /home/docker/code/app/
-
+# RUN django-admin.py startproject website /home/docker/code/app/
 EXPOSE 80
+RUN mkdir -p /run/nginx
+
 CMD ["supervisord", "-n"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:80"] /home/docker/code/app/
+#CMD ["bash"]
+#CMD ["python", "/home/docker/code/app/manage.py", "runserver", "0.0.0.0:80"]
