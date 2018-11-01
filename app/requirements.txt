@@ -1,0 +1,10 @@
+django
+django_tables2
+django_filter
+django_bootstrap4
+django-import-export
+gdal
+psycopg2
+requests
+python-social-auth[django]
+tablib
