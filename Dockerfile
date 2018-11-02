@@ -100,8 +100,13 @@ RUN addgroup $USER \
 
 # setup all the configfiles
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-COPY nginx-app.conf /etc/nginx/sites-available/default
-COPY supervisor-app.conf /etc/supervisor/conf.d/
+COPY nginx-app.conf /etc/nginx/conf.d/default.conf
+COPY supervisor-app.conf /etc/supervisor.d/django_project.ini
+
+RUN mkdir -p /run/nginx
+# RUN mkdir -p /etc/nginx/sites-enabled/
+# RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
+
 
 # COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
 # to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
@@ -110,15 +115,14 @@ COPY app/requirements.txt /home/docker/code/app/
 RUN pip  install -r /home/docker/code/app/requirements.txt
 
 # add (the rest of) our code
-COPY . /home/docker/code/
+# COPY . /home/docker/code/
+
+COPY uwsgi.ini /home/docker/code
+COPY uwsgi_params /home/docker/code
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
 # RUN django-admin.py startproject website /home/docker/code/app/
 EXPOSE 80
-RUN mkdir -p /run/nginx
 
-CMD ["supervisord", "-n"]
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:80"] /home/docker/code/app/
-#CMD ["bash"]
-#CMD ["python", "/home/docker/code/app/manage.py", "runserver", "0.0.0.0:80"]
+# CMD ["supervisord", "-n"]
