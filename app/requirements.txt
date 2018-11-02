@@ -8,3 +8,4 @@ psycopg2
 requests
 social-auth-app-django
 tablib
+python-decouple

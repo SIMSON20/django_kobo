@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6xyv+92hmpj4j!0berp7@&^)&b%(b4b67oy6(+dt&g8u-ooh1m'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -89,11 +90,11 @@ WSGI_APPLICATION = 'kobo_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'django_kobo',
-        'USER': 'django',
-        'PASSWORD': 'django',
-        'HOST': '192.168.255.1',
-        'PORT': '5432',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -118,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'custom_auth.carpe.CARPEOAuth2',
+    'custom_auth.portal.PortalOAuth2',
 )
 
 # Internationalization
@@ -162,5 +163,5 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_CARPE_KEY = 'Hdo7fMsl40lshypc'
-SOCIAL_AUTH_CARPE_SECRET = '82de5aa895a246c68a6f2abf4ee675b1'
+SOCIAL_AUTH_PORTAL_KEY = config('PORTAL_KEY')
+SOCIAL_AUTH_PORTAL_SECRET = config('PORTAL_SECRET')
