@@ -1,10 +1,12 @@
-# django_kobo
-Kobo Aggregator
+# CARPE Surveys
+CARPE survey website. Fetches data collected with Kobo Toolbox, runs various analysis and shows results on website.
 
 # Config
 
-Install Docker and Docker Compose
+Install [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose/install/)
+
 Register your app with ArcGIS Portal. Enter `http://<url>:<port>/oauth/complete/portal/` as redirect URI.
+
 Create file `.env` in app folder. Add the following lines
 
 ```bash
