@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: supervisord -n
+    volumes:
+      - ./app:/home/docker/code/app
+    ports:
+      - "80:80"
+    restart: unless-stopped

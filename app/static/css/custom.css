@@ -609,6 +609,11 @@
         text-align:center;
     }
 
+    h1 {
+        color: whitesmoke;
+        text-shadow: 2px 2px 5px #000000;
+        font-size:52px;}
+
     h5 {
         font-style:italic;
         margin-bottom:20px;
@@ -637,6 +642,30 @@
         background-size: cover;
         position: absolute;
         left: 0px;
-        top: 87px;
+        top: 150px;
         z-index: -1;
+        vertical-align: bottom;
+        display: table-cell;
         }
+
+/* Container holding the image and the text */
+.home_container {
+
+    text-align: center;
+ width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+}
+
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

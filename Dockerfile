@@ -115,11 +115,14 @@ COPY app/requirements.txt /home/docker/code/app/
 RUN pip  install -r /home/docker/code/app/requirements.txt
 
 # add (the rest of) our code
-COPY . /home/docker/code/
+# COPY . /home/docker/code/
+
+COPY uwsgi.ini /home/docker/code
+COPY uwsgi_params /home/docker/code
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
 # RUN django-admin.py startproject website /home/docker/code/app/
 EXPOSE 80
 
-CMD ["supervisord", "-n"]
+# CMD ["supervisord", "-n"]
