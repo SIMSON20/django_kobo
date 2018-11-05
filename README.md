@@ -22,7 +22,18 @@ CARPE_KEY=<arcgis portal app key>
 CARPE_SECRET=<arcgis portal app secret>
 ```
 
-# Run
+# First Run
 
-```./django_kobo.sh```
+```./django_kobo.sh init```
+
+follow the command promt
+- confirm the static file collection
+- and enter the admin user for your site
+
+Afterwards logon to localhost/admin
+create a new connection using your kobo Toolbox user name and password
+enter 
+host assets: https://kf.kobotoolbox.org/assets/
+host api: https://kc.kobotoolbox.org/api/v1/
+
 
