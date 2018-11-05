@@ -4,6 +4,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
     dependencies = [
         ('bns', '0050_wbiperhhdiff20152017_wbipervillagediff20152017'),
+        ('kobo', '0010_kobodata_last_checked_time'),
     ]
     operations = [
         migrations.RunSQL(

@@ -4,6 +4,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
     dependencies = [
         ('bns', '0057_bns_form_prices_update_rule'),
+        ('kobo', '0014_auto_20180921_1443')
     ]
     operations = [
         migrations.RunSQL(
