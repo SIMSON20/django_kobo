@@ -19,6 +19,9 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 
+admin.site.site_header = 'CARPE Surveys Administration'
+admin.site.index_title = 'Site administration'
+admin.site.site_title = 'CARPE Surveys site admin'
 
 urlpatterns = [
     path('nrgt/', include('nrgt.urls')),

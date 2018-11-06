@@ -148,7 +148,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')    ]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.so' #os.environ["GDAL_LIBRARY_PATH"]
 

@@ -18,8 +18,8 @@ DB_PASSWORD=<pg password>
 DB_HOST=<pg host>
 DB_PORT=<pg port>
 PORTAL_URL=<portal url>
-CARPE_KEY=<arcgis portal app key>
-CARPE_SECRET=<arcgis portal app secret>
+PORTAL_KEY=<arcgis portal app key>
+PORTAL_SECRET=<arcgis portal app secret>
 ```
 
 # First Run
