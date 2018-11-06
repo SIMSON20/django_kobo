@@ -650,15 +650,13 @@
 
 /* Container holding the image and the text */
 .home_container {
-
-    text-align: center;
- width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-
+        text-align: center;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
 }
 
 
@@ -668,4 +666,20 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 20px;
+    background:rgba(255,255,255,0.5);
 }
+
+
+.subtitle {
+        font-family: 'Roboto Condensed', Avenir Next;
+        font-weight: 400;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 30px;
+        margin-block-start: 0.83em;
+        margin-block-end: 0.83em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
