@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-06 20:08+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: kobo_project/settings.py:137
+msgid "English"
+msgstr "Anglais"
+
+#: kobo_project/settings.py:138
+msgid "French"
+msgstr "Francais"
+
+#: templates/base.html:18
+msgid "CARPE Surveys"
+msgstr ""
+
+#: templates/base.html:39
+msgid "Home"
+msgstr "Acceuil"
+
+#: templates/base.html:42
+msgid "BNS"
+msgstr ""
+
+#: templates/base.html:45
+msgid "NRGT"
+msgstr ""
+
+#: templates/base.html:81
+msgid "Admin"
+msgstr ""
+
+#: templates/base.html:85
+msgid "Sign Out"
+msgstr ""
+
+#: templates/base.html:92
+msgid "Login"
+msgstr "Connexion"
+
+#: templates/base.html:118
+msgid ""
+"The information provided on this web site is not official U.S. Government "
+"information and does not represent the views or positions of the U.S. Agency "
+"for International Development or the U.S. Government."
+msgstr ""
