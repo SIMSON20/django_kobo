@@ -1,12 +1,12 @@
-
 {% extends 'bns_base.html' %}
+{% load i18n %}
 
-{% block title %}BNS Landscapes{% endblock %}
+{% block title %}{% trans "BNS Landscapes" %}{% endblock %}
 
 {% block main %}
 
 
-    <h2>BNS Landscapes</h2>
+    <h2>{% trans "BNS Landscapes" %}</h2>
 
     {% for landscape in landscapes %}
 

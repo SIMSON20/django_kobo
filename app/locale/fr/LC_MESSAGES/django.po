@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-06 20:08+0000\n"
+"POT-Creation-Date: 2018-11-07 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,193 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: kobo_project/settings.py:137
+#: bns/templates/bns_base.html:4 bns/templates/bns_home.html:3
+msgid "Basic Necessities Surveys"
+msgstr ""
+
+#: bns/templates/bns_base.html:13
+msgid "My Surveys"
+msgstr "Mes enquêtes"
+
+#: bns/templates/bns_base.html:14
+msgid "My Landscapes"
+msgstr "Mes paysages"
+
+#: bns/templates/bns_home.html:6
+msgid "Basic Necessities Survey"
+msgstr ""
+
+#: bns/templates/bns_home.html:8
+msgid ""
+"The Basic Necessities Survey (BNS) is a method of measuring poverty that is:"
+msgstr ""
+
+#: bns/templates/bns_home.html:15
+#, python-format
+msgid ""
+"Basic necessities are democratically defined as those items in a survey "
+"instrument that 50%% or more of respondents agree “are basic necessities "
+"that everyone should be able to have and nobody should have to go without”  "
+"Items are weighted for importance according to the percentage of respondents "
+"who say an item is a basic necessity (i.e. between 50%% and 100%%). "
+"Respondents’ poverty (BNS) scores are based on the sum of the weightings of "
+"the basic necessities they have, as a percentage of the total they could "
+"have if they had all basic necessities. The identification of a poverty line "
+"is described below."
+msgstr ""
+
+#: bns/templates/bns_home.html:17
+msgid ""
+"The BNS combines two aspects of peoples lives: (a) their material "
+"conditions, (b) their perceptions of these material conditions. Both have "
+"consequences for the quality of their lives."
+msgstr ""
+
+#: bns/templates/bns_home.html:19
+msgid ""
+"The BNS was developed by Rick Davies in 1997, and implemented by ActionAid "
+"Vietnam in 1997, 1998, 1999 and by the Pro Poor Centre (a Vietnamese NGO) in "
+"2006. Its design built on earlier work by poverty researchers in the UK and "
+"Sweden (See below)"
+msgstr ""
+
+#: bns/templates/bns_landscape.html:9
+msgid "BNS Surveys in Landscape"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:3 bns/templates/bns_survey_base.html:4
+msgid "Household"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:4 bns/templates/bns_survey_base.html:5
+msgid "Village"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:5 bns/templates/bns_survey_base.html:6
+msgid "District"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:6
+#: bns/templates/bns_landscape_query.html:11
+#: bns/templates/bns_survey_base.html:7
+msgid "Landscape"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:8 bns/templates/bns_survey_base.html:9
+msgid "Basic Necessity Surveys"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:18
+#: bns/templates/bns_survey_base.html:19
+msgid "AME"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:29
+#: bns/templates/bns_survey_base.html:30
+msgid "Ethnicity"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:39
+msgid "Gender of household head"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:49
+#: bns/templates/bns_survey_base.html:50
+msgid "Livelihoods"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:59
+#: bns/templates/bns_survey_base.html:60
+msgid "Natural resource collection"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:69
+#: bns/templates/bns_survey_base.html:70
+msgid "Protected area projects"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:79
+#: bns/templates/bns_survey_base.html:80
+msgid "Well being index"
+msgstr "Indice de bien-être"
+
+#: bns/templates/bns_landscape_base.html:90
+#: bns/templates/bns_survey_base.html:91
+msgid "Well being index per ethnicity"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:100
+#: bns/templates/bns_survey_base.html:101
+msgid "Well being index per gender"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:110
+msgid "Well being index per household type"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:120
+#: bns/templates/bns_survey_base.html:121
+msgid "Well being index per livelihood"
+msgstr ""
+
+#: bns/templates/bns_landscape_base.html:130
+#: bns/templates/bns_survey_base.html:131
+msgid "Wealth Index"
+msgstr ""
+
+#: bns/templates/bns_landscape_query.html:4 bns/templates/bns_survey.html:4
+#: bns/templates/bns_survey_query.html:4 bns/templates/bns_surveys.html:4
+#: templates/base.html:42
+msgid "BNS"
+msgstr ""
+
+#: bns/templates/bns_landscapes.html:4 bns/templates/bns_landscapes.html:9
+msgid "BNS Landscapes"
+msgstr ""
+
+#: bns/templates/bns_survey.html:8
+msgid "more text here"
+msgstr ""
+
+#: bns/templates/bns_survey_base.html:15 bns/templates/bns_survey_query.html:12
+msgid "Survey"
+msgstr ""
+
+#: bns/templates/bns_survey_base.html:40
+msgid "Gender of Household head"
+msgstr ""
+
+#: bns/templates/bns_survey_base.html:111
+msgid "Well being index per Household type"
+msgstr ""
+
+#: bns/templates/bns_survey_query.html:28
+msgid "Select format:"
+msgstr ""
+
+#: bns/templates/bns_survey_query.html:35
+msgid "Download"
+msgstr ""
+
+#: bns/templates/bns_surveys.html:9
+msgid "BNS Surveys:"
+msgstr ""
+
+#: kobo_project/settings.py:150
 msgid "English"
 msgstr "Anglais"
 
-#: kobo_project/settings.py:138
+#: kobo_project/settings.py:151
 msgid "French"
 msgstr "Francais"
 
-#: templates/base.html:18
+#: templates/base.html:18 templates/home.html:11
 msgid "CARPE Surveys"
 msgstr ""
 
 #: templates/base.html:39
 msgid "Home"
 msgstr "Acceuil"
-
-#: templates/base.html:42
-msgid "BNS"
-msgstr ""
 
 #: templates/base.html:45
 msgid "NRGT"
@@ -59,4 +227,30 @@ msgid ""
 "The information provided on this web site is not official U.S. Government "
 "information and does not represent the views or positions of the U.S. Agency "
 "for International Development or the U.S. Government."
+msgstr ""
+
+#: templates/home.html:12
+msgid "Basic Necessity Survey and Natural Resource Governance Tool"
+msgstr ""
+
+#: templates/home.html:27
+msgid "About <span class=\"c-theme-font\">CARPE</span>"
+msgstr ""
+
+#: templates/home.html:32
+msgid ""
+"CARPE is a long-term initiative of the United States Government to improve "
+"the management of the Congo Basin’s biodiversity and natural resources. "
+"Funded primarily by the U.S. Agency for International Development (with "
+"additional funding from the U.S. Fish and Wildlife Service), CARPE is "
+"implemented in collaboration with African Parks, African Wildlife "
+"Foundation, the U.S. Fish and Wildlife Service, the U.S. Forest Service, the "
+"University of Maryland, the Wildlife Conservation Society, World Resources "
+"Institute, World Wildlife Fund and other partners."
+msgstr ""
+
+#: templates/home.html:33
+msgid ""
+"The CARPE Survey website is hosted at <a href=\"http://www.wri.org/\" target="
+"\"_blank\">World Resources Institute</a>."
 msgstr ""

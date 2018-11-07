@@ -1,7 +1,8 @@
 
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Basic Necessities Surveys{% endblock title %}
+{% block title %}{% trans "Basic Necessities Surveys" %}{% endblock title %}
 
 {% block content %}
 
@@ -10,8 +11,8 @@
 
 
 
-      <a href="/bns/surveys">My Surveys</a>
-      <a href="/bns/landscapes">My Landscapes</a>
+      <a href="/bns/surveys">{% trans "My Surveys" %}</a>
+      <a href="/bns/landscapes">{% trans "My Landscapes" %}</a>
 
       {% block sidenav %}
       {% endblock sidenav %}
