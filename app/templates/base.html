@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
+{% load lang_url %}
 <html>
 <head>
   <meta charset="utf-8">
@@ -14,7 +16,7 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <link rel="stylesheet" href="{% static 'css/query.css' %}">
-  <title>{% block title %}CARPE Socio Economic Surveys{% endblock %}</title>
+  <title>{% block title %}{% trans "CARPE Surveys" %}{% endblock %}</title>
 </head>
 <body>
 <div id="ember429" class="ember-view">
@@ -35,13 +37,13 @@
                     </div>
                     <ul class="nav navbar-nav pull-right">
                         <li>
-                            <a href="/">Home</a>
+                            <a href="/">{% trans "Home" %}</a>
                         </li>
                         <li>
-                            <a href="/bns">BNS</a>
+                            <a href="/bns">{% trans "BNS" %}</a>
                         </li>
                         <li>
-                            <a href="/nrgt">NRGT</a>
+                            <a href="/nrgt">{% trans "NRGT" %}</a>
                         </li>
                         <li class="usaid-logo">
                             <a href="https://www.usaid.gov/" target="_blank">
@@ -60,13 +62,13 @@
                         <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
                             <li id="ember516" class="ember-view">
-                                <a class="od-user-dropdown-component" >
+                                <a class="od-user-dropdown-component" id="login-menu">
                                     <img src="{% static 'img/no-user-thumb-33cbcf92f9094461496cec36012e7cf4.jpg' %}" alt="Account Settings" class="profile-image" />
                                     <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link dropdown-toggle">
                                         <span class="profilename">{{ user.username }}</span>
                                         <span class="caret"/>
                                     </button>
-                                    <ul role="menu" class="dropdown-menu">
+                                    <ul role="menu" class="dropdown-menu" id="login-dropdown">
                                         <li>
                                             <a href="/user/{{ user.username }}" id="ember522" class="ember-view">
                                                 <div class="profile-header">
@@ -77,21 +79,50 @@
                                         </li>
                                         {% if user.is_superuser %}
                                         <li>
-                                            <a href="/admin">Admin</a>
+                                            <a href="/admin">{% trans "Admin" %}</a>
                                         </li>
                                         {% endif %}
                                         <li>
-                                            <a href="{% url 'logout' %}" class="signout" data-ember-action="" data-ember-action-546="546">Sign Out</a>
+                                            <a href="{% url 'logout' %}" class="signout" data-ember-action="" data-ember-action-546="546">{% trans "Sign Out" %}</a>
                                         </li>
                                     </ul>
                                 </a>
                             </li>
                         {% else %}
                             <li id="ember516" class="ember-view">
-                                <a href="{% url "social:begin" "portal" %}">login</a>
+                                <a href="{% url "social:begin" "portal" %}">{% trans "Login" %}</a>
                             </li>
                         {% endif %}
-                            <!---->
+                            <li id="ember517" class="ember-view">
+                                <a class="od-user-dropdown-component" id="lang-menu">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link dropdown-toggle">
+                                        <span >LANG</span>
+                                        <span class="caret"/>
+                                    </button>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    <form id="form" action="{% url 'set_language' %}" method="post">
+                                      {% csrf_token %}
+                                      <input name="next" type="hidden" value="{{ request.get_full_path|strip_lang }}" />
+                                      <input id="form_lang" name="language" type="hidden" value="{{ LANGUAGE_CODE }}"/>
+                                    </form>
+
+                                        <ul role="menu" class="dropdown-menu"id="lang-dropdown">
+
+
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                                <li>
+                                                   <a href="#" onClick='(function(){
+                                                    document.getElementById("form_lang").value = "{{ language.code }}";
+                                                    document.getElementById("form").submit(); return false;})();return false;'>
+                                                    {{ language.name_local }} ({{ language.code }})</a>
+                                                </li>
+                                            {% endfor %}
+
+                                        </ul>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -114,7 +145,7 @@
   <footer>
       <div class="container">
           <div class="disclaimer">
-          The information provided on this web site is not official U.S. Government information and does not represent the views or positions of the U.S. Agency for International Development or the U.S. Government
+          {% trans "The information provided on this web site is not official U.S. Government information and does not represent the views or positions of the U.S. Agency for International Development or the U.S. Government." %}
           </div>
       </div>
 
@@ -124,12 +155,20 @@
 </div>
 
 <script>
-    $(".od-user-dropdown-component").click(function(){
-        $(".dropdown-menu").toggle();
+    $("#login-menu").click(function(){
+        $("#login-dropdown").toggle();
     });
 
-    $(".dropdown-menu").mouseleave(function(){
-         $(".dropdown-menu").hide();
+    $("#login-dropdown").mouseleave(function(){
+         $("#login-dropdown").hide();
+    });
+
+    $("#lang-menu").click(function(){
+    $("#lang-dropdown").toggle();
+    });
+
+    $("#lang-dropdown").mouseleave(function(){
+         $("#lang-dropdown").hide();
     });
 
     $("h1").after("<div class='greenbar'/>");

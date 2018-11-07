@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}Login{% endblock %}
 
@@ -7,10 +8,12 @@
 <div class="home_container">
   <img class="coverimg" src="/static/img/cover.jpg" alt="CARPE Surveys" style="width:100%;">
   <div class="centered">
-    <h1>CARPE Surveys</h1>
-  <div class="subtitle">Basic Necessity Survey and Natural Resource Governance Tool</div>
+    <h1>{% trans "CARPE Surveys" %}</h1>
+  <div class="subtitle">{% trans "Basic Necessity Survey and Natural Resource Governance Tool" %}</div>
   </div>
 </div>
+
+
 
 <div class="container ">
 <div class="c-prefooter c-bg-white ">
@@ -21,12 +24,13 @@
 <div style="margin:10px;">
 <div class="c-content-title-1">
 <h3 class="c-left c-font-uppercase   c-font-bold c-font-20">
-<span class="title-wrap">About <span class="c-theme-font">CARPE</span>
+<span class="title-wrap">{% trans 'About <span class="c-theme-font">CARPE</span>' %}
 </span>
 </h3>
 </div>
 <div class="c-text c-font-16 c-font-regular ">
-<p>CARPE is a long-term initiative of the United States Government to improve the management of the Congo Basin’s biodiversity and natural resources. Funded primarily by the U.S. Agency for International Development (with additional funding from the U.S. Fish and Wildlife Service), CARPE is implemented in collaboration with African Parks, African Wildlife Foundation, the U.S. Fish and Wildlife Service, the U.S. Forest Service, the University of Maryland, the Wildlife Conservation Society, World Resources Institute, World Wildlife Fund and other partners.</p><p>The CARPE Survey website is hosted at <a href="http://www.wri.org/" target="_blank">World Resources Institute</a>.</p>
+  <p>{% trans "CARPE is a long-term initiative of the United States Government to improve the management of the Congo Basin’s biodiversity and natural resources. Funded primarily by the U.S. Agency for International Development (with additional funding from the U.S. Fish and Wildlife Service), CARPE is implemented in collaboration with African Parks, African Wildlife Foundation, the U.S. Fish and Wildlife Service, the U.S. Forest Service, the University of Maryland, the Wildlife Conservation Society, World Resources Institute, World Wildlife Fund and other partners." %}</p>
+  <p>{% trans 'The CARPE Survey website is hosted at <a href="http://www.wri.org/" target="_blank">World Resources Institute</a>.' %}</p>
 </div>
 </div>
 </div>

@@ -11,6 +11,7 @@ Create file `.env` in app folder. Add the following lines
 
 ```bash
 SECRET_KEY=<your django key>
+LOG_LEVEL=<DEBUG|INFO|WARNING|ERROR|CRITICAL>
 DEBUG=<True|Flase>
 DB_NAME=<pg db name>
 DB_USER=<pg user>

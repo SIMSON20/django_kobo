@@ -1,135 +1,139 @@
-
 {% extends 'bns_base.html' %}
+{% load i18n %}
+{% trans "Household" as household %}
+{% trans "Village" as village %}
+{% trans "District" as district %}
+{% trans "Landscape" as landscape %}
 
-{% block title %}Basic Necessity Surveys - {{ landscape_name }}{% endblock title %}
+{% block title %}{% trans "Basic Necessity Surveys" %} - {{ landscape_name }}{% endblock title %}
 
 
 {% block sidenav %}
 
       <hr/>
-      <p>{{ landscape_name }} Landscape</p>
+      <p>{{ landscape_name }} {% trans landscape %}</p>
       <hr/>
 
      <button class="dropdown-btn">
-        AME
+        {% trans "AME" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/AMEperHH">Household</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/AMEperVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/AMEperDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/AMEperLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/AMEperHH">{{ household }}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/AMEperVillage">{{ village }}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/AMEperDistrict">{{ district }}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/AMEperLandscape">{{ landscape }}</a>
       </div>
 
       <button class="dropdown-btn">
-        Ethnicity
+        {% trans "Ethnicity" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/EthnicityperLandscape">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Gender of household head
+        {% trans "Gender of household head" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/GenderHeadperLandscape">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Livelihoods
+        {% trans "Livelihoods" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/LivelihoodNBPerLandscape">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Natural resource collection
+        {% trans "Natural resource collection" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/NRCollectPerLandscape">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Protected area projects
+        {% trans "Protected area projects" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/PAProjectsPerLandscape">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Well being index
+        {% trans "Well being index" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscape">{% trans landscape %}</a>
         <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageDiff20152017">Diff 2015-2017</a>
       </div>
 
       <button class="dropdown-btn">
-        Well being index per ethnicity
+        {% trans "Well being index per ethnicity" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageEthnicity">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictEthnicity">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeEthnicity">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageEthnicity">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictEthnicity">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeEthnicity">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Well being index per gender
+        {% trans "Well being index per gender" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageGender">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictGender">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeGender">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageGender">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictGender">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeGender">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Well being index per household type
+        {% trans "Well being index per household type" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageHHType">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictHHType">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeHHType">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageHHType">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictHHType">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeHHType">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Well being index per livelihood
+        {% trans "Well being index per livelihood" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageLivelihood">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictLivelihood">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeLivelihood">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerVillageLivelihood">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerDistrictLivelihood">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WBIPerLandscapeLivelihood">{% trans landscape %}</a>
       </div>
 
       <button class="dropdown-btn">
-        Wealth Index
+        {% trans "Wealth Index" %}
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerVillage">Village</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerDistrict">District</a>
-        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerLandscape">Landscape</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerVillage">{% trans village %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerDistrict">{% trans district %}</a>
+        <a href="/bns/landscapes/{{ landscape_name }}/WealthIDXPerLandscape">{% trans landscape %}</a>
       </div>
 
 
