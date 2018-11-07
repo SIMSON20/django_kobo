@@ -10,7 +10,7 @@
 
     {% for landscape in landscapes %}
 
-    <a href="/bns/landscapes/{{ landscape.landscape }}">{{ landscape.landscape }}</a><br />
+    <a href="/bns/landscapes/{{ landscape.landscape }}">{{ landscape.landscape|capfirst }}</a><br />
     {% endfor %}
 
 

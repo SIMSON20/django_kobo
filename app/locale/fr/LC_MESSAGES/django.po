@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 14:58+0000\n"
+"POT-Creation-Date: 2018-11-07 20:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: bns/templates/bns_base.html:4 bns/templates/bns_home.html:3
+#: bns/templates/bns_base.html:5 bns/templates/bns_home.html:5
 msgid "Basic Necessities Surveys"
 msgstr ""
 
-#: bns/templates/bns_base.html:13
+#: bns/templates/bns_base.html:14
 msgid "My Surveys"
 msgstr "Mes enquêtes"
 
-#: bns/templates/bns_base.html:14
+#: bns/templates/bns_base.html:15
 msgid "My Landscapes"
 msgstr "Mes paysages"
 
-#: bns/templates/bns_home.html:6
+#: bns/templates/bns_home.html:8
 msgid "Basic Necessities Survey"
 msgstr ""
 
-#: bns/templates/bns_home.html:8
+#: bns/templates/bns_home.html:10
 msgid ""
 "The Basic Necessities Survey (BNS) is a method of measuring poverty that is:"
 msgstr ""
 
-#: bns/templates/bns_home.html:15
+#: bns/templates/bns_home.html:17
 #, python-format
 msgid ""
 "Basic necessities are democratically defined as those items in a survey "
@@ -53,14 +53,14 @@ msgid ""
 "is described below."
 msgstr ""
 
-#: bns/templates/bns_home.html:17
+#: bns/templates/bns_home.html:19
 msgid ""
 "The BNS combines two aspects of peoples lives: (a) their material "
 "conditions, (b) their perceptions of these material conditions. Both have "
 "consequences for the quality of their lives."
 msgstr ""
 
-#: bns/templates/bns_home.html:19
+#: bns/templates/bns_home.html:21
 msgid ""
 "The BNS was developed by Rick Davies in 1997, and implemented by ActionAid "
 "Vietnam in 1997, 1998, 1999 and by the Pro Poor Centre (a Vietnamese NGO) in "
@@ -68,94 +68,152 @@ msgid ""
 "Sweden (See below)"
 msgstr ""
 
+#: bns/templates/bns_landscape.html:4 bns/templates/bns_landscape_query.html:4
+#: bns/templates/bns_survey.html:4 bns/templates/bns_survey_query.html:4
+#: bns/templates/bns_surveys.html:4 templates/base.html:43
+msgid "BNS"
+msgstr ""
+
 #: bns/templates/bns_landscape.html:9
 msgid "BNS Surveys in Landscape"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:3 bns/templates/bns_survey_base.html:4
-msgid "Household"
-msgstr ""
-
-#: bns/templates/bns_landscape_base.html:4 bns/templates/bns_survey_base.html:5
-msgid "Village"
-msgstr ""
-
-#: bns/templates/bns_landscape_base.html:5 bns/templates/bns_survey_base.html:6
-msgid "District"
-msgstr ""
-
-#: bns/templates/bns_landscape_base.html:6
-#: bns/templates/bns_landscape_query.html:11
-#: bns/templates/bns_survey_base.html:7
-msgid "Landscape"
-msgstr ""
-
-#: bns/templates/bns_landscape_base.html:8 bns/templates/bns_survey_base.html:9
+#: bns/templates/bns_landscape_base.html:4 bns/templates/bns_survey_base.html:4
 msgid "Basic Necessity Surveys"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:18
-#: bns/templates/bns_survey_base.html:19
+#: bns/templates/bns_landscape_base.html:10
+#: bns/templates/bns_landscape_base.html:21
+#: bns/templates/bns_landscape_base.html:31
+#: bns/templates/bns_landscape_base.html:41
+#: bns/templates/bns_landscape_base.html:51
+#: bns/templates/bns_landscape_base.html:61
+#: bns/templates/bns_landscape_base.html:71
+#: bns/templates/bns_landscape_base.html:81
+#: bns/templates/bns_landscape_base.html:92
+#: bns/templates/bns_landscape_base.html:102
+#: bns/templates/bns_landscape_base.html:112
+#: bns/templates/bns_landscape_base.html:122
+#: bns/templates/bns_landscape_base.html:132
+#: bns/templates/bns_landscape_query.html:11
+#: bns/templates/bns_survey_base.html:21 bns/templates/bns_survey_base.html:31
+#: bns/templates/bns_survey_base.html:41 bns/templates/bns_survey_base.html:51
+#: bns/templates/bns_survey_base.html:61 bns/templates/bns_survey_base.html:71
+#: bns/templates/bns_survey_base.html:81 bns/templates/bns_survey_base.html:92
+#: bns/templates/bns_survey_base.html:102
+#: bns/templates/bns_survey_base.html:112
+#: bns/templates/bns_survey_base.html:122
+#: bns/templates/bns_survey_base.html:132
+msgid "Landscape"
+msgstr "Paysage"
+
+#: bns/templates/bns_landscape_base.html:14
+#: bns/templates/bns_survey_base.html:14
 msgid "AME"
 msgstr ""
 
+#: bns/templates/bns_landscape_base.html:18
+#: bns/templates/bns_survey_base.html:18
+msgid "Household"
+msgstr "Menage"
+
+#: bns/templates/bns_landscape_base.html:19
 #: bns/templates/bns_landscape_base.html:29
-#: bns/templates/bns_survey_base.html:30
+#: bns/templates/bns_landscape_base.html:39
+#: bns/templates/bns_landscape_base.html:49
+#: bns/templates/bns_landscape_base.html:59
+#: bns/templates/bns_landscape_base.html:69
+#: bns/templates/bns_landscape_base.html:79
+#: bns/templates/bns_landscape_base.html:90
+#: bns/templates/bns_landscape_base.html:100
+#: bns/templates/bns_landscape_base.html:110
+#: bns/templates/bns_landscape_base.html:120
+#: bns/templates/bns_landscape_base.html:130
+#: bns/templates/bns_survey_base.html:19 bns/templates/bns_survey_base.html:29
+#: bns/templates/bns_survey_base.html:39 bns/templates/bns_survey_base.html:49
+#: bns/templates/bns_survey_base.html:59 bns/templates/bns_survey_base.html:69
+#: bns/templates/bns_survey_base.html:79 bns/templates/bns_survey_base.html:90
+#: bns/templates/bns_survey_base.html:100
+#: bns/templates/bns_survey_base.html:110
+#: bns/templates/bns_survey_base.html:120
+#: bns/templates/bns_survey_base.html:130
+msgid "Village"
+msgstr "Village"
+
+#: bns/templates/bns_landscape_base.html:20
+#: bns/templates/bns_landscape_base.html:30
+#: bns/templates/bns_landscape_base.html:40
+#: bns/templates/bns_landscape_base.html:50
+#: bns/templates/bns_landscape_base.html:60
+#: bns/templates/bns_landscape_base.html:70
+#: bns/templates/bns_landscape_base.html:80
+#: bns/templates/bns_landscape_base.html:91
+#: bns/templates/bns_landscape_base.html:101
+#: bns/templates/bns_landscape_base.html:111
+#: bns/templates/bns_landscape_base.html:121
+#: bns/templates/bns_landscape_base.html:131
+#: bns/templates/bns_survey_base.html:20 bns/templates/bns_survey_base.html:30
+#: bns/templates/bns_survey_base.html:40 bns/templates/bns_survey_base.html:50
+#: bns/templates/bns_survey_base.html:60 bns/templates/bns_survey_base.html:70
+#: bns/templates/bns_survey_base.html:80 bns/templates/bns_survey_base.html:91
+#: bns/templates/bns_survey_base.html:101
+#: bns/templates/bns_survey_base.html:111
+#: bns/templates/bns_survey_base.html:121
+#: bns/templates/bns_survey_base.html:131
+msgid "District"
+msgstr "District"
+
+#: bns/templates/bns_landscape_base.html:25
+#: bns/templates/bns_survey_base.html:25
 msgid "Ethnicity"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:39
+#: bns/templates/bns_landscape_base.html:35
 msgid "Gender of household head"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:49
-#: bns/templates/bns_survey_base.html:50
+#: bns/templates/bns_landscape_base.html:45
+#: bns/templates/bns_survey_base.html:45
 msgid "Livelihoods"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:59
-#: bns/templates/bns_survey_base.html:60
+#: bns/templates/bns_landscape_base.html:55
+#: bns/templates/bns_survey_base.html:55
 msgid "Natural resource collection"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:69
-#: bns/templates/bns_survey_base.html:70
+#: bns/templates/bns_landscape_base.html:65
+#: bns/templates/bns_survey_base.html:65
 msgid "Protected area projects"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:79
-#: bns/templates/bns_survey_base.html:80
+#: bns/templates/bns_landscape_base.html:75
+#: bns/templates/bns_survey_base.html:75
 msgid "Well being index"
 msgstr "Indice de bien-être"
 
-#: bns/templates/bns_landscape_base.html:90
-#: bns/templates/bns_survey_base.html:91
+#: bns/templates/bns_landscape_base.html:86
+#: bns/templates/bns_survey_base.html:86
 msgid "Well being index per ethnicity"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:100
-#: bns/templates/bns_survey_base.html:101
+#: bns/templates/bns_landscape_base.html:96
+#: bns/templates/bns_survey_base.html:96
 msgid "Well being index per gender"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:110
+#: bns/templates/bns_landscape_base.html:106
 msgid "Well being index per household type"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:120
-#: bns/templates/bns_survey_base.html:121
+#: bns/templates/bns_landscape_base.html:116
+#: bns/templates/bns_survey_base.html:116
 msgid "Well being index per livelihood"
 msgstr ""
 
-#: bns/templates/bns_landscape_base.html:130
-#: bns/templates/bns_survey_base.html:131
+#: bns/templates/bns_landscape_base.html:126
+#: bns/templates/bns_survey_base.html:126
 msgid "Wealth Index"
-msgstr ""
-
-#: bns/templates/bns_landscape_query.html:4 bns/templates/bns_survey.html:4
-#: bns/templates/bns_survey_query.html:4 bns/templates/bns_surveys.html:4
-#: templates/base.html:42
-msgid "BNS"
 msgstr ""
 
 #: bns/templates/bns_landscapes.html:4 bns/templates/bns_landscapes.html:9
@@ -166,15 +224,15 @@ msgstr ""
 msgid "more text here"
 msgstr ""
 
-#: bns/templates/bns_survey_base.html:15 bns/templates/bns_survey_query.html:12
+#: bns/templates/bns_survey_base.html:10 bns/templates/bns_survey_query.html:12
 msgid "Survey"
 msgstr ""
 
-#: bns/templates/bns_survey_base.html:40
+#: bns/templates/bns_survey_base.html:35
 msgid "Gender of Household head"
 msgstr ""
 
-#: bns/templates/bns_survey_base.html:111
+#: bns/templates/bns_survey_base.html:106
 msgid "Well being index per Household type"
 msgstr ""
 
@@ -187,42 +245,44 @@ msgid "Download"
 msgstr ""
 
 #: bns/templates/bns_surveys.html:9
-msgid "BNS Surveys:"
-msgstr ""
+#, fuzzy
+#| msgid "My Surveys"
+msgid "BNS Surveys"
+msgstr "Mes enquêtes"
 
-#: kobo_project/settings.py:150
+#: kobo_project/settings.py:151
 msgid "English"
 msgstr "Anglais"
 
-#: kobo_project/settings.py:151
+#: kobo_project/settings.py:152
 msgid "French"
 msgstr "Francais"
 
-#: templates/base.html:18 templates/home.html:11
+#: templates/base.html:19 templates/home.html:11
 msgid "CARPE Surveys"
 msgstr ""
 
-#: templates/base.html:39
+#: templates/base.html:40
 msgid "Home"
 msgstr "Acceuil"
 
-#: templates/base.html:45
+#: templates/base.html:46
 msgid "NRGT"
 msgstr ""
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgid "Admin"
 msgstr ""
 
-#: templates/base.html:85
+#: templates/base.html:86
 msgid "Sign Out"
 msgstr ""
 
-#: templates/base.html:92
+#: templates/base.html:93
 msgid "Login"
 msgstr "Connexion"
 
-#: templates/base.html:118
+#: templates/base.html:148
 msgid ""
 "The information provided on this web site is not official U.S. Government "
 "information and does not represent the views or positions of the U.S. Agency "

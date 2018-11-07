@@ -8,7 +8,7 @@
 {% load bootstrap4 %}
 
     <h2>{{ table.name }}</h2>
-    <h5>{{ landscape_name }} {% trans "Landscape" %}</h5>
+    <h5>{{ landscape_name|capfirst }} {% trans "Landscape" %}</h5>
     {% if filter %}
     <div id="filterform">
         <form action="" method="get" class="form form-inline">

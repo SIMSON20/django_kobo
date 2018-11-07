@@ -120,6 +120,7 @@ RUN pip  install -r /home/docker/code/app/requirements.txt
 COPY uwsgi.ini /home/docker/code
 COPY uwsgi_params /home/docker/code
 RUN mkdir /var/log/django
+RUN apk add gettext
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
