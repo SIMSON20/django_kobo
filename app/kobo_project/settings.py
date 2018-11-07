@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'social_django',
     'custom_auth.apps.CustomAuthConfig',
+    'tags.apps.TagConfig',
 ]
 
 MIDDLEWARE = [
