@@ -49,6 +49,48 @@ class NRGTAnswerGS(models.Model):
         return "{} ({})".format(self.dataset_uuid, self.answer_id)
 
 
+class NRGTGroupScores(models.Model):
+    answer = models.ForeignKey(NRGTAnswer, on_delete=models.CASCADE)
+    landscape = models.TextField(blank=True, null=True)
+    gov_group = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    legitimacy = models.FloatField(blank=True, null=True)
+    accountability = models.FloatField(blank=True, null=True)
+    transparency = models.FloatField(blank=True, null=True)
+    participation = models.FloatField(blank=True, null=True)
+    instutional_framework = models.FloatField(blank=True, null=True)
+    fairness = models.FloatField(blank=True, null=True)
+    motivation = models.FloatField(blank=True, null=True)
+    knowledge_skills = models.FloatField(blank=True, null=True)
+    resources = models.FloatField(blank=True, null=True)
+    held_accountable = models.FloatField(blank=True, null=True)
+    enact_decision = models.FloatField(blank=True, null=True)
+    diversity = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'NRGT Group Score'
+        verbose_name_plural = 'NRGT Group Scores'
+        managed = False
+        db_table = 'nrgt_group_scores'
+
+
+class NRGTGroupAttributes(models.Model):
+    answer = models.ForeignKey(NRGTAnswer, on_delete=models.CASCADE)
+    landscape = models.TextField(blank=True, null=True)
+    gov_group = models.TextField(blank=True, null=True)
+    dataset_year = models.IntegerField(blank=True, null=True)
+    autority = models.FloatField(blank=True, null=True)
+    capacity = models.FloatField(blank=True, null=True)
+    power = models.FloatField(blank=True, null=True)
+    diversity = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'NRGT Group Attribute'
+        verbose_name_plural = 'NRGT Group Attributes'
+        managed = False
+        db_table = 'nrgt_group_attributes'
+
+
 class NRGTForm(models.Model):
     dataset_id = models.BigIntegerField(primary_key=True)
     auth_user = models.ForeignKey(Connection, on_delete=models.DO_NOTHING)
