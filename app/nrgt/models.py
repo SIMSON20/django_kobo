@@ -40,6 +40,7 @@ class NRGTAnswerGS(models.Model):
     held_accountable = models.IntegerField(blank=True, null=True)
     accountability = models.IntegerField(blank=True, null=True)
     legitimacy = models.IntegerField(blank=True, null=True)
+    last_update = models.DateTimeField(default=datetime.now, editable=False)
 
     class Meta:
         verbose_name = 'Answer Governance Score'
