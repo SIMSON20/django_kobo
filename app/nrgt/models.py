@@ -54,6 +54,7 @@ class NRGTGroupScores(models.Model):
     table_name = "Group Scores"
     filter_fields = ['gov_group', 'landscape']
 
+    id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     landscape = models.TextField(blank=True, null=True)
     gov_group = models.TextField(blank=True, null=True)
@@ -82,6 +83,7 @@ class NRGTGroupAttributes(models.Model):
     table_name = "Group Attributes"
     filter_fields = ['gov_group', 'landscape']
 
+    id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     landscape = models.TextField(blank=True, null=True)
     gov_group = models.TextField(blank=True, null=True)

@@ -20,7 +20,7 @@ def index(request):
 
 @login_required
 def nrgt_surveys(request):
-    surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(num_answers__gte=1)
+    surveys = KoboData.objects.annotate(num_answers=Count('nrgtanswer')).filter(num_answers__gte=1)
     return render(request, 'nrgt_surveys.html', {'surveys': surveys})
 
 

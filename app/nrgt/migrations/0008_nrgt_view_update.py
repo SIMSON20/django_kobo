@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
 
             CREATE OR REPLACE VIEW nrgt_group_scores AS
             SELECT
+                row_number() OVER () AS id,
                 k.dataset_uuid as dataset_uuid_id,
                 a.landscape,
                 a.gov_group,
@@ -41,6 +42,7 @@ class Migration(migrations.Migration):
             """
                 CREATE OR REPLACE VIEW nrgt_group_attributes AS 
                 SELECT
+                    row_number() OVER () AS id,
                     gs.dataset_uuid_id,
                     gs.landscape,
                     gs.gov_group,
