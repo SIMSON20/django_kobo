@@ -51,7 +51,10 @@ class NRGTAnswerGS(models.Model):
 
 
 class NRGTGroupScores(models.Model):
-    answer = models.ForeignKey(NRGTAnswer, on_delete=models.CASCADE)
+    table_name = "Group Scores"
+    filter_fields = ['gov_group', 'landscape']
+
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     landscape = models.TextField(blank=True, null=True)
     gov_group = models.TextField(blank=True, null=True)
     dataset_year = models.IntegerField(blank=True, null=True)
@@ -76,7 +79,10 @@ class NRGTGroupScores(models.Model):
 
 
 class NRGTGroupAttributes(models.Model):
-    answer = models.ForeignKey(NRGTAnswer, on_delete=models.CASCADE)
+    table_name = "Group Attributes"
+    filter_fields = ['gov_group', 'landscape']
+
+    dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     landscape = models.TextField(blank=True, null=True)
     gov_group = models.TextField(blank=True, null=True)
     dataset_year = models.IntegerField(blank=True, null=True)

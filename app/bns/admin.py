@@ -120,7 +120,7 @@ class BNSFormAdmin(ImportExportModelAdmin):
         :param request:
         :return:
         """
-        dataset = self.normalize_data(dataset)
+        dataset = normalize_data(dataset)
 
         answer_resource = AnswerFromKoboResource()
         answer_gps_resource = AnswerGPSFromKoboResource()

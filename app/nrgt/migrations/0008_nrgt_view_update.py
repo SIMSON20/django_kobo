@@ -3,14 +3,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('nrgt', '0004_nrgtform'),
+        ('nrgt', '0007_nrgtanswergs_last_update'),
     ]
     operations = [
         migrations.RunSQL(
             """
+            DROP VIEW nrgt_group_scores CASCADE;
+
             CREATE OR REPLACE VIEW nrgt_group_scores AS
             SELECT
-                a.answer_id,
+                k.dataset_uuid as dataset_uuid_id,
                 a.landscape,
                 a.gov_group,
                 k.dataset_year,
@@ -31,7 +33,7 @@ class Migration(migrations.Migration):
                 JOIN nrgt_nrgtanswer a ON gs.answer_id = a.answer_id 
                 JOIN kobo_kobodata k ON a.dataset_uuid_id = k.dataset_uuid
             GROUP BY 
-                a.answer_id, a.landscape, a.gov_group, k.dataset_year;
+                k.dataset_uuid, a.landscape, a.gov_group, k.dataset_year;
             """,
             reverse_sql="DROP VIEW nrgt_group_scores;"),
 
@@ -39,7 +41,7 @@ class Migration(migrations.Migration):
             """
                 CREATE OR REPLACE VIEW nrgt_group_attributes AS 
                 SELECT
-                    gs.answer_id,
+                    gs.dataset_uuid_id,
                     gs.landscape,
                     gs.gov_group,
                     gs.dataset_year,
