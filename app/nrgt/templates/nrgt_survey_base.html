@@ -1,19 +1,19 @@
-
 {% extends 'nrgt_base.html' %}
+{% load i18n %}
 
-{% block title %}Natural Resource Governance Tool - {{ survey_name }}{% endblock title %}
+{% block title %}{% trans "Natural Resource Governance Tool" %} - {{ survey_name }}{% endblock title %}
 
 
 {% block sidenav %}
 
       <hr/>
-      <p>{{ survey_name }} Survey</p>
+      <p>{{ survey_name }} {% trans "Survey" %}</p>
       <hr/>
 
 
       <div>
-        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupScores">Group Scores</a>
-        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupAttributes">Group Attributes</a>
+        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
+        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
 
       </div>
 

@@ -41,7 +41,7 @@ def survey_query(request, survey_name, query_name):
 
         class Meta:
             model = mymodel
-            template_name = 'django_tables2/bootstrap.html'
+            template_name = 'bootstrap.html'
 
     class myFilter(django_filters.FilterSet):
         class Meta:
@@ -88,7 +88,7 @@ def landscape_query(request, landscape_name, query_name):
 
         class Meta:
             model = mymodel
-            template_name = 'django_tables2/bootstrap.html'
+            template_name = 'bootstrap.html'
 
     class myFilter(django_filters.FilterSet):
         class Meta:

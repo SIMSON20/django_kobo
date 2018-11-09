@@ -1,9 +1,9 @@
-
 {% extends 'nrgt_survey_base.html' %}
+{% load i18n %}
 
-{% block title %}NRGT{% endblock %}
+{% block title %}{% trans "NRGT" %}{% endblock %}
 
 {% block main %}
 <h2>{{ survey_name }}</h2>
-<p>more text here</p>
+<p>{% trans "more text here" %}</p>
 {% endblock %}

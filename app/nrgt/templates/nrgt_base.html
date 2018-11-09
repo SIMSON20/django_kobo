@@ -1,7 +1,8 @@
 
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Natural Resource Governance Tool{% endblock title %}
+{% block title %}{% trans "Natural Resource Governance Tool" %}{% endblock title %}
 
 {% block content %}
 
@@ -10,8 +11,8 @@
 
 
 
-      <a href="/nrgt/surveys">My Surveys</a>
-      <a href="/nrgt/landscapes">My Landscapes</a>
+      <a href="/nrgt/surveys">{% trans "My Surveys" %}</a>
+      <a href="/nrgt/landscapes">{% trans "My Landscapes" %}</a>
 
       {% block sidenav %}
       {% endblock sidenav %}

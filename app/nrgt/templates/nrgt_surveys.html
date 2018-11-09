@@ -1,20 +1,16 @@
-
 {% extends 'nrgt_base.html' %}
+{% load i18n %}
 
-{% block title %}NRGT{% endblock %}
+{% block title %}{% trans "NRGT" %}{% endblock %}
 
 {% block main %}
 
 
-    <h2>NRGT Surveys</h2>
+    <h2>{% trans "NRGT Surveys" %}</h2>
 
     {% for survey in surveys %}
     <a href="/nrgt/surveys/{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
     {% endfor %}
-
-
-
-
 
 
 {% endblock main %}

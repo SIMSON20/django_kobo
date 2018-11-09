@@ -1,20 +1,20 @@
-
 {% extends 'nrgt_base.html' %}
+{% load i18n %}
 
-{% block title %}Natural Resource Governance Tool - {{ landscape_name }}{% endblock title %}
+{% block title %}{% trans "Natural Resource Governance Tool" %} - {{ landscape_name }}{% endblock title %}
 
 
 {% block sidenav %}
 
       <hr/>
-      <p>{{ landscape_name }} Landscape</p>
+      <p>{{ landscape_name }} {% trans "Landscape" %}</p>
       <hr/>
 
 
       <div>
 
-          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupScores">Group Scores</a>
-          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupAttributes">Group Attributes</a>
+          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
+          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
 
       </div>
 

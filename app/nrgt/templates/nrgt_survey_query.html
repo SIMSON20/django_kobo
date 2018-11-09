@@ -1,7 +1,8 @@
 
 {% extends 'nrgt_survey_base.html' %}
+{% load i18n %}
 
-{% block title %}NRGT{% endblock %}
+{% block title %}{% trans "NRGT" %}{% endblock %}
 
 {% block main %}
 
@@ -9,7 +10,7 @@
     {% load bootstrap4 %}
 
     <h2>{{ table.name }}</h2>
-    <h5>{{ survey_name }} Survey</h5>
+    <h5>{{ survey_name }} {% trans "Survey" %}</h5>
 
 
     {% if filter %}
@@ -25,14 +26,14 @@
 
     <div class="pull-right">
     <form >
-        Select format:
+        {% trans "Select format" %}:
         <select id="filename">
                 {% for format in table.export_formats %}
                     <option value="{{ request.get_full_path }}{% export_url format %}">{{ format }}</option>
                 {% endfor %}
         </select>
         <button onclick="window.location.href=document.getElementById('filename').value"  class="btn btn-default">
-            Download
+            {% trans "Download" %}
         </button>
     </form>
     </div>

@@ -1,14 +1,14 @@
-
 {% extends 'nrgt_landscape_base.html' %}
+{% load i18n %}
 
-{% block title %}NRGT{% endblock %}
+{% block title %}{% trans "NRGT" %}{% endblock %}
 
 {% block main %}
 {% load render_table from django_tables2 %}
 {% load bootstrap4 %}
 
     <h2>{{ table.name }}</h2>
-    <h5>{{ landscape_name }} Landscape</h5>
+    <h5>{{ landscape_name }} {% trans "Landscape" %}</h5>
     {% if filter %}
     <div id="filterform">
         <form action="" method="get" class="form form-inline">
