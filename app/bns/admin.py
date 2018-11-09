@@ -6,27 +6,10 @@ from .resources import AMEFromFileResource, AnswerFromFileResource, AnswerFromKo
                             AnswerGPSFromFileResource, AnswerGSFromFileResource, AnswerGSFromKoboResource, \
                             AnswerHHMembersFromFileResource, AnswerHHMembersFromKoboResource, \
                             AnswerNRFromFileResource, AnswerNRFromKoboResource, PriceFromKoboResource
-import requests
-from requests.auth import HTTPBasicAuth
 import json
 from datetime import datetime
 import tablib
-import copy
-
-
-def get_kobo_data(connection, dataset_id):
-    """
-    Get data for Kobo form
-    :param connection:
-    :param dataset_id:
-    :return:
-    """
-    host = connection.host_api.strip()
-    auth_user = connection.auth_user.strip()
-    auth_passwd = connection.auth_pass.strip()
-    url = "{}/{}/{}?format=json".format(host, "data", str(dataset_id))
-    r = requests.get(url, auth=HTTPBasicAuth(auth_user, auth_passwd))
-    return json.loads(r.text)
+from kobo.utils import get_kobo_data, normalize_data
 
 
 @admin.register(AME)
@@ -137,7 +120,7 @@ class BNSFormAdmin(ImportExportModelAdmin):
         :param request:
         :return:
         """
-        dataset = self._normalize_data(dataset)
+        dataset = self.normalize_data(dataset)
 
         answer_resource = AnswerFromKoboResource()
         answer_gps_resource = AnswerGPSFromKoboResource()
@@ -231,30 +214,6 @@ class BNSFormAdmin(ImportExportModelAdmin):
                               level=messages.ERROR)
             # raise forms.ValidationError("Import of Answers failed!")
 
-
-    @staticmethod
-    def _normalize_data(dataset):
-        """
-        Expects a list of dictionaries with key value pairs
-        Returns a tablib dataset
-        :param dataset:
-        :return:
-        """
-
-        # make sure every row has the same keys.
-        # get all unique keys
-        keys = set()
-        for row in dataset:
-            keys |= set(row.keys())
-
-        # add missing keys to rows
-        for row in dataset:
-            key_set = set(keys)
-            key_set -= set(row.keys())
-            for key in key_set:
-                row[key] = None
-
-        return tablib.Dataset().load(json.dumps(dataset, sort_keys=True))
 
     @staticmethod
     def _extract_gs(dataset):

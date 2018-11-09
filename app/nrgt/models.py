@@ -47,7 +47,7 @@ class NRGTAnswerGS(models.Model):
         verbose_name_plural = 'Answers Governance Score'
 
     def __str__(self):
-        return "{} ({})".format(self.dataset_uuid, self.answer_id)
+        return "{} ({})".format(self.answer_id, self.code)
 
 
 class NRGTGroupScores(models.Model):
