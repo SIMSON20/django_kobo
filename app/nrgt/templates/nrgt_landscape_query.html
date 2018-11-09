@@ -18,7 +18,9 @@
     </div>
     {% endif %}
 
-    {% render_table table 'django_tables2/bootstrap.html' %}
+    <div class="query_table">
+    {% render_table table 'bootstrap.html' %}
+    </div>
 
 {% endblock %}
 

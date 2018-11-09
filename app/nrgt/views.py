@@ -73,7 +73,7 @@ def landscapes(request):
 
 @login_required
 def landscape(request, landscape_name):
-    surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
+    surveys = KoboData.objects.annotate(num_answers=Count('nrgtanswer')).filter(nrgtanswer__landscape=landscape_name).filter(num_answers__gte=1)
     return render(request, 'nrgt_landscape.html', {'surveys': surveys, 'landscape_name': landscape_name})
 
 

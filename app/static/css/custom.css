@@ -699,3 +699,21 @@ footer{
           bottom: 0;
           left: 0;
 }
+
+table{
+        table-layout: fixed;
+}
+
+th {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
