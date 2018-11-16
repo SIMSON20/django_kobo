@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="home_container">
+  <img class="coverimg" src="/static/img/Makao.jpg" alt="CARPE Surveys" style="width:100%;">
+  <div class="centered">
+    <h1>{% trans "CARPE Surveys" %}</h1>
+  <div class="subtitle">{% trans "Basic Necessity Survey and Natural Resource Governance Tool" %}</div>
+  </div>
+</div>
+<div><div class="c-content-title-1">
+<h3 class="c-left c-font-uppercase   c-font-bold c-font-20">
+<span class="title-wrap">{% trans 'About <span class="c-theme-font">Surveys</span>' %}
+</span>
+</h3>
+</div>
+<p>{% trans "During the last decade, the conservation community has made significant progress developing robust methods for monitoring the status of conservation species, habitat targets and threats (these include: camera trapping, line transects, remote sensing image analysis, ranger patrol/law enforcement monitoring, and community monitors). However, we have not made similar progress in developing tools for regularly and credibly monitoring and reporting progress on governance systems that ensure sustainable resource use, nor on how to best assess the impacts (positive and negative) of conservation investments on the livelihoods and well-being of people whose lives are influenced by conservation actions." %}</p>
+
+<p>{% trans "Without access to a suitable governance assessment tool, conservation and development practitioners may have no clear sense of the factors most likely to facilitate good governance, and no clear process for identifying how to remediate factors that militate against good governance. After 2 years of investment and field testing, USAID and its conservation partners launched, at the 2014 World Parks Congress in Sydney Australia, a new, credible, low-cost, expert-opinion based, quantitative tool for assessing the strengths and weaknesses of all governance bodies with jurisdiction over natural resource management within a given landscape or seascape : the Natural Resource Governance Tool (NRGT)." %}</p>
+
+<p>{% trans "The Basic Necessities Survey (BNS), originally developed by Rick Davies, is the result of comparable effort led by the Wildlife Conservation Society with support from USAID, to bring to conservation practitioners a low-cost tool for credibly assessing how conservation actions affect families’ livelihoods and sense of well-being, and tracking changes within and across villages over time. Given that secure livelihoods and conservation stewardship are deeply connected and that conservation should, at worst, do no harm to people’s livelihoods, the conservation community needs a way to track and assess the effect of conservation actions on the well-being of people who live within the landscapes and seascapes where conservationists work." %}</p>
+
+</div>
+
+
+<div class="container ">
+<div class="c-prefooter c-bg-white ">
+<div class="c-body ">
+<div class="c-line ">
+
+<div class="row ">
+<div style="margin:10px;">
+<div class="c-content-title-1">
+<h3 class="c-left c-font-uppercase   c-font-bold c-font-20">
+<span class="title-wrap">{% trans 'About <span class="c-theme-font">CARPE</span>' %}
+</span>
+</h3>
+</div>
+<div class="c-text c-font-16 c-font-regular ">
+  <p>{% trans "CARPE is a long-term initiative of the United States Government to improve the management of the Congo Basin’s biodiversity and natural resources. Funded primarily by the U.S. Agency for International Development (with additional funding from the U.S. Fish and Wildlife Service), CARPE is implemented in collaboration with African Parks, African Wildlife Foundation, the U.S. Fish and Wildlife Service, the U.S. Forest Service, the University of Maryland, the Wildlife Conservation Society, World Resources Institute, World Wildlife Fund and other partners." %}</p>
+  <p>{% trans 'The CARPE Survey website is hosted at <a href="http://www.wri.org/" target="_blank">World Resources Institute</a>.' %}</p>
+</div>
+</div>
+</div>
+</div>
+<div class="row " style="margin: auto; width:100%">
+
+<img alt="CARPE Partners" src="https://assets.forest-atlas.org/shared/img/carpe_partners.png" title="" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto;">
+</div>
+<div class="c-head ">
+<div class="row ">
+</div>
+</div></div>
+
+<p></p></div>
+</div>
+
+
+{% endblock %}

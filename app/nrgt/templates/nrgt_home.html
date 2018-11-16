@@ -1,0 +1,23 @@
+{% extends 'nrgt_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Natural Resource Governance Tool" %}{% endblock %}
+
+{% block main %}
+  <h2>{% trans "Natural Resource Governance Tool" %}</h2>
+
+<p>{% trans "The NRGT is a relatively simple, low-cost, and replicable tool for assessing governance strengths and weaknesses of groups with legitimate jurisdiction over the management of natural resources within a given landscape or seascape, and how these change over time." %}</p>
+
+<p>{% trans "After identifying and mapping key governance groups within a landscape or seascape, they are ranked in terms of influence. Influence can be thought of as a mixture of spatial coverage, the range of resources governed, and whether absence of a particular governance group would seriously undermine conservation effectiveness within the landscape or seascape. Once the governance groups identified are ranked by influence, few groups per landscape should be selected to participate in the NRGT." %}</p>
+
+<p>{% trans "For each governance groups to be assessed, both members of the governance group and people whose lives are influenced by the group’s decisions will be interviewed using the NRGT questionnaire. To obtain a range of opinions it is important to select, whenever possible, equal numbers of men and women, people from different places within the group’s jurisdiction, and in the case of the governance group people from different positions of responsibility." %}</p>
+
+<p>{% trans "Once all the surveys are done, the team should regroup and assign a score for each sub-attribute in the questionnaire. Generating scores helps keep track of governance strengths and weaknesses over time, and allows for evaluation of the impact of targeted investments in governance strengthening." %}</p>
+
+<p>{% trans "Data are then entered in a database that will automatically calculate averages of the three governance attributes per group and per year. The team will have to do a narrative analysis of the answers and recommendations, evaluating opportunities for strengthening the ability of specific groups to govern the conservation and sustainable use of natural resources, and drawing up an action plan to implement specific governance strengthening activities. Finally, the team will implement activities to address weakness and strengthen each group’s ability to govern effectively." %}</p>
+
+<p>{% trans "Steps to implement the NRGT are described in details in the guide below." %}</p>
+
+
+{% endblock main %}

@@ -1,0 +1,11 @@
+django
+django_tables2
+django_filter
+django_bootstrap4
+django-import-export
+gdal==2.3.2
+psycopg2
+requests
+social-auth-app-django
+tablib
+python-decouple

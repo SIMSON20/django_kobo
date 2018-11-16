@@ -1,0 +1,21 @@
+{% extends 'nrgt_landscape_base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "NRGT" %}{% endblock %}
+
+{% block main %}
+
+
+    <h2>{% trans "NRGT Surveys in Landscape" %} {{ landscape_name }}</h2>
+
+    {% for survey in surveys %}
+    <a href="/nrgt/surveys/{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
+    {% endfor %}
+
+
+
+
+
+
+{% endblock main %}
+

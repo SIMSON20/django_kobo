@@ -1,0 +1,40 @@
+{% extends 'nrgt_base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Natural Resource Governance Tool" %} - {{ landscape_name }}{% endblock title %}
+
+
+{% block sidenav %}
+
+      <hr/>
+      <p>{{ landscape_name }} {% trans "Landscape" %}</p>
+      <hr/>
+
+
+      <div>
+
+          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
+          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
+
+      </div>
+
+
+      <script>
+            //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+              dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                  dropdownContent.style.display = "none";
+                } else {
+                  dropdownContent.style.display = "block";
+                }
+              });
+            }
+      </script>
+
+{% endblock sidenav %}

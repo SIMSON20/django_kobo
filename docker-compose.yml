@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  postgis:
+    image: mdillon/postgis:11
+    volumes:
+     - ./pgdata:/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: $PG_DB
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PW
+
+  web:
+    build: .
+    command: supervisord -n
+    volumes:
+      - ./app:/home/docker/code/app
+    ports:
+      - "80:80"
+    depends_on:
+    - postgis
+    restart: unless-stopped

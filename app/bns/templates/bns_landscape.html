@@ -1,0 +1,21 @@
+{% extends 'bns_landscape_base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "BNS" %}{% endblock %}
+
+{% block main %}
+
+
+    <h2>{% trans "BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}</h2>
+
+    {% for survey in surveys %}
+    <a href="/bns/surveys/{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
+    {% endfor %}
+
+
+
+
+
+
+{% endblock main %}
+

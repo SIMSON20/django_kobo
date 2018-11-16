@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Natural Resource Governance Tool" %}{% endblock title %}
+
+{% block content %}
+
+<div class="querywrapper">
+    <div class="sidenav">
+
+
+
+      <a href="/nrgt/surveys">{% trans "My Surveys" %}</a>
+      <a href="/nrgt/landscapes">{% trans "My Landscapes" %}</a>
+
+      {% block sidenav %}
+      {% endblock sidenav %}
+
+
+    </div>
+
+
+    <div class="main">
+
+    {% block main %}
+    {% endblock main %}
+
+    </div>
+</div>
+{% endblock content %}
+
+
+
+
