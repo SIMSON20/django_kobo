@@ -24,7 +24,7 @@ class KoboData(models.Model):
     dataset_year = models.IntegerField(null=True)
     last_submission_time = models.DateTimeField(null=True)
     last_checked_time = models.DateTimeField(default=datetime.now)
-    last_update_time = models.DateTimeField(editable=False)
+    last_update_time = models.DateTimeField(null=True, editable=False)
     kobo_managed = models.BooleanField(default=True)
 
     class Meta:
