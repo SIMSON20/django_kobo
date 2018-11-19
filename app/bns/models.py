@@ -730,7 +730,7 @@ class WBIPerVillageHHType(models.Model):
     stddev_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     n = models.IntegerField(blank=True, null=True)
 
-    class Meta
+    class Meta:
         managed = False
         db_table = 'bns_wbi_village_hh_type'
 

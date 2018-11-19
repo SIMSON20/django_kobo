@@ -157,7 +157,7 @@ class NRGTFormAdmin(ImportExportModelAdmin):
                         group["group_scores/group_capacity/motivation"] if "group_scores/group_capacity/motivation" in group.keys() else \
                             None
 
-                    row["instutional_framework"] = group["group_scores/institutional_framework"] if "group_scores/institutional_framework" in group.keys() else \
+                    row["institutional_framework"] = group["group_scores/institutional_framework"] if "group_scores/institutional_framework" in group.keys() else \
                         group["group_scores/group_capacity/institutional_framework"] if "group_scores/group_capacity/institutional_framework" in group.keys() else \
                             None
 
