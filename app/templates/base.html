@@ -105,10 +105,7 @@
                                       <input name="next" type="hidden" value="{{ request.get_full_path|strip_lang }}" />
                                       <input id="form_lang" name="language" type="hidden" value="{{ LANGUAGE_CODE }}"/>
                                     </form>
-
                                         <ul role="menu" class="dropdown-menu"id="lang-dropdown">
-
-
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
                                             {% for language in languages %}
@@ -119,10 +116,9 @@
                                                     {{ language.name_local }} ({{ language.code }})</a>
                                                 </li>
                                             {% endfor %}
-
                                         </ul>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
                         </ul>
                     </div>
                 </div>

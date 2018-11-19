@@ -8,7 +8,7 @@ class Connection(models.Model):
     auth_pass = models.CharField(max_length=200)
     host_assets = models.CharField(max_length=200)
     host_api = models.CharField(max_length=200)
-    last_update_time = models.DateTimeField(null=True)
+    last_update_time = models.DateTimeField(default=datetime.now, editable=False)
 
     def __str__(self):
         return "{}@{}".format(self.auth_user, self.host_api)
@@ -23,8 +23,8 @@ class KoboData(models.Model):
     dataset_name = models.TextField(null=True)
     dataset_year = models.IntegerField(null=True)
     last_submission_time = models.DateTimeField(null=True)
-    last_checked_time = models.DateTimeField(null=True)
-    last_update_time = models.DateTimeField(default=datetime.now, editable=False)
+    last_checked_time = models.DateTimeField(default=datetime.now)
+    last_update_time = models.DateTimeField(editable=False)
     kobo_managed = models.BooleanField(default=True)
 
     class Meta:

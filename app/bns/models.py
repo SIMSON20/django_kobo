@@ -715,12 +715,14 @@ class WBIPerLandscapeGender(models.Model):
 
 class WBIPerVillageHHType(models.Model):
     table_name = "Well-being index per village and household type"
-    filter_fields = ['hh_type', 'village', 'district', 'landscape']
+    filter_fields = ['hh_type_control', 'village', 'district', 'landscape']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
-    hh_type = models.TextField(blank=True, null=True)
+    hh_type_control = models.TextField(blank=True, null=True)
+    hh_type_org_benef = models.TextField(blank=True, null=True)
+    hh_type_other_benef = models.TextField(blank=True, null=True)
     village = models.TextField(blank=True, null=True)
     district = models.TextField(blank=True, null=True)
     landscape = models.TextField(blank=True, null=True)
@@ -735,12 +737,14 @@ class WBIPerVillageHHType(models.Model):
 
 class WBIPerDistrictHHType(models.Model):
     table_name = "Well-being index per district and household type"
-    filter_fields = ['hh_type', 'district', 'landscape']
+    filter_fields = ['hh_type_control', 'district', 'landscape']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
-    hh_type = models.TextField(blank=True, null=True)
+    hh_type_control = models.TextField(blank=True, null=True)
+    hh_type_org_benef = models.TextField(blank=True, null=True)
+    hh_type_other_benef = models.TextField(blank=True, null=True)
     district = models.TextField(blank=True, null=True)
     landscape = models.TextField(blank=True, null=True)
     avg_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
@@ -754,12 +758,14 @@ class WBIPerDistrictHHType(models.Model):
 
 class WBIPerLandscapeHHType(models.Model):
     table_name = "Well-being index per landscape and household type"
-    filter_fields = ['hh_type', 'landscape']
+    filter_fields = ['hh_type_control', 'landscape']
 
     id = models.BigIntegerField(primary_key=True)
     dataset_uuid = models.ForeignKey(KoboData, on_delete=models.DO_NOTHING)
     dataset_year = models.IntegerField(blank=True, null=True)
-    hh_type = models.TextField(blank=True, null=True)
+    hh_type_control = models.TextField(blank=True, null=True)
+    hh_type_org_benef = models.TextField(blank=True, null=True)
+    hh_type_other_benef = models.TextField(blank=True, null=True)
     landscape = models.TextField(blank=True, null=True)
     avg_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)
     stddev_wbi = models.DecimalField(max_digits=29, decimal_places=6, blank=True, null=True)

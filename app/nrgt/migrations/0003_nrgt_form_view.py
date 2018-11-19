@@ -9,8 +9,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             """
-            DROP VIEW bns_form;
-
             CREATE OR REPLACE VIEW nrgt_form AS
              SELECT kobo_kobodata.dataset_id,
                 kobo_kobodata.auth_user_id,
