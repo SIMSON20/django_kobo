@@ -30,7 +30,8 @@ COPY supervisor-app.conf /etc/supervisor.d/django_project.ini
 # update hostname in nginx-app.conf
 COPY ./app/.env /home/docker/code/app/.env
 RUN source /home/docker/code/app/.env \
-    && sed -i "s/HOSTNAME/$ALLOWED_HOST/g" /etc/nginx/conf.d/default.conf
+    && sed -i "s/SERVER_URL/$SERVER_URL/g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s/SERVER_IP/$SERVER_IP/g" /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /run/nginx
 # RUN mkdir -p /etc/nginx/sites-enabled/
