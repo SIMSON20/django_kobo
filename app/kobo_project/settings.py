@@ -175,7 +175,7 @@ USE_TZ = False
 
 STATIC_ROOT = "/home/docker/code/app/static/"
 
-STATIC_URL = '/static/'
+STATIC_URL = config('URI_PREFIX') + '/static/'
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
