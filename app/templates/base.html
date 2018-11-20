@@ -37,13 +37,13 @@
                     </div>
                     <ul class="nav navbar-nav pull-right">
                         <li>
-                            <a href="/">{% trans "Home" %}</a>
+                            <a href="{% url 'home' %}">{% trans "Home" %}</a>
                         </li>
                         <li>
-                            <a href="/bns">{% trans "BNS" %}</a>
+                            <a href="{% url 'bns_index' %}">{% trans "BNS" %}</a>
                         </li>
                         <li>
-                            <a href="/nrgt">{% trans "NRGT" %}</a>
+                            <a href="{% url 'nrgt_index' %}">{% trans "NRGT" %}</a>
                         </li>
                         <li class="usaid-logo">
                             <a href="https://www.usaid.gov/" target="_blank">
@@ -70,7 +70,7 @@
                                     </button>
                                     <ul role="menu" class="dropdown-menu" id="login-dropdown">
                                         <li>
-                                            <a href="/user/{{ user.username }}" id="ember522" class="ember-view">
+                                            <a href="#" id="ember522" class="ember-view">
                                                 <div class="profile-header">
                                                     <span class="username">{{ user.username }}</span><br>
                                                     <span class="org-name small">World Resources Institute</span>
@@ -79,7 +79,7 @@
                                         </li>
                                         {% if user.is_superuser %}
                                         <li>
-                                            <a href="/admin">{% trans "Admin" %}</a>
+                                            <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
                                         </li>
                                         {% endif %}
                                         <li>

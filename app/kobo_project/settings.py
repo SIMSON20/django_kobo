@@ -173,9 +173,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = "/home/docker/code/app/static/"
+FORCE_SCRIPT_NAME='/' + config('URI_PREFIX')
 
-STATIC_URL = '/static/'
+STATIC_ROOT = "/home/docker/code/app/static/"
+STATIC_URL = ('/' + config('URI_PREFIX') + '/static/').replace('//', '/')
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
