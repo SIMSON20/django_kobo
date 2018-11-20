@@ -15,10 +15,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/AMEperHH">{% trans "Household" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/AMEperVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/AMEperDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/AMEperLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/AMEperHH">{% trans "Household" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/AMEperVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/AMEperDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/AMEperLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -26,9 +26,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/EthnicityperVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/EthnicityperDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/EthnicityperLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/EthnicityperVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/EthnicityperDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/EthnicityperLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -36,9 +36,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/GenderHeadperLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/GenderHeadperVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/GenderHeadperDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/GenderHeadperLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -46,9 +46,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/LivelihoodNBPerVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/LivelihoodNBPerDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/LivelihoodNBPerLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/LivelihoodNBPerVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/LivelihoodNBPerDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/LivelihoodNBPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -56,9 +56,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/NRCollectPerVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/NRCollectPerDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/NRCollectPerLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/NRCollectPerVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/NRCollectPerDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/NRCollectPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -66,9 +66,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/PAProjectsPerVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/PAProjectsPerDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/PAProjectsPerLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/PAProjectsPerVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/PAProjectsPerDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/PAProjectsPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -76,10 +76,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerLandscape">{% trans "Landscape" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillageDiff20152017">Diff 2015-2017</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillageDiff20152017">Diff 2015-2017</a>
       </div>
 
       <button class="dropdown-btn">
@@ -87,9 +87,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillageEthnicity">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerDistrictEthnicity">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerLandscapeEthnicity">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillageEthnicity">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerDistrictEthnicity">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerLandscapeEthnicity">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -97,9 +97,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillageGender">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerDistrictGender">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerLandscapeGender">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillageGender">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerDistrictGender">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerLandscapeGender">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -107,9 +107,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillageHHType">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerDistrictHHType">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerLandscapeHHType">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillageHHType">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerDistrictHHType">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerLandscapeHHType">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -117,9 +117,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerVillageLivelihood">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerDistrictLivelihood">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WBIPerLandscapeLivelihood">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerVillageLivelihood">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerDistrictLivelihood">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WBIPerLandscapeLivelihood">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -127,9 +127,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="/bns/surveys/{{ survey_name }}/WealthIDXPerVillage">{% trans "Village" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WealthIDXPerDistrict">{% trans "District" %}</a>
-        <a href="/bns/surveys/{{ survey_name }}/WealthIDXPerLandscape">{% trans "Landscape" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WealthIDXPerVillage">{% trans "Village" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WealthIDXPerDistrict">{% trans "District" %}</a>
+        <a href="{% url 'bns_surveys' %}{{ survey_name }}/WealthIDXPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
 
