@@ -34,11 +34,14 @@ RUN source /home/docker/code/app/.env \
     && sed -i "s/SERVER_IP/$SERVER_IP/g" /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /run/nginx
-# RUN mkdir -p /etc/nginx/sites-enabled/
-# RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
 
 COPY uwsgi.ini /home/docker/code
 COPY uwsgi_params /home/docker/code
+
+# update prefix in uwsgi.ini
+RUN source /home/docker/code/app/.env \
+    && sed -i "s/URI_PREFIX/$URI_PREFIX/g" /home/docker/code/uwsgi.ini
+
 RUN mkdir /var/log/django
 
 # expose port 80
