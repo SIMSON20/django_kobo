@@ -187,9 +187,9 @@ STATICFILES_FINDERS = [
 
 GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.so' #os.environ["GDAL_LIBRARY_PATH"]
 
-LOGIN_URL = 'login'
+LOGIN_URL = ('/' + config('URI_PREFIX') + '/oauth/login/portal').replace('//', '/')
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/' + config('URI_PREFIX')
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 

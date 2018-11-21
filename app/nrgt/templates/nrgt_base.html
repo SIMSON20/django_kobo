@@ -11,8 +11,8 @@
 
 
 
-      <a href="/nrgt/surveys">{% trans "My Surveys" %}</a>
-      <a href="/nrgt/landscapes">{% trans "My Landscapes" %}</a>
+      <a href="{% url 'nrgt_surveys' %}">{% trans "My Surveys" %}</a>
+      <a href="{% url 'nrgt_landscapes' %}">{% trans "My Landscapes" %}</a>
 
       {% block sidenav %}
       {% endblock sidenav %}

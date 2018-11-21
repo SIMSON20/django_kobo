@@ -10,7 +10,7 @@
 
     {% for landscape in landscapes %}
 
-    <a href="/nrgt/landscapes/{{ landscape.landscape }}">{{ landscape.landscape }}</a><br />
+    <a href="{% url 'nrgt_landscapes' %}{{ landscape.landscape }}">{{ landscape.landscape }}</a><br />
     {% endfor %}
 
 

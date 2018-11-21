@@ -12,8 +12,8 @@
 
 
       <div>
-        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
-        <a href="/nrgt/surveys/{{ survey_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
+        <a href="{% url 'nrgt_surveys' %}{{ survey_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
+        <a href="{% url 'nrgt_surveys' %}{{ survey_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
 
       </div>
 

@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
 
 <div class="home_container">
-  <img class="coverimg" src="/static/img/Makao.jpg" alt="CARPE Surveys" style="width:100%;">
+  <img class="coverimg" src="{% static 'img/Makao.jpg' %}" alt="CARPE Surveys" style="width:100%;">
   <div class="centered">
     <h1>{% trans "CARPE Surveys" %}</h1>
   <div class="subtitle">{% trans "Basic Necessity Survey and Natural Resource Governance Tool" %}</div>

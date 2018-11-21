@@ -13,8 +13,8 @@
 
       <div>
 
-          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
-          <a href="/nrgt/landscapes/{{ landscape_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
+          <a href="{% url 'nrgt_landscapes' %}{{ landscape_name }}/NRGTGroupScores">{% trans "Group Scores" %}</a>
+          <a href="{% url 'nrgt_landscapes' %}{{ landscape_name }}/NRGTGroupAttributes">{% trans "Group Attributes" %}</a>
 
       </div>
 
