@@ -66,3 +66,7 @@ cdvenv/*
 #django
 #settings.py
 .env
+
+#any certificate
+certificate.crt
+certificate.key

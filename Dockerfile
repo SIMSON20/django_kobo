@@ -19,19 +19,29 @@ RUN addgroup $USER \
 COPY app/requirements.txt /home/docker/code/app/
 RUN pip  install -r /home/docker/code/app/requirements.txt
 
-# add (the rest of) our code
-# COPY . /home/docker/code/
-
 # setup all the configfiles
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY nginx-app.conf /etc/nginx/conf.d/default.conf
 COPY supervisor-app.conf /etc/supervisor.d/django_project.ini
 
+
+# Copy certificate files
+ENV CRT_FILE certificate.crt
+ENV KEY_FILE certificate.key
+
+COPY certificate.crt /etc/ssl/certs/$CRT_FILE
+COPY certificate.key /etc/ssl/private/$KEY_FILE
+
 # update hostname in nginx-app.conf
+#configure SSL certificates
 COPY ./app/.env /home/docker/code/app/.env
 RUN source /home/docker/code/app/.env \
     && sed -i "s/SERVER_URL/$SERVER_URL/g" /etc/nginx/conf.d/default.conf \
-    && sed -i "s/SERVER_IP/$SERVER_IP/g" /etc/nginx/conf.d/default.conf
+    && sed -i "s/SERVER_IP/$SERVER_IP/g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s/URI_PREFIX/$URI_PREFIX/g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s/KEY_FILE/$KEY_FILE/g" /etc/nginx/conf.d/default.conf \
+    && sed -i "s/CRT_FILE/$CRT_FILE/g" /etc/nginx/conf.d/default.conf
+
 
 RUN mkdir -p /run/nginx
 
@@ -46,5 +56,6 @@ RUN mkdir /var/log/django
 
 # expose port 80
 EXPOSE 80
+EXPOSE 443
 
 # CMD ["supervisord", "-n"]
