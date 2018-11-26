@@ -19,6 +19,7 @@ services:
       - ./app:/home/docker/code/app
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
     - postgis
     restart: unless-stopped
