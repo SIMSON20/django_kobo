@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-15 01:51+0000\n"
+"POT-Creation-Date: 2018-11-28 17:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -363,7 +363,7 @@ msgstr ""
 msgid "NRGT Surveys"
 msgstr "Mes enquêtes"
 
-#: templates/base.html:19 templates/home.html:11
+#: templates/base.html:19 templates/home.html:12
 msgid "CARPE Surveys"
 msgstr ""
 
@@ -383,7 +383,7 @@ msgstr ""
 msgid "Login"
 msgstr "Connexion"
 
-#: templates/base.html:148
+#: templates/base.html:144
 msgid ""
 "The information provided on this web site is not official U.S. Government "
 "information and does not represent the views or positions of the U.S. Agency "
@@ -403,15 +403,19 @@ msgstr ""
 msgid "next"
 msgstr ""
 
-#: templates/home.html:12
+#: templates/home.html:13
 msgid "Basic Necessity Survey and Natural Resource Governance Tool"
 msgstr ""
 
-#: templates/home.html:17
+#: templates/home.html:15
+msgid "Photo credits: Sébastien Assoignons"
+msgstr ""
+
+#: templates/home.html:19
 msgid "About <span class=\"c-theme-font\">Surveys</span>"
 msgstr ""
 
-#: templates/home.html:21
+#: templates/home.html:23
 msgid ""
 "During the last decade, the conservation community has made significant "
 "progress developing robust methods for monitoring the status of conservation "
@@ -425,7 +429,7 @@ msgid ""
 "lives are influenced by conservation actions."
 msgstr ""
 
-#: templates/home.html:23
+#: templates/home.html:25
 msgid ""
 "Without access to a suitable governance assessment tool, conservation and "
 "development practitioners may have no clear sense of the factors most likely "
@@ -439,7 +443,7 @@ msgid ""
 "Resource Governance Tool (NRGT)."
 msgstr ""
 
-#: templates/home.html:25
+#: templates/home.html:27
 msgid ""
 "The Basic Necessities Survey (BNS), originally developed by Rick Davies, is "
 "the result of comparable effort led by the Wildlife Conservation Society "
@@ -454,11 +458,11 @@ msgid ""
 "work."
 msgstr ""
 
-#: templates/home.html:39
+#: templates/home.html:41
 msgid "About <span class=\"c-theme-font\">CARPE</span>"
 msgstr ""
 
-#: templates/home.html:44
+#: templates/home.html:46
 msgid ""
 "CARPE is a long-term initiative of the United States Government to improve "
 "the management of the Congo Basin’s biodiversity and natural resources. "
@@ -470,7 +474,7 @@ msgid ""
 "Institute, World Wildlife Fund and other partners."
 msgstr ""
 
-#: templates/home.html:45
+#: templates/home.html:47
 msgid ""
 "The CARPE Survey website is hosted at <a href=\"http://www.wri.org/\" target="
 "\"_blank\">World Resources Institute</a>."
