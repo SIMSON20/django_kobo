@@ -6,7 +6,7 @@
 {% block main %}
 
 
-    <h2>{% trans "NRGT Surveys in Landscape" %} {{ landscape_name }}</h2>
+    <h2>{% trans "CARPE - NRGT Surveys in Landscape" %} {{ landscape_name }}</h2>
 
     {% for survey in surveys %}
     <a href="{% url 'nrgt_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
