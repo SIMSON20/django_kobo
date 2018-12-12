@@ -124,6 +124,31 @@ class Price(models.Model):
         verbose_name_plural = 'Answers - Prices'
 
 
+class District(models.Model):
+    district = models.TextField()
+    landscape = models.TextField()
+    geom = models.MultiPolygonField()
+
+    class Meta:
+        verbose_name = 'District Boundary'
+        verbose_name_plural = 'District Boundaries'
+
+    def __str__(self):
+        return "{} ({})".format(self.district, self.landscape)
+
+
+class Landscape(models.Model):
+    landscape = models.TextField()
+    geom = models.MultiPolygonField()
+
+    class Meta:
+        verbose_name = 'Landscape Boundary'
+        verbose_name_plural = 'Landscape Boundaries'
+
+    def __str__(self):
+        return self.landscape
+
+
 class BNSForm(models.Model):
     dataset_id = models.BigIntegerField(primary_key=True)
     auth_user = models.ForeignKey(Connection, on_delete=models.DO_NOTHING)
