@@ -1,0 +1,95 @@
+{% block extrastyle %}
+{% load i18n static %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<style type="text/css">
+  #{{ id }}_map { width: {{ map_width }}px; height: {{ map_height }}px; }
+  #{{ id }}_map .aligned label { float:inherit; }
+  #{{ id }}_admin_map { position: relative; vertical-align: top; float: {{ LANGUAGE_BIDI|yesno:"right,left" }}; }
+  {% if not display_wkt %}#{{ id }} { display: none; }{% endif %}
+  .olControlEditingToolbar .olControlModifyFeatureItemActive {
+     background-image: url("{% static "admin/img/gis/move_vertex_on.svg" %}");
+     background-repeat: no-repeat;
+  }
+  .olControlEditingToolbar .olControlModifyFeatureItemInactive {
+     background-image: url("{% static "admin/img/gis/move_vertex_off.svg" %}");
+     background-repeat: no-repeat;
+  }
+</style>
+<!--[if IE]>
+<style type="text/css">
+  /* This fixes the mouse offset issues in IE. */
+  #{{ id }}_admin_map { position: static; vertical-align: top; }
+  /* `font-size: 0` fixes the 1px border between tiles, but borks LayerSwitcher.
+      Thus, this is disabled until a better fix is found.
+  #{{ id }}_map { width: {{ map_width }}px; height: {{ map_height }}px; font-size: 0; } */
+</style>
+<![endif]-->
+{% endblock %}
+<span id="{{ id }}_admin_map">
+<script type="text/javascript">
+//<![CDATA[
+{% block openlayers %}{% include "gis/admin/openlayers.js" %}{% endblock %}
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var $ = django.jQuery;
+
+$(function(){
+
+    $('#shpfile').on('change', function() {
+
+        // Some placeholder to add some file verifications
+        // Can make use of:
+        // file.size
+        // file.name
+        // file.type
+
+    });
+
+    $('#shpbutton').on('click', function() {
+        $.ajax({
+            // Using  GFW API to convert SHP
+            // Eventually might need to implement something within the app itself
+
+            url: 'http://production-api.globalforestwatch.org/v1/ogr/convert',
+            type: 'POST',
+
+            // Form data
+            data: new FormData($('form')[0]),
+
+            // Tell jQuery not to process data or worry about content-type
+            // You *must* include these options!
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            dataType: 'json',
+
+            success: function (data) {
+
+                var gformat = new OpenLayers.Format.GeoJSON();
+                var feats = gformat.read(JSON.stringify(data.data.attributes));
+                {{ module }}.layers.vector.addFeatures(feats);
+                {{ module }}.map.zoomToExtent({{ module }}.layers.vector.getDataExtent());
+
+            }
+
+        });
+    });
+});
+//]]>
+</script>
+
+<div id="{{ id }}_map"{% if LANGUAGE_BIDI %} dir="ltr"{% endif %}></div>
+{% if editable %}
+<form enctype="multipart/form-data" id="shpform">
+    <input name="file" type="file" id="shpfile" />
+    <input type="button" value="Upload" id="shpbutton"/>
+</form>
+<a href="javascript:{{ module }}.clearFeatures()">{% trans "Delete all Features" %}</a>
+{% endif %}
+{% if display_wkt %}<p>{% trans "WKT debugging window:" %} </p>{% endif %}
+<textarea id="{{ id }}" class="vWKTField required" cols="150" rows="10" name="{{ name }}">{{ wkt }}</textarea>
+<script type="text/javascript">{% block init_function %}{{ module }}.init();{% endblock %}</script>
+</span>

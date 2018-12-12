@@ -1,11 +1,12 @@
 from django.contrib import admin, messages
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.gis.admin import GeoModelAdmin
-from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price, BNSForm, BNSFormPrice
+from .models import AME, Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price, BNSForm, BNSFormPrice, District, Landscape
 from .resources import AMEFromFileResource, AnswerFromFileResource, AnswerFromKoboResource, AnswerGPSFromKoboResource, \
                             AnswerGPSFromFileResource, AnswerGSFromFileResource, AnswerGSFromKoboResource, \
                             AnswerHHMembersFromFileResource, AnswerHHMembersFromKoboResource, \
                             AnswerNRFromFileResource, AnswerNRFromKoboResource, PriceFromKoboResource
+
 import json
 from datetime import datetime
 import tablib
@@ -86,6 +87,24 @@ class PriceAdmin(ImportExportModelAdmin):
     list_display = ['dataset_uuid', 'village', 'gs', 'price']
 
 
+@admin.register(District)
+class DistrictAdmin(GeoModelAdmin):
+    """
+    Admin class for Districts
+    """
+    map_template = 'admin/shp_file_upload.html'
+    list_display = ['district', 'landscape']
+
+
+@admin.register(Landscape)
+class LandscapeAdmin(GeoModelAdmin):
+    """
+    Admin class for Landscapes
+    """
+    map_template = 'admin/shp_file_upload.html'
+    list_display = ['landscape']
+
+
 @admin.register(BNSForm)
 class BNSFormAdmin(ImportExportModelAdmin):
     """
@@ -93,7 +112,6 @@ class BNSFormAdmin(ImportExportModelAdmin):
     """
     list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
-
 
     def sync(self, request, queryset):
         """
