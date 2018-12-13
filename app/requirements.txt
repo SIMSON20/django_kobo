@@ -3,6 +3,7 @@ django_tables2
 django_filter
 django_bootstrap4
 django-import-export
+django-leaflet
 gdal==2.3.2
 psycopg2
 requests

@@ -5,5 +5,9 @@
 
 {% block main %}
 <h2>{{ survey_name }}</h2>
-<p>{% trans "more text here" %}</p>
+
+{% leaflet_js %}
+{% leaflet_css %}
+{% leaflet_map "yourmap" %}
+
 {% endblock %}
