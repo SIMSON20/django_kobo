@@ -1,7 +1,13 @@
 from django.urls import path
 from . import views
+from .models import Landscape
+from django.conf.urls import url
+# from djgeojson.views import GeoJSONLayerView
 
 urlpatterns = [
+
+  #  url(r'^landscape.geojson$', GeoJSONLayerView.as_view(model=Landscape), name='landscape'),
+
     # ex: /bns/
     path('', views.index, name='bns_index'),
 

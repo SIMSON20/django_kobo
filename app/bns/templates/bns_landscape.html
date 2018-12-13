@@ -15,9 +15,16 @@
 
 {% leaflet_js %}
 {% leaflet_css %}
-{% leaflet_map "yourmap" %}
 
+<script type="text/javascript">
+    function map_init(map, options) {
+        var layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
+        map.fitBounds(layer.getBounds());
 
+    }
+</script>
+
+{% leaflet_map "yourmap" callback="window.map_init" %}
 
 {% endblock main %}
 
