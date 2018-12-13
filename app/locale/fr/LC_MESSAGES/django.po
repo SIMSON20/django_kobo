@@ -20,7 +20,7 @@ msgstr ""
 
 #: bns/templates/bns_base.html:5 bns/templates/bns_home.html:5
 msgid "Basic Necessities Surveys"
-msgstr ""
+msgstr "Enquête sur les Nécessités de Base (BNS)"
 
 #: bns/templates/bns_base.html:14 nrgt/templates/nrgt_base.html:14
 msgid "My Surveys"
@@ -32,7 +32,7 @@ msgstr "Mes paysages"
 
 #: bns/templates/bns_home.html:8
 msgid "Basic Necessities Survey"
-msgstr ""
+msgstr "Enquête sur les Nécessités de Base (BNS)"
 
 #: bns/templates/bns_home.html:10
 msgid ""
@@ -48,10 +48,10 @@ msgid ""
 "reasonable walking distance to health care, children attending school, women "
 "participating in community decision making, or absence of domestic violence, "
 "etc. Families who do not own or have access to this basket of goods and "
-"services are, by community de nition, not meeting a basic, minimum standard "
+"services are, by community definition, not meeting a basic, minimum standard "
 "of well-being and thus according to the community-defined are poor (i.e., "
 "living below the community de ned poverty line)."
-msgstr ""
+msgstr "La BNS n'est pas fondée sur l'hypothèse que les gens vont bien s'ils gagnent plus de 1 à 2 dollars par jour, ou qu'ils vivent dans la pauvreté s'ils gagnent moins. Elle repose plutôt sur la compréhension que les gens eux-mêmes sont les mieux placés pour décider de ce qui constitue le bien-être. L'approche se fonde sur une définition de la pauvreté des Nations Unies, à savoir le manque de produits de première nécessité. Plus précisément, l'approche demande aux communautés de définir quels biens et services sont nécessaires pour qu'une famille puisse subvenir à ses besoins fondamentaux. Des exemples de biens comprennent des articles tels qu'une hache, un téléphone portable, un lit ou un foyer. Les services peuvent inclure : l'accès à l'eau potable à moins de 15 minutes de marche, des soins de santé à distance raisonnable, la fréquentation scolaire des enfants, la participation des femmes à la prise de décision communautaire, l'absence de violence domestique, etc. Les familles qui n'ont pas accès à ce panier de biens et de services ou qui n'en sont pas propriétaires ne répondent pas, par définition, à une norme minimale de bien-être de base et, selon la définition communautaire, sont pauvres (c.-à-d. vivent sous le seuil de pauvreté de la collectivité)."
 
 #: bns/templates/bns_home.html:12
 #, python-format
@@ -64,25 +64,25 @@ msgid ""
 "indexes are based on the sum of the weightings of the basic necessities they "
 "have, as a percentage of the total they could have if they had all basic "
 "necessities."
-msgstr ""
+msgstr "Les produits de première nécessité sont définis démocratiquement comme étant les articles dont 50 % ou plus des répondants s'accordent à dire qu'ils " sont des produits de première nécessité que tout le monde devrait avoir et dont personne ne devrait se passer ". Les éléments sont pondérés en fonction de leur importance selon le pourcentage de répondants qui disent que c'est un besoin fondamental (c.-à-d. entre 50 % et 100 %). Les indices de bien-être des répondants sont sur la somme des pondérations des produits de première nécessité dont ils disposent, en pourcentage du total qu'ils pourraient avoir s'ils avaient tous les produits de première nécessité."
 
 #: bns/templates/bns_home.html:14
 msgid "Steps to implement the BNS are described in details in the guide below."
-msgstr ""
+msgstr "Les étapes pour mettre en oeuvre le BNS sont décrites en détail dans le guide ci-dessous."
 
 #: bns/templates/bns_landscape.html:4 bns/templates/bns_landscape_query.html:4
 #: bns/templates/bns_survey.html:4 bns/templates/bns_survey_query.html:4
 #: bns/templates/bns_surveys.html:4 templates/base.html:43
 msgid "BNS"
-msgstr ""
+msgstr "BNS"
 
 #: bns/templates/bns_landscape.html:9
 msgid "BNS Surveys in Landscape"
-msgstr ""
+msgstr "Enquêtes BNS dans les paysages"
 
 #: bns/templates/bns_landscape_base.html:4 bns/templates/bns_survey_base.html:4
 msgid "Basic Necessity Surveys"
-msgstr ""
+msgstr "Enquête sur les Nécessités de Base (BNS)"
 
 #: bns/templates/bns_landscape_base.html:10
 #: bns/templates/bns_landscape_base.html:21
@@ -114,12 +114,12 @@ msgstr "Paysage"
 #: bns/templates/bns_landscape_base.html:14
 #: bns/templates/bns_survey_base.html:14
 msgid "AME"
-msgstr ""
+msgstr "Equivalent Male Adulte (AME)"
 
 #: bns/templates/bns_landscape_base.html:18
 #: bns/templates/bns_survey_base.html:18
 msgid "Household"
-msgstr "Menage"
+msgstr "Ménage"
 
 #: bns/templates/bns_landscape_base.html:19
 #: bns/templates/bns_landscape_base.html:29
@@ -170,26 +170,26 @@ msgstr "District"
 #: bns/templates/bns_landscape_base.html:25
 #: bns/templates/bns_survey_base.html:25
 msgid "Ethnicity"
-msgstr ""
+msgstr "Ethnie"
 
 #: bns/templates/bns_landscape_base.html:35
 msgid "Gender of household head"
-msgstr ""
+msgstr "Genre du chef de ménage"
 
 #: bns/templates/bns_landscape_base.html:45
 #: bns/templates/bns_survey_base.html:45
 msgid "Livelihoods"
-msgstr ""
+msgstr "Activités de subsistance"
 
 #: bns/templates/bns_landscape_base.html:55
 #: bns/templates/bns_survey_base.html:55
 msgid "Natural resource collection"
-msgstr ""
+msgstr "Collecte des ressources naturelles"
 
 #: bns/templates/bns_landscape_base.html:65
 #: bns/templates/bns_survey_base.html:65
-msgid "Protected area projects"
-msgstr ""
+msgid "Protected area and projects"
+msgstr "Aires protégées et projets"
 
 #: bns/templates/bns_landscape_base.html:75
 #: bns/templates/bns_survey_base.html:75
@@ -199,30 +199,30 @@ msgstr "Indice de bien-être"
 #: bns/templates/bns_landscape_base.html:86
 #: bns/templates/bns_survey_base.html:86
 msgid "Well being index per ethnicity"
-msgstr ""
+msgstr "Indice de bien-être par ethnie"
 
 #: bns/templates/bns_landscape_base.html:96
 #: bns/templates/bns_survey_base.html:96
 msgid "Well being index per gender"
-msgstr ""
+msgstr "Indice de bien-être par genre"
 
 #: bns/templates/bns_landscape_base.html:106
 msgid "Well being index per household type"
-msgstr ""
+msgstr "Indice de bien-être par type de ménage"
 
 #: bns/templates/bns_landscape_base.html:116
 #: bns/templates/bns_survey_base.html:116
 msgid "Well being index per livelihood"
-msgstr ""
+msgstr "Indice de bien-être par activité de subsistance"
 
 #: bns/templates/bns_landscape_base.html:126
 #: bns/templates/bns_survey_base.html:126
 msgid "Wealth Index"
-msgstr ""
+msgstr "Indice de Richesse"
 
 #: bns/templates/bns_landscapes.html:4 bns/templates/bns_landscapes.html:9
 msgid "BNS Landscapes"
-msgstr ""
+msgstr "Paysages BNS"
 
 #: bns/templates/bns_survey.html:8 nrgt/templates/nrgt_survey.html:8
 msgid "more text here"
@@ -232,24 +232,24 @@ msgstr ""
 #: nrgt/templates/nrgt_survey_base.html:10
 #: nrgt/templates/nrgt_survey_query.html:13
 msgid "Survey"
-msgstr ""
+msgstr "Enquête"
 
 #: bns/templates/bns_survey_base.html:35
 msgid "Gender of Household head"
-msgstr ""
+msgstr "Genre du chef de ménage"
 
 #: bns/templates/bns_survey_base.html:106
 msgid "Well being index per Household type"
-msgstr ""
+msgstr "Indice de bien-être par type de ménage"
 
 #: bns/templates/bns_survey_query.html:28
 msgid "Select format:"
-msgstr ""
+msgstr "Sélectionner le format"
 
 #: bns/templates/bns_survey_query.html:35
 #: nrgt/templates/nrgt_survey_query.html:36
 msgid "Download"
-msgstr ""
+msgstr "Télécharger"
 
 #: bns/templates/bns_surveys.html:9
 #, fuzzy
@@ -263,13 +263,13 @@ msgstr "Anglais"
 
 #: kobo_project/settings.py:152
 msgid "French"
-msgstr "Francais"
+msgstr "Français"
 
 #: nrgt/templates/nrgt_base.html:5 nrgt/templates/nrgt_home.html:5
 #: nrgt/templates/nrgt_home.html:8 nrgt/templates/nrgt_landscape_base.html:4
 #: nrgt/templates/nrgt_survey_base.html:4
 msgid "Natural Resource Governance Tool"
-msgstr ""
+msgstr "Outil de la Gouvernance des Ressources Naturelles (NRGT)"
 
 #: nrgt/templates/nrgt_home.html:10
 msgid ""
@@ -277,7 +277,7 @@ msgid ""
 "governance strengths and weaknesses of groups with legitimate jurisdiction "
 "over the management of natural resources within a given landscape or "
 "seascape, and how these change over time."
-msgstr ""
+msgstr "Le NRGT est un outil relativement simple, peu coûteux et reproductible pour évaluer les forces et les faiblesses de gouvernance des groupes ayant une juridiction légitime sur la gestion des ressources naturelles dans un paysage donné, et la façon dont elles évoluent au fil du temps."
 
 #: nrgt/templates/nrgt_home.html:12
 msgid ""
@@ -288,7 +288,7 @@ msgid ""
 "conservation effectiveness within the landscape or seascape. Once the "
 "governance groups identified are ranked by influence, few groups per "
 "landscape should be selected to participate in the NRGT."
-msgstr ""
+msgstr "Après avoir identifié et cartographié les principaux groupes de gouvernance au sein d'un paysage, ils sont classés en termes d'influence. L'influence peut être considérée comme un mélange de couverture spatiale, d'étendue des ressources régies et de la question de savoir si l'absence d'un groupe de gouvernance particulier compromettrait sérieusement l'efficacité de la conservation dans le paysage terrestre ou marin. Une fois que les groupes de gouvernance identifiés sont classés par ordre d'influence, un petit nombre de groupes par paysage devraient être sélectionnés pour participer au NRGT."
 
 #: nrgt/templates/nrgt_home.html:14
 msgid ""
@@ -299,7 +299,7 @@ msgid ""
 "people from different places within the group’s jurisdiction, and in the "
 "case of the governance group people from different positions of "
 "responsibility."
-msgstr ""
+msgstr "Pour chaque groupe de gouvernance à évaluer, les membres du groupe de gouvernance et les personnes dont la vie est influencée par les décisions du groupe seront interrogés à l'aide du questionnaire NRGT. Pour obtenir un éventail d'opinions, il est important de choisir, dans la mesure du possible, un nombre égal d'hommes et de femmes, des personnes provenant de différents endroits sous la juridiction du groupe et, dans le cas du groupe de gouvernance, de personnes occupant différents postes de responsabilité."
 
 #: nrgt/templates/nrgt_home.html:16
 msgid ""
@@ -307,7 +307,7 @@ msgid ""
 "for each sub-attribute in the questionnaire. Generating scores helps keep "
 "track of governance strengths and weaknesses over time, and allows for "
 "evaluation of the impact of targeted investments in governance strengthening."
-msgstr ""
+msgstr "Une fois toutes les enquêtes terminées, l'équipe doit se regrouper et attribuer une note à chaque sous-attribut du questionnaire. Les scores permettent de suivre les forces et les faiblesses de la gouvernance au fil du temps et d'évaluer l'impact des investissements ciblés dans le renforcement de la gouvernance."
 
 #: nrgt/templates/nrgt_home.html:18
 msgid ""
@@ -319,33 +319,33 @@ msgid ""
 "drawing up an action plan to implement specific governance strengthening "
 "activities. Finally, the team will implement activities to address weakness "
 "and strengthen each group’s ability to govern effectively."
-msgstr ""
+msgstr "Les données sont ensuite saisies dans une base de données qui calculera automatiquement les moyennes des trois attributs de gouvernance par groupe et par année. L'équipe devra faire une analyse narrative des réponses et des recommandations, évaluer les possibilités de renforcer la capacité de ces groupes pour gouverner la conservation et l'utilisation durable des ressources naturelles, et élaborer un plan d'action pour mettre en œuvre des activités spécifiques de renforcement de la gouvernance. Enfin, l'équipe mettra en œuvre ces activités pour corriger les faiblesses et renforcer la capacité de chaque groupe à gouverner efficacement."
 
 #: nrgt/templates/nrgt_home.html:20
 msgid ""
 "Steps to implement the NRGT are described in details in the guide below."
-msgstr ""
+msgstr "Les étapes pour mettre en oeuvre le NRGT sont décrites en détail dans le guide ci-dessous."
 
 #: nrgt/templates/nrgt_landscape.html:4
 #: nrgt/templates/nrgt_landscape_query.html:4 nrgt/templates/nrgt_survey.html:4
 #: nrgt/templates/nrgt_survey_query.html:5 nrgt/templates/nrgt_surveys.html:4
 #: templates/base.html:46
 msgid "NRGT"
-msgstr ""
+msgstr "NRGT"
 
 #: nrgt/templates/nrgt_landscape.html:9
 msgid "NRGT Surveys in Landscape"
-msgstr ""
+msgstr "Enquêtes NRGT dans les paysages"
 
 #: nrgt/templates/nrgt_landscape_base.html:16
 #: nrgt/templates/nrgt_survey_base.html:15
 msgid "Group Scores"
-msgstr ""
+msgstr "Sous attributs de gouvernance"
 
 #: nrgt/templates/nrgt_landscape_base.html:17
 #: nrgt/templates/nrgt_survey_base.html:16
 msgid "Group Attributes"
-msgstr ""
+msgstr "Attributs de gouvernance"
 
 #: nrgt/templates/nrgt_landscapes.html:4 nrgt/templates/nrgt_landscapes.html:9
 #, fuzzy
@@ -355,7 +355,7 @@ msgstr "Mes paysages"
 
 #: nrgt/templates/nrgt_survey_query.html:29
 msgid "Select format"
-msgstr ""
+msgstr "Sélectionner le format"
 
 #: nrgt/templates/nrgt_surveys.html:9
 #, fuzzy
@@ -365,7 +365,7 @@ msgstr "Mes enquêtes"
 
 #: templates/base.html:19 templates/home.html:11
 msgid "CARPE Surveys"
-msgstr ""
+msgstr "Enquêtes CARPE"
 
 #: templates/base.html:40
 msgid "Home"
@@ -373,11 +373,11 @@ msgstr "Acceuil"
 
 #: templates/base.html:82
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: templates/base.html:86
 msgid "Sign Out"
-msgstr ""
+msgstr "Déconnexion"
 
 #: templates/base.html:93
 msgid "Login"
@@ -388,11 +388,11 @@ msgid ""
 "The information provided on this web site is not official U.S. Government "
 "information and does not represent the views or positions of the U.S. Agency "
 "for International Development or the U.S. Government."
-msgstr ""
+msgstr "Les informations fournies sur ce site Web ne constituent pas des informations officielles du gouvernement des États-Unis et ne représentent pas les vues ou les positions de l'Agence des États-Unis pour le Développement International ou du gouvernement des États-Unis."
 
 #: templates/bootstrap.html:61
 msgid "previous"
-msgstr ""
+msgstr "Précedent"
 
 #: templates/bootstrap.html:69
 #, python-format
@@ -401,15 +401,15 @@ msgstr ""
 
 #: templates/bootstrap.html:77
 msgid "next"
-msgstr ""
+msgstr "Suivant"
 
 #: templates/home.html:12
-msgid "Basic Necessity Survey and Natural Resource Governance Tool"
-msgstr ""
+msgid "Basic Necessities Survey and Natural Resource Governance Tool"
+msgstr "Enquête sur les Nécessités de base (BNS) et Outil de la Gouvernance des Ressources Naturelles (NRGT)"
 
 #: templates/home.html:17
 msgid "About <span class=\"c-theme-font\">Surveys</span>"
-msgstr ""
+msgstr "A propos des <span class=\"c-theme-font\">Enquêtes</span>"
 
 #: templates/home.html:21
 msgid ""
@@ -423,7 +423,7 @@ msgid ""
 "use, nor on how to best assess the impacts (positive and negative) of "
 "conservation investments on the livelihoods and well-being of people whose "
 "lives are influenced by conservation actions."
-msgstr ""
+msgstr "Au cours de la dernière décennie, la communauté de la conservation a fait d'importants progrès dans l'élaboration de méthodes robustes de surveillance de l'état des espèces protégées, des cibles et des menaces pour les habitats (piégeage par caméra, transects linéaires, analyse d'images de télédétection, surveillance des patrouilles de rangers et des forces de police, et surveillance communautaire). Cependant, nous n'avons pas fait de progrès similaires dans l'élaboration d'outils permettant de suivre régulièrement et de rendre compte de manière crédible des progrès des systèmes de gouvernance qui garantissent une utilisation durable des ressources, ni sur la meilleure façon d'évaluer les impacts (positifs et négatifs) des investissements dans la conservation sur les moyens de subsistance et le bien-être des personnes dont les vies sont influencées par des mesures de conservation."
 
 #: templates/home.html:23
 msgid ""
@@ -437,7 +437,7 @@ msgid ""
 "and weaknesses of all governance bodies with jurisdiction over natural "
 "resource management within a given landscape or seascape : the Natural "
 "Resource Governance Tool (NRGT)."
-msgstr ""
+msgstr "Sans accès à un outil approprié d'évaluation de la gouvernance, les praticiens de la conservation et du développement ne peuvent pas avoir une idée claire des facteurs les plus susceptibles de faciliter la bonne gouvernance, ni de processus clair pour identifier comment remédier aux facteurs qui militent contre la bonne gouvernance. Après deux ans d'investissement et d'essais sur le terrain, l'USAID et ses partenaires de la conservation ont lancé, lors du Congrès Mondial sur les Parcs de 2014 à Sydney en Australie, un nouvel outil quantitatif crédible, peu coûteux et fondé sur l'avis d'experts pour évaluer les forces et faiblesses des organes de gouvernance ayant juridiction sur la gestion des ressources naturelles dans un paysage ou paysage marin donné : l'Outil de la Gouvernance des Ressources Naturelles (Natural Resource Governance Tool - NRGT)."
 
 #: templates/home.html:25
 msgid ""
@@ -452,11 +452,11 @@ msgid ""
 "track and assess the effect of conservation actions on the well-being of "
 "people who live within the landscapes and seascapes where conservationists "
 "work."
-msgstr ""
+msgstr "L'Enquête sur les Nécessités de Base (Basic Necessities Survey - BNS), développée à l'origine par Rick Davies, est le résultat d'un effort comparable mené par la Wildlife Conservation Society avec le soutien de l'USAID, pour fournir aux praticiens de la conservation un outil peu coûteux pour évaluer de manière crédible comment les mesures de conservation affectent les moyens de subsistance et le bien-être des familles, et suivre les changements dans les villages et à l'échelle mondiale. Étant donné que des moyens de subsistance sûrs et la gérance de la conservation sont étroitement liés et que la conservation ne devrait, au pire, pas nuire aux moyens de subsistance des gens, nous avons besoin d'un moyen de suivre et d'évaluer l'effet des mesures de conservation sur le bien-être des gens qui vivent dans les paysages terrestres et marins où les conservationnistes travaillent. "
 
 #: templates/home.html:39
 msgid "About <span class=\"c-theme-font\">CARPE</span>"
-msgstr ""
+msgstr "A propos de <span class=\"c-theme-font\">CARPE</span>"
 
 #: templates/home.html:44
 msgid ""
@@ -468,10 +468,11 @@ msgid ""
 "Foundation, the U.S. Fish and Wildlife Service, the U.S. Forest Service, the "
 "University of Maryland, the Wildlife Conservation Society, World Resources "
 "Institute, World Wildlife Fund and other partners."
-msgstr ""
+msgstr "CARPE est une initiative à long terme du gouvernement des États-Unis visant à améliorer la gestion de la biodiversité et des ressources naturelles du bassin du Congo. Financé principalement par l'Agence des États-Unis pour le Développement International (avec un financement supplémentaire du Fish and Wildlife Service des États-Unis), CARPE est mis en œuvre en collaboration avec African Parks, African Wildlife Foundation, U.S. Fish and Wildlife Service, U.S. Forest Service, University of Maryland, Wildlife Conservation Society, World Resources Institute, World Wildlife Fund et d'autres partenaires."
 
 #: templates/home.html:45
 msgid ""
 "The CARPE Survey website is hosted at <a href=\"http://www.wri.org/\" target="
 "\"_blank\">World Resources Institute</a>."
-msgstr ""
+msgstr "Le site Enquêtes CARPE est hébergé sur <a href=\"http://www.wri.org/\" target="
+"\"_blank\">World Resources Institute</a>."
