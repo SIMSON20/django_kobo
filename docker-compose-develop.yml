@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  postgis:
+    image: mdillon/postgis:11
+    volumes:
+     - postgres_data:/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: $PG_DB
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PW
+
+  web:
+    build: .
+    command: python /home/docker/code/app/manage.py runserver 0.0.0.0:80
+    volumes:
+      - ./app:/home/docker/code/app
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+    - postgis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

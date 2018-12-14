@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Answer
+from .models import Answer, Landscape
 from kobo.models import KoboData
 from django_tables2 import RequestConfig
 from django.apps import apps
@@ -74,8 +74,14 @@ def landscapes(request):
 
 @login_required
 def landscape(request, landscape_name):
+
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
-    return render(request, 'bns_landscape.html', {'surveys': surveys, 'landscape_name': landscape_name})
+    landscape_boundaries = Landscape.objects.raw("SELECT id, landscape,  ST_AsGeoJSON(geom) as geojson FROM bns_landscape WHERE landscape = '{}' LIMIT 1".format(landscape_name))[0]
+
+    geom = landscape_boundaries.geojson
+    geojson = '{"type": "Feature", "properties": {"landscape": "%s"}, "geometry": %s }' % (landscape_name, geom)
+
+    return render(request, 'bns_landscape.html', {'surveys': surveys, 'landscape_geojson': geojson, 'landscape_name': landscape_name})
 
 
 @login_required
