@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django_tables2',
     'django_filters',
     'bootstrap4',
+    'leaflet',
+    #'djgeojson',
     'social_django',
     'custom_auth.apps.CustomAuthConfig',
     'tags.apps.TagConfig',

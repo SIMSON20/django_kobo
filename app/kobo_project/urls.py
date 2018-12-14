@@ -37,5 +37,5 @@ urlpatterns += i18n_patterns(
     url(r'^login/$', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-prefix_default_language=False)
+    prefix_default_language=False)
 
