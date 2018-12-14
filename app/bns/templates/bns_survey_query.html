@@ -24,17 +24,12 @@
     {% render_table table 'bootstrap.html' %}
 
     <div class="pull-right">
-    <form >
-        {% trans "Select format:" %}
-        <select id="filename">
-                {% for format in table.export_formats %}
-                    <option value="{{ request.get_full_path }}{% export_url format %}">{{ format }}</option>
-                {% endfor %}
-        </select>
-        <button onclick="window.location.href=document.getElementById('filename').value"  class="btn btn-default">
-            {% trans "Download" %}
-        </button>
-    </form>
+
+        {% trans Download as %}:
+        {% for format in table.export_formats %}
+        <a href="{{ request.get_full_path }}{% export_url format %}">{{ format }}</a> |
+        {% endfor %}
+
     </div>
 
 {% endblock %}
