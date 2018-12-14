@@ -1,5 +1,6 @@
 {% extends 'bns_landscape_base.html' %}
 {% load i18n %}
+{% load leaflet_tags %}
 
 {% block title %}{% trans "CARPE - BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}{% endblock %}
 
@@ -12,10 +13,18 @@
     <a href="{% url 'bns_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
     {% endfor %}
 
+{% leaflet_js %}
+{% leaflet_css %}
 
+<script type="text/javascript">
+    function map_init(map, options) {
+        var layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
+        map.fitBounds(layer.getBounds());
 
+    }
+</script>
 
-
+{% leaflet_map "yourmap" callback="window.map_init" %}
 
 {% endblock main %}
 

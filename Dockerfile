@@ -53,6 +53,7 @@ RUN source /home/docker/code/app/.env \
     && sed -i "s/URI_PREFIX/$URI_PREFIX/g" /home/docker/code/uwsgi.ini
 
 RUN mkdir /var/log/django
+RUN mkdir /var/log/uwsgi
 
 # expose port 80
 EXPOSE 80
