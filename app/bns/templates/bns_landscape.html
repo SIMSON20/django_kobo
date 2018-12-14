@@ -1,6 +1,7 @@
 {% extends 'bns_landscape_base.html' %}
 {% load i18n %}
 {% load leaflet_tags %}
+{% load static %}
 
 {% block title %}{% trans "CARPE - BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}{% endblock %}
 
@@ -9,22 +10,29 @@
 
     <h2>{% trans "BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}</h2>
 
-    {% for survey in surveys %}
-    <a href="{% url 'bns_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
-    {% endfor %}
-
+<script src="{% static 'external/randomcolor/0.5.2/randomColor.min.js' %}"></script>
 {% leaflet_js %}
 {% leaflet_css %}
+<style>
 
+{% block map_css %}{% include "map.css" %}{% endblock %}
+
+</style>
 <script type="text/javascript">
-    function map_init(map, options) {
-        var layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
-        map.fitBounds(layer.getBounds());
-
-    }
+//<![CDATA[
+{% block map_js %}{% include "map.js" %}{% endblock %}
+//]]>
 </script>
 
 {% leaflet_map "yourmap" callback="window.map_init" %}
+<p>
+Explore analysis for all surveys in this landscape in the left hand panel or select results for a particular survey: <br>
+<ul>
+    {% for survey in surveys %}
+<li><a href="{% url 'bns_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a></li>
+    {% endfor %}
+</ul>
+</p>
 
 {% endblock main %}
 

@@ -1,13 +1,29 @@
 {% extends 'bns_survey_base.html' %}
 {% load i18n %}
+{% load leaflet_tags %}
+{% load static %}
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ survey_name }}{% endblock %}
 
 {% block main %}
 <h2>{{ survey_name }}</h2>
 
+
+<script src="{% static 'external/randomcolor/0.5.2/randomColor.min.js' %}"></script>
 {% leaflet_js %}
 {% leaflet_css %}
-{% leaflet_map "yourmap" %}
+<style>
+
+{% block map_css %}{% include "map.css" %}{% endblock %}
+
+</style>
+<script type="text/javascript">
+//<![CDATA[
+{% block map_js %}{% include "map.js" %}{% endblock %}
+//]]>
+</script>
+
+{% leaflet_map "yourmap" callback="window.map_init" %}
+
 
 {% endblock %}

@@ -20,5 +20,16 @@
 
     {% render_table table 'bootstrap.html' %}
 
+
+    <div class="pull-right">
+
+        {% trans Download as %}:
+        {% for format in table.export_formats %}
+        <a href="{{ request.get_full_path }}{% export_url format %}">{{ format }}</a> |
+        {% endfor %}
+
+    </div>
+
+
 {% endblock %}
 
