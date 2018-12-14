@@ -76,12 +76,42 @@ def landscapes(request):
 def landscape(request, landscape_name):
 
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
-    landscape_boundaries = Landscape.objects.raw("SELECT id, landscape,  ST_AsGeoJSON(geom) as geojson FROM bns_landscape WHERE landscape = '{}' LIMIT 1".format(landscape_name))[0]
+    landscape_boundaries = Landscape.objects.raw("""SELECT 
+                                                        id, 
+                                                        landscape,  
+                                                        ST_AsGeoJSON(geom) as geojson 
+                                                    FROM bns_landscape 
+                                                    WHERE landscape = '{}' LIMIT 1""".format(landscape_name))
+    survey_villages = Answer.objects.raw("""SELECT row_number() OVER () as answer_id,
+                                                dataset_name, 
+                                                village, 
+                                                ST_AsGeoJSON(ST_SetSRID(ST_MakePoint(avg(long), avg(lat)),4326)) as geojson 
+                                            FROM bns_answer a 
+                                                JOIN kobo_kobodata k ON a.dataset_uuid_id = k.dataset_uuid 
+                                                JOIN bns_answergps g ON a.answer_id = g.answer_id
+                                            WHERE landscape = '{}' AND lat != 0 AND long != 0
+                                            GROUP BY dataset_name, village""".format(landscape_name))
 
-    geom = landscape_boundaries.geojson
-    geojson = '{"type": "Feature", "properties": {"landscape": "%s"}, "geometry": %s }' % (landscape_name, geom)
+    if len(landscape_boundaries):
+        landscape_geojson = '{"type": "Feature", "properties": {"landscape": "%s"}, "geometry": %s }' % \
+                            (landscape_name, landscape_boundaries[0].geojson)
+    else:
+        landscape_geojson = '{}'
 
-    return render(request, 'bns_landscape.html', {'surveys': surveys, 'landscape_geojson': geojson, 'landscape_name': landscape_name})
+    village_geojson = '{"type" : "FeatureCollection", "features" :['
+    i = 0
+    if len(survey_villages):
+        for village in survey_villages:
+            if i > 0:
+                village_geojson += ','
+            village_geojson += '{"type": "Feature", "properties": {"landscape": "%s", "survey": "%s", "village": "%s"}, "geometry": %s }' % \
+                               (landscape_name, village.dataset_name, village.village, village.geojson)
+            i += 1
+    village_geojson += ']}'
+    return render(request, 'bns_landscape.html', {'surveys': surveys,
+                                                  'landscape_geojson': landscape_geojson,
+                                                  'village_geojson': village_geojson,
+                                                  'landscape_name': landscape_name})
 
 
 @login_required

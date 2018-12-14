@@ -18,8 +18,9 @@
 
 <script type="text/javascript">
     function map_init(map, options) {
-        var layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
-        map.fitBounds(layer.getBounds());
+        var l_layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
+        var v_layer = L.geoJSON( {{ village_geojson|safe }} ).addTo(map);
+        map.fitBounds(l_layer.getBounds());
 
     }
 </script>
