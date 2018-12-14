@@ -98,16 +98,21 @@ def landscape(request, landscape_name):
     else:
         landscape_geojson = '{}'
 
-    village_geojson = '{"type" : "FeatureCollection", "features" :['
-    i = 0
+
+
     if len(survey_villages):
+        village_geojson = '{"type" : "FeatureCollection", "features" :['
+        i = 0
         for village in survey_villages:
             if i > 0:
                 village_geojson += ','
             village_geojson += '{"type": "Feature", "properties": {"landscape": "%s", "survey": "%s", "village": "%s"}, "geometry": %s }' % \
                                (landscape_name, village.dataset_name, village.village, village.geojson)
             i += 1
-    village_geojson += ']}'
+        village_geojson += ']}'
+    else:
+        village_geojson = '{}'
+
     return render(request, 'bns_landscape.html', {'surveys': surveys,
                                                   'landscape_geojson': landscape_geojson,
                                                   'village_geojson': village_geojson,

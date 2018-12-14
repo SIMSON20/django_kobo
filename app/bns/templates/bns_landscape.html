@@ -1,6 +1,7 @@
 {% extends 'bns_landscape_base.html' %}
 {% load i18n %}
 {% load leaflet_tags %}
+{% load static %}
 
 {% block title %}{% trans "CARPE - BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}{% endblock %}
 
@@ -9,23 +10,119 @@
 
     <h2>{% trans "BNS Surveys in Landscape" %} {{ landscape_name|capfirst }}</h2>
 
-    {% for survey in surveys %}
-    <a href="{% url 'bns_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a><br />
-    {% endfor %}
-
+<script src="{% static 'external/randomcolor/0.5.2/randomColor.min.js' %}"></script>
 {% leaflet_js %}
 {% leaflet_css %}
-
+<style>
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 12px;
+    height: 12px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+</style>
 <script type="text/javascript">
     function map_init(map, options) {
-        var l_layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
-        var v_layer = L.geoJSON( {{ village_geojson|safe }} ).addTo(map);
-        map.fitBounds(l_layer.getBounds());
+
+
+        var surveys = [{% for survey in surveys %}'{{ survey.dataset_name }}', {% endfor %}];
+
+        var colors = randomColor({
+           count: surveys.length,
+           hue: 'blue'
+        });
+
+        var survey_colors = {}
+
+        for (i = 0; i < surveys.length; i++) {
+            survey_colors[surveys[i]] = colors[i];
+
+        }
+
+
+        var geojsonMarkerOptions = {
+            radius: 5,
+
+            color: "darkblue",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8};
+
+        var v_geojson = {{ village_geojson|safe }};
+        var l_geojson = {{ landscape_geojson|safe }};
+
+
+        if (l_geojson != '{}') {
+            var l_layer = L.geoJSON( {{ landscape_geojson|safe }} ).addTo(map);
+            }
+
+        if (v_geojson != '{}') {
+            var v_layer = L.geoJSON( {{ village_geojson|safe }} ,{
+                                        pointToLayer: function (feature, latlng) {
+                                            return L.circleMarker(latlng, geojsonMarkerOptions);
+                                        }, style: function (feature){return {'color': survey_colors[feature.properties.survey]}}
+                                    }).addTo(map);
+            }
+
+        if (l_geojson != '{}') {
+            map.fitBounds(l_layer.getBounds());
+        }
+
+        else if (v_geojson != '{}') {
+            map.fitBounds(v_layer.getBounds());
+        }
+
+
+
+
+        var legend = L.control({position: 'bottomright'});
+            legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend');
+            labels = ['<strong>Surveys</strong>'];
+
+            for (var i = 0; i < surveys.length; i++) {
+
+                    div.innerHTML +=
+                    labels.push(
+                        '<i class="circle" style="background:' + colors[i] + '"></i>' +
+                    (surveys[i] ? surveys[i] : '+'));
+
+                }
+                div.innerHTML = labels.join('<br>');
+            return div;
+            };
+            legend.addTo(map);
 
     }
 </script>
 
 {% leaflet_map "yourmap" callback="window.map_init" %}
+<p>
+Explore analysis for all surveys in this landscape in the left hand panel or select results for a particular survey: <br>
+<ul>
+    {% for survey in surveys %}
+<li><a href="{% url 'bns_surveys' %}{{ survey.dataset_name }}">{{ survey.dataset_name }}</a></li>
+    {% endfor %}
+</ul>
+</p>
 
 {% endblock main %}
 
