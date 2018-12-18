@@ -1,5 +1,6 @@
 {% extends 'bns_landscape_base.html' %}
 {% load i18n %}
+{% load django_tables2 %}
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ table.name }} - {{ landscape_name|capfirst }}{% endblock %}
 
@@ -23,7 +24,7 @@
 
     <div class="pull-right">
 
-        {% trans Download as %}:
+        {% trans "Download as" %}:
         {% for format in table.export_formats %}
         <a href="{{ request.get_full_path }}{% export_url format %}">{{ format }}</a> |
         {% endfor %}

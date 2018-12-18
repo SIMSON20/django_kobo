@@ -1,5 +1,6 @@
 {% extends 'bns_survey_base.html' %}
 {% load i18n %}
+{% load django_tables2 %}
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ table.name }} - {{ survey_name }} {% trans "Survey" %}{% endblock %}
 
@@ -25,7 +26,7 @@
 
     <div class="pull-right">
 
-        {% trans Download as %}:
+        {% trans "Download as" %}:
         {% for format in table.export_formats %}
         <a href="{{ request.get_full_path }}{% export_url format %}">{{ format }}</a> |
         {% endfor %}
