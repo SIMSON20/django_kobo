@@ -14,7 +14,7 @@ services:
 
   web:
     build: .
-    command: python /home/docker/code/app/manage.py runserver 0.0.0.0:80
+    command: docker-compose-develop.sh
     volumes:
       - ./app:/home/docker/code/app
     ports:

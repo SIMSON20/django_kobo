@@ -14,7 +14,7 @@ services:
 
   web:
     build: .
-    command: supervisord -n
+    command: /home/docker/code/docker-compose.sh
     volumes:
       - ./app:/home/docker/code/app
     ports:

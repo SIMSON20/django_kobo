@@ -47,6 +47,8 @@ RUN mkdir -p /run/nginx
 
 COPY uwsgi.ini /home/docker/code
 COPY uwsgi_params /home/docker/code
+COPY docker-compose.sh /home/docker/code
+COPY docker-compose-develop.sh /home/docker/code
 
 # update prefix in uwsgi.ini
 RUN source /home/docker/code/app/.env \

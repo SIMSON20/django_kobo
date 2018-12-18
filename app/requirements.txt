@@ -4,6 +4,7 @@ django_filter
 django_bootstrap4
 django-import-export
 django-leaflet
+django-crontab
 gdal==2.3.2
 psycopg2
 requests

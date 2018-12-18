@@ -13,6 +13,207 @@ import tablib
 from kobo.utils import get_kobo_data, normalize_data
 
 
+def _extract_gs(dataset):
+    """
+    Read Kobo data and extract Good and Services answers
+    Convert table and write each GS answer in a seperate row
+    :param dataset:
+    :return:
+    """
+
+    matrix_group_prefix = "bns_matrix"
+    new_dataset = list()
+    for data_row in dataset:
+        answer_id = data_row["_uuid"]
+        filtered_row = {k: v for (k, v) in data_row.items() if matrix_group_prefix in k}
+        gs = set([k.split('/')[0][len(matrix_group_prefix) + 1:] for k in filtered_row.keys()])
+
+        for item in gs:
+            row = dict()
+            row["answer_id"] = answer_id
+            row["gs"] = item
+            row["have"] = True if filtered_row[
+                                      "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item,
+                                                                   "possess")] == 'yes' else False
+            row["necessary"] = True if filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item,
+                                                                                 "necessary")] == 'yes' else False
+            if "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "number") not in filtered_row or not row["have"]:
+                row["quantity"] = None
+            else:
+                row["quantity"] = filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "number")]
+
+            new_dataset.append(row)
+
+    return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+
+def _extract_hh_members(dataset):
+    """
+    Read Kobo data and extract Household Members from answers
+    Convert table and write each HH Member in a seperate row
+    :param dataset:
+    :return:
+    """
+
+    new_dataset = list()
+
+    for data_row in dataset:
+        i = 1
+        row = dict()
+        row["answer_id"] = data_row["_uuid"]
+        row["gender"] = data_row["gender_head"]
+        row["birth"] = data_row["birth_head"]
+        if "ethnicity_head" in data_row.keys():
+            row["ethnicity"] = data_row["ethnicity_head"]
+        else:
+            row["ethnicity"] = None
+        row["head"] = True
+        row["seq"] = i
+        new_dataset.append(row)
+
+        if data_row["hh_members"] is not None:
+            for member in data_row["hh_members"]:
+                i += 1
+                row = dict()
+                row["answer_id"] = data_row["_uuid"]
+                if "gender" in member.keys():
+                    row["gender"] = member["hh_members/gender"]
+                else:
+                    row["gender"] = None
+
+                if "birth" in member.keys():
+                    row["birth"] = member["hh_members/birth"]
+                else:
+                    row["birth"] = None
+
+                if "hh_members/ethnicity" in member.keys():
+                    row["ethnicity"] = member["hh_members/ethnicity"]
+                else:
+                    row["ethnicity"] = None
+
+                row["head"] = False
+                row["seq"] = i
+                new_dataset.append(row)
+
+    return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+
+def _extract_nr(dataset):
+    """
+    Read Kobo data and extract Good and Services answers
+    Convert table and write each GS answer in a seperate row
+    :param dataset:
+    :return:
+    """
+
+    nr_prefix = "nr"
+    new_dataset = list()
+    for data_row in dataset:
+        answer_id = data_row["_uuid"]
+        filtered_row = {k: v for (k, v) in data_row.items() if k[:3] == "{}/".format(nr_prefix)}
+
+        for key in filtered_row.keys():
+            row = dict()
+            row["answer_id"] = answer_id
+            row["nr"] = key.split('/')[1]
+            row["nr_collect"] = filtered_row[key]
+            new_dataset.append(row)
+
+    return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+
+
+def sync_answers(dataset, dataset_uuid, now=datetime.now()):
+
+    # Update main Answer table
+    answer_resource = AnswerFromKoboResource()
+    result = answer_resource.import_data(dataset, raise_errors=True, dry_run=True)
+    if not result.has_errors():
+        answer_resource.import_data(dataset, dry_run=False)
+
+        # Delete not updated records
+        Answer.objects.filter(dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(dataset)}
+
+    else:
+        return {"status": "error"}
+
+
+def sync_answersgps(dataset, dataset_uuid, now=datetime.now()):
+
+    # Update AnswerGPS table
+
+    answer_gps_resource = AnswerGPSFromKoboResource()
+    result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
+
+    if not result.has_errors():
+        answer_gps_resource.import_data(dataset, dry_run=False)
+
+        # Delete not updated records
+        AnswerGPS.objects.filter(answer__dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(dataset)}
+
+    else:
+        return {"status": "error"}
+
+
+def sync_answersgs(dataset, dataset_uuid, now=datetime.now()):
+    # Update AnswerGS table
+
+    answer_gs_resource = AnswerGSFromKoboResource()
+    gs_dataset = _extract_gs(dataset.dict)
+
+    result = answer_gs_resource.import_data(gs_dataset, raise_errors=True, dry_run=True)
+    if not result.has_errors():
+        answer_gs_resource.import_data(gs_dataset, dry_run=False)
+
+        # Delete not updated records
+        AnswerGS.objects.filter(answer__dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(gs_dataset)}
+
+    else:
+        return {"status": "error"}
+
+
+def sync_answershhmembers(dataset, dataset_uuid, now=datetime.now()):
+    # Update HH Member table
+
+    answer_hh_members_resource = AnswerHHMembersFromKoboResource()
+    hh_member_dataset = _extract_hh_members(dataset.dict)
+
+    result = answer_hh_members_resource.import_data(hh_member_dataset, raise_errors=True, dry_run=True)
+    if not result.has_errors():
+        answer_hh_members_resource.import_data(hh_member_dataset, dry_run=False)
+
+        # Delete not updated records
+        AnswerHHMembers.objects.filter(answer__dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(hh_member_dataset)}
+
+    else:
+        return {"status": "error"}
+
+
+def sync_answersnr(dataset, dataset_uuid, now=datetime.now()):
+    # Update NR table
+    answer_nr_resource = AnswerNRFromKoboResource()
+    nr_dataset = _extract_nr(dataset.dict)
+
+    result = answer_nr_resource.import_data(nr_dataset, raise_errors=True, dry_run=True)
+    if not result.has_errors():
+        answer_nr_resource.import_data(nr_dataset, dry_run=False)
+
+        # Delete not updated records
+        AnswerNR.objects.filter(answer__dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(nr_dataset)}
+
+    else:
+        return {"status": "error"}
+
 @admin.register(AME)
 class AMEAdmin(ImportExportModelAdmin):
     list_display = ['age', 'gender', 'ame', 'calories']
@@ -23,7 +224,6 @@ class AMEAdmin(ImportExportModelAdmin):
 class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin):
     list_display = ['answer', 'lat', 'long', 'geom', 'last_update']
     resource_class = AnswerGPSFromFileResource
-
 
 
 class AnswerGPSInline(admin.StackedInline):
@@ -125,222 +325,61 @@ class BNSFormAdmin(ImportExportModelAdmin):
             # TODO: make sure to remove archived forms from queryset
 
             dataset = get_kobo_data(form.auth_user, form.dataset_id)
-            self._sync_bns(dataset, form, request)
-            form.last_update_time = datetime.now()
-            form.save()
+            dataset = normalize_data(dataset)
 
+            now = datetime.now()
 
-    def _sync_bns(self, dataset, form, request):
-        """
-        Syncs selected BNS data with Kobo
-        :param dataset:
-        :param form:
-        :param request:
-        :return:
-        """
-        dataset = normalize_data(dataset)
-
-        answer_resource = AnswerFromKoboResource()
-        answer_gps_resource = AnswerGPSFromKoboResource()
-        answer_gs_resource = AnswerGSFromKoboResource()
-        answer_hh_members_resource = AnswerHHMembersFromKoboResource()
-        answer_nr_resource = AnswerNRFromKoboResource()
-
-        answer_resource.form = form
-
-        now = datetime.now()
-
-        # Update main Answer table
-        result = answer_resource.import_data(dataset, raise_errors=True, dry_run=True)
-        if not result.has_errors():
-            answer_resource.import_data(dataset, dry_run=False)
-
-            # Delete not updated records
-            Answer.objects.filter(dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
-
-            self.message_user(request,
-                              "Successfully updated {} answers for form {}".format(len(dataset), form.dataset_name))
-
-            # Update AnswerGPS table
-            result = answer_gps_resource.import_data(dataset, raise_errors=True, dry_run=True)
-            if not result.has_errors():
-                answer_gps_resource.import_data(dataset, dry_run=False)
-
-                # Delete not updated records
-                AnswerGPS.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
-
-                self.message_user(request, "Successfully updated {} GPS coordinates for form {}".format(len(dataset),
-                                                                                                        form.dataset_name))
-            else:
-                self.message_user(request, "Failed to updated GPS coordinates for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
-
-            # Update AnswerGS table
-            gs_dataset = self._extract_gs(dataset.dict)
-
-            result = answer_gs_resource.import_data(gs_dataset, raise_errors=True, dry_run=True)
-            if not result.has_errors():
-                answer_gs_resource.import_data(gs_dataset, dry_run=False)
-
-                # Delete not updated records
-                AnswerGS.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
-
-                self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(len(gs_dataset),
-                                                                                                        form.dataset_name))
-            else:
-                self.message_user(request, "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
-
-            # Update HH Member table
-            hh_member_dataset = self._extract_hh_members(dataset.dict)
-
-            result = answer_hh_members_resource.import_data(hh_member_dataset, raise_errors=True, dry_run=True)
-            if not result.has_errors():
-                answer_hh_members_resource.import_data(hh_member_dataset, dry_run=False)
-
-                # Delete not updated records
-                AnswerHHMembers.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
-
+            a = sync_answers(dataset, form.dataset_uuid, now)
+            if a["status"] == "success":
                 self.message_user(request,
-                                  "Successfully updated {} household member entries for form {}".format(len(hh_member_dataset),
-                                                                                                       form.dataset_name))
-            else:
-                self.message_user(request,
-                                  "Failed to updated household member entries for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
+                                  "Successfully updated {} answers for form {}".format(a["count"], form.dataset_name))
 
-            # Update NR table
-            nr_dataset = self._extract_nr(dataset.dict)
-
-            result = answer_nr_resource.import_data(nr_dataset, raise_errors=True, dry_run=True)
-            if not result.has_errors():
-                answer_nr_resource.import_data(nr_dataset, dry_run=False)
-
-                # Delete not updated records
-                AnswerNR.objects.filter(answer__dataset_uuid=form.dataset_uuid).filter(last_update__lt=now).delete()
-
-                self.message_user(request,
-                                  "Successfully updated {} natural resource entries for form {}".format(len(nr_dataset),
-                                                                                                       form.dataset_name))
-            else:
-                self.message_user(request,
-                                  "Failed to updated natural resource entries for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
-
-        else:
-            self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
-                              level=messages.ERROR)
-            # raise forms.ValidationError("Import of Answers failed!")
-
-
-    @staticmethod
-    def _extract_gs(dataset):
-        """
-        Read Kobo data and extract Good and Services answers
-        Convert table and write each GS answer in a seperate row
-        :param dataset:
-        :return:
-        """
-
-        matrix_group_prefix = "bns_matrix"
-        new_dataset = list()
-        for data_row in dataset:
-            answer_id = data_row["_uuid"]
-            filtered_row = {k: v for (k, v) in data_row.items() if matrix_group_prefix in k}
-            gs = set([k.split('/')[0][len(matrix_group_prefix)+1:] for k in filtered_row.keys()])
-
-            for item in gs:
-                row = dict()
-                row["answer_id"] = answer_id
-                row["gs"] = item
-                row["have"] = True if filtered_row[
-                                          "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "possess")] == 'yes' else False
-                row["necessary"] = True if filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix,item,
-                                                                                                     "necessary")] == 'yes' else False
-                if "{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix,item, "number") not in filtered_row or not row["have"]:
-                    row["quantity"] = None
+                b = sync_answersgps(dataset, form.dataset_uuid, now)
+                if b["status"] == "success":
+                    self.message_user(request,
+                                      "Successfully updated {} GPS coordinates for form {}".format(b["count"],
+                                                                                                   form.dataset_name))
                 else:
-                    row["quantity"] = filtered_row["{0}_{1}/{0}_{1}_{2}".format(matrix_group_prefix, item, "number")]
+                    self.message_user(request,
+                                      "Failed to updated GPS coordinates for form {}".format(form.dataset_name),
+                                      level=messages.ERROR)
 
-                new_dataset.append(row)
+                c = sync_answersgs(dataset, form.dataset_uuid, now)
+                if c["status"] == "success":
+                    self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(
+                        c["count"],
+                        form.dataset_name))
+                else:
+                    self.message_user(request,
+                                      "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
+                                      level=messages.ERROR)
 
-        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+                d = sync_answershhmembers(dataset, form.dataset_uuid, now)
+                if d["status"] == "success":
+                    self.message_user(request, "Successfully updated {} household member entries for form {}".format(
+                                          d["count"],
+                                          form.dataset_name))
+                else:
+                    self.message_user(request,
+                                      "Failed to updated household member entries for form {}".format(form.dataset_name),
+                                      level=messages.ERROR)
 
+                e = sync_answersnr(dataset, form.dataset_uuid, now)
+                if e["status"] == "success":
+                    self.message_user(request,
+                                      "Successfully updated {} natural resource entries for form {}".format(d["count"],
+                                          form.dataset_name))
+                else:
+                    self.message_user(request,
+                                      "Failed to updated Natural Resources entries for form {}".format(form.dataset_name),
+                                      level=messages.ERROR)
 
-    @staticmethod
-    def _extract_hh_members(dataset):
-        """
-        Read Kobo data and extract Household Members from answers
-        Convert table and write each HH Member in a seperate row
-        :param dataset:
-        :return:
-        """
+                form.last_update_time = datetime.now()
+                form.save()
 
-        new_dataset = list()
-
-        for data_row in dataset:
-            i = 1
-            row = dict()
-            row["answer_id"] = data_row["_uuid"]
-            row["gender"] = data_row["gender_head"]
-            row["birth"] = data_row["birth_head"]
-            if "ethnicity_head" in data_row.keys():
-                row["ethnicity"] = data_row["ethnicity_head"]
             else:
-                row["ethnicity"] = None
-            row["head"] = True
-            row["seq"] = i
-            new_dataset.append(row)
-
-            if data_row["hh_members"] is not None:
-                for member in data_row["hh_members"]:
-                    i += 1
-                    row = dict()
-                    row["answer_id"] = data_row["_uuid"]
-                    if "gender" in member.keys():
-                        row["gender"] = member["hh_members/gender"]
-                    else:
-                        row["gender"] = None
-
-                    if "birth" in member.keys():
-                        row["birth"] = member["hh_members/birth"]
-                    else:
-                        row["birth"] = None
-
-                    if "hh_members/ethnicity" in member.keys():
-                        row["ethnicity"] = member["hh_members/ethnicity"]
-                    else:
-                        row["ethnicity"] = None
-
-                    row["head"] = False
-                    row["seq"] = i
-                    new_dataset.append(row)
-
-        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
-
-    @staticmethod
-    def _extract_nr(dataset):
-        """
-        Read Kobo data and extract Good and Services answers
-        Convert table and write each GS answer in a seperate row
-        :param dataset:
-        :return:
-        """
-
-        nr_prefix = "nr"
-        new_dataset = list()
-        for data_row in dataset:
-            answer_id = data_row["_uuid"]
-            filtered_row = {k: v for (k, v) in data_row.items() if k[:3] == "{}/".format(nr_prefix)}
-
-            for key in filtered_row.keys():
-                row = dict()
-                row["answer_id"] = answer_id
-                row["nr"] = key.split('/')[1]
-                row["nr_collect"] = filtered_row[key]
-                new_dataset.append(row)
-
-        return tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+                self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
+                                  level=messages.ERROR)
 
     actions = [sync]
     sync.short_description = "Sync data"
