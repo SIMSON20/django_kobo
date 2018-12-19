@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'social_django',
     'custom_auth.apps.CustomAuthConfig',
     'tags.apps.TagConfig',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'custom_auth.portal.PortalOAuth2',
 )
+
+CRONJOBS = [
+    ('0 * * * *', 'kobo.cron.check_for_updates'),
+    ('5 * * * *', 'nrgt.cron.check_for_updates'),
+    ('15 * * * *', 'bns.cron.check_for_updates'),
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
