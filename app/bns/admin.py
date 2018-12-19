@@ -322,64 +322,68 @@ class BNSFormAdmin(ImportExportModelAdmin):
         """
 
         for form in queryset:
-            # TODO: make sure to remove archived forms from queryset
 
-            dataset = get_kobo_data(form.auth_user, form.dataset_id)
-            dataset = normalize_data(dataset)
+            if form.kobo_managed == True:
 
-            now = datetime.now()
+                dataset = get_kobo_data(form.auth_user, form.dataset_id)
+                dataset = normalize_data(dataset)
 
-            a = sync_answers(dataset, form.dataset_uuid, now)
-            if a["status"] == "success":
-                self.message_user(request,
-                                  "Successfully updated {} answers for form {}".format(a["count"], form.dataset_name))
+                now = datetime.now()
 
-                b = sync_answersgps(dataset, form.dataset_uuid, now)
-                if b["status"] == "success":
+                a = sync_answers(dataset, form.dataset_uuid, now)
+                if a["status"] == "success":
                     self.message_user(request,
-                                      "Successfully updated {} GPS coordinates for form {}".format(b["count"],
-                                                                                                   form.dataset_name))
+                                      "Successfully updated {} answers for form {}".format(a["count"], form.dataset_name))
+
+                    b = sync_answersgps(dataset, form.dataset_uuid, now)
+                    if b["status"] == "success":
+                        self.message_user(request,
+                                          "Successfully updated {} GPS coordinates for form {}".format(b["count"],
+                                                                                                       form.dataset_name))
+                    else:
+                        self.message_user(request,
+                                          "Failed to updated GPS coordinates for form {}".format(form.dataset_name),
+                                          level=messages.ERROR)
+
+                    c = sync_answersgs(dataset, form.dataset_uuid, now)
+                    if c["status"] == "success":
+                        self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(
+                            c["count"],
+                            form.dataset_name))
+                    else:
+                        self.message_user(request,
+                                          "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
+                                          level=messages.ERROR)
+
+                    d = sync_answershhmembers(dataset, form.dataset_uuid, now)
+                    if d["status"] == "success":
+                        self.message_user(request, "Successfully updated {} household member entries for form {}".format(
+                                              d["count"],
+                                              form.dataset_name))
+                    else:
+                        self.message_user(request,
+                                          "Failed to updated household member entries for form {}".format(form.dataset_name),
+                                          level=messages.ERROR)
+
+                    e = sync_answersnr(dataset, form.dataset_uuid, now)
+                    if e["status"] == "success":
+                        self.message_user(request,
+                                          "Successfully updated {} natural resource entries for form {}".format(d["count"],
+                                              form.dataset_name))
+                    else:
+                        self.message_user(request,
+                                          "Failed to updated Natural Resources entries for form {}".format(form.dataset_name),
+                                          level=messages.ERROR)
+
+                    form.last_update_time = datetime.now()
+                    form.save()
+
                 else:
-                    self.message_user(request,
-                                      "Failed to updated GPS coordinates for form {}".format(form.dataset_name),
+                    self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
                                       level=messages.ERROR)
-
-                c = sync_answersgs(dataset, form.dataset_uuid, now)
-                if c["status"] == "success":
-                    self.message_user(request, "Successfully updated {} Goods & Service entries for form {}".format(
-                        c["count"],
-                        form.dataset_name))
-                else:
-                    self.message_user(request,
-                                      "Failed to updated Goods & Service entries for form {}".format(form.dataset_name),
-                                      level=messages.ERROR)
-
-                d = sync_answershhmembers(dataset, form.dataset_uuid, now)
-                if d["status"] == "success":
-                    self.message_user(request, "Successfully updated {} household member entries for form {}".format(
-                                          d["count"],
-                                          form.dataset_name))
-                else:
-                    self.message_user(request,
-                                      "Failed to updated household member entries for form {}".format(form.dataset_name),
-                                      level=messages.ERROR)
-
-                e = sync_answersnr(dataset, form.dataset_uuid, now)
-                if e["status"] == "success":
-                    self.message_user(request,
-                                      "Successfully updated {} natural resource entries for form {}".format(d["count"],
-                                          form.dataset_name))
-                else:
-                    self.message_user(request,
-                                      "Failed to updated Natural Resources entries for form {}".format(form.dataset_name),
-                                      level=messages.ERROR)
-
-                form.last_update_time = datetime.now()
-                form.save()
-
             else:
-                self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
+                self.message_user(request, "Form {} is not managed in Kobo. No data synced".format(form.dataset_name),
+                                  level=messages.WARNING)
 
     actions = [sync]
     sync.short_description = "Sync data"

@@ -179,34 +179,38 @@ class NRGTFormAdmin(ImportExportModelAdmin):
         """
 
         for form in queryset:
-            # TODO: make sure to remove archived forms from queryset
 
-            dataset = get_kobo_data(form.auth_user, form.dataset_id)
-            dataset = normalize_data(dataset)
-            now = datetime.now()
+            if form.kobo_managed == True:
 
-            a = sync_answers(dataset, form.dataset_uuid, now)
-            if a["status"] == "success":
-                self.message_user(request,
-                              "Successfully updated {} answers for form {}".format(a["count"], form.dataset_name))
+                dataset = get_kobo_data(form.auth_user, form.dataset_id)
+                dataset = normalize_data(dataset)
+                now = datetime.now()
 
-                b = sync_answersgs(dataset, form.dataset_uuid, now)
-                if b["status"] == "success":
+                a = sync_answers(dataset, form.dataset_uuid, now)
+                if a["status"] == "success":
                     self.message_user(request,
-                                      "Successfully updated {} Group Score entries for form {}".format(b["count"],
-                                                                                                       form.dataset_name))
+                                  "Successfully updated {} answers for form {}".format(a["count"], form.dataset_name))
+
+                    b = sync_answersgs(dataset, form.dataset_uuid, now)
+                    if b["status"] == "success":
+                        self.message_user(request,
+                                          "Successfully updated {} Group Score entries for form {}".format(b["count"],
+                                                                                                           form.dataset_name))
+                    else:
+                        self.message_user(request,
+                                          "Failed to updated Group Score entries for form {}".format(form.dataset_name),
+                                          level=messages.ERROR)
+
+                    form.last_update_time = datetime.now()
+                    form.save()
+
                 else:
-                    self.message_user(request,
-                                      "Failed to updated Group Score entries for form {}".format(form.dataset_name),
+                    self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
                                       level=messages.ERROR)
 
-                form.last_update_time = datetime.now()
-                form.save()
-
             else:
-                self.message_user(request, "Failed to updated answers for form {}".format(form.dataset_name),
-                                  level=messages.ERROR)
-
+                self.message_user(request, "Form {} is not managed in Kobo. No data synced".format(form.dataset_name),
+                                  level=messages.WARNING)
 
 
     actions = [sync]
