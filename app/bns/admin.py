@@ -11,7 +11,9 @@ import json
 from datetime import datetime
 import tablib
 from kobo.utils import get_kobo_data, normalize_data
-from .filters import AnswerSurveyFilter, AnswerVillageFilter
+from .filters import AnswerSurveyFilter, AnswerVillageFilter, \
+                    SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter, \
+                    PriceAnswerLandscapeFilter, PriceAnswerVillageFilter
 
 
 def _extract_gs(dataset):
@@ -215,6 +217,49 @@ def sync_answersnr(dataset, dataset_uuid, now=datetime.now()):
     else:
         return {"status": "error"}
 
+
+def sync_price(dataset, dataset_uuid, now=datetime.now()):
+    price_resource = PriceFromKoboResource()
+    new_dataset = list()
+    for data_row in dataset:
+        if "good" in data_row.keys():
+            for gs in data_row["good"]:
+                if "good/name" in gs.keys() and "good/price" in gs.keys():
+                    row = dict()
+                    row["dataset_uuid"] = dataset_uuid
+                    row["surveyor"] = data_row["surveyor"]
+                    row["village"] = data_row["village"]
+                    row["gs"] = gs["good/name"]
+                    row["price"] = gs["good/price"]
+                    new_dataset.append(row)
+
+        elif "group_prices" in data_row.keys():
+            for gs in data_row["group_prices"]:
+                if "group_prices/good_name" in gs.keys() and "group_prices/good_price" in gs.keys():
+                    row = dict()
+                    row["dataset_uuid"] = dataset_uuid
+                    row["surveyor"] = data_row["surveyor"]
+                    row["village"] = data_row["group_info/village"]
+                    row["gs"] = gs["group_prices/good_name"]
+                    row["price"] = gs["group_prices/good_price"]
+                    new_dataset.append(row)
+
+    dataset = tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
+
+    # Update AnswerGPS table
+    result = price_resource.import_data(dataset, raise_errors=True, dry_run=True)
+    if not result.has_errors():
+        price_resource.import_data(dataset, dry_run=False)
+
+        # Delete not updated records
+        Price.objects.filter(dataset_uuid=dataset_uuid).filter(last_update__lt=now).delete()
+
+        return {"status": "success", "count": len(dataset)}
+
+    else:
+        return {"status": "error"}
+
+
 @admin.register(AME)
 class AMEAdmin(ImportExportModelAdmin):
     list_display = ['age', 'gender', 'ame', 'calories']
@@ -225,19 +270,18 @@ class AMEAdmin(ImportExportModelAdmin):
 class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin):
     list_display = ['answer', 'lat', 'long', 'geom', 'last_update']
     resource_class = AnswerGPSFromFileResource
+    list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
 
 class AnswerGPSInline(admin.StackedInline):
     model = AnswerGPS
-
-# TODO get base map to show
-# admin.site.register(AnswerGPS, GeoModelAdmin)
 
 
 @admin.register(AnswerGS)
 class AnswerGSAdmin(ImportExportModelAdmin):
     list_display = ['answer', 'gs', 'necessary', 'have', 'quantity', 'last_update']
     resource_class = AnswerGSFromFileResource
+    list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
 
 class AnswerGSInline(admin.StackedInline):
@@ -249,6 +293,7 @@ class AnswerGSInline(admin.StackedInline):
 class AnswerHHMembersAdmin(ImportExportModelAdmin):
     list_display = ['answer', 'gender', 'birth', 'ethnicity', 'head', 'last_update']
     resource_class = AnswerHHMembersFromFileResource
+    list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
 
 class AnswerHHMembersInline(admin.StackedInline):
@@ -260,6 +305,7 @@ class AnswerHHMembersInline(admin.StackedInline):
 class AnswerNRAdmin(ImportExportModelAdmin):
     list_display = ['answer', 'nr', 'nr_collect', 'last_update']
     resource_class = AnswerNRFromFileResource
+    list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
 
 class AnswerNRInline(admin.StackedInline):
@@ -288,6 +334,7 @@ class PriceAdmin(ImportExportModelAdmin):
     Admin class for Connections
     """
     list_display = ['dataset_uuid', 'village', 'gs', 'price']
+    list_filter = (PriceAnswerLandscapeFilter, AnswerSurveyFilter, PriceAnswerVillageFilter,)
 
 
 @admin.register(District)
@@ -409,65 +456,26 @@ class BNSFormPriceAdmin(ImportExportModelAdmin):
         """
 
         for form in queryset:
-            # TODO: make sure to remove archived forms from queryset
 
-            dataset = get_kobo_data(form.auth_user, form.dataset_id)
-            self._sync_bns_price(dataset, form, request)
-            form.last_update_time = datetime.now()
-            form.save()
+            if form.kobo_managed == True:
 
-    def _sync_bns_price(self, dataset, form, request):
-        """
-        Sync Prices
-        :param dataset:
-        :param dataset_uuid:
-        :param form:
-        :param request:
-        :return:
-        """
-        price_resource = PriceFromKoboResource()
+                dataset = get_kobo_data(form.auth_user, form.dataset_id)
+                now = datetime.now()
 
-        now = datetime.now()
+                a = sync_price(dataset, form.related_uuid, now)
 
-        new_dataset = list()
-        for data_row in dataset:
-            if "good" in data_row.keys():
-                for gs in data_row["good"]:
-                    if "good/name" in gs.keys() and "good/price" in gs.keys():
-                        row = dict()
-                        row["dataset_uuid"] = form.related_uuid
-                        row["surveyor"] = data_row["surveyor"]
-                        row["village"] = data_row["village"]
-                        row["gs"] = gs["good/name"]
-                        row["price"] = gs["good/price"]
-                        new_dataset.append(row)
+                if a["status"] == "success":
+                    form.last_update_time = datetime.now()
+                    form.save()
+                    self.message_user(request, "Successfully updated {} prices for form {}".format(a["count"],
+                                                                                               form.dataset_name))
+                else:
+                    self.message_user(request, "Failed to updated prices for form {}".format(form.dataset_name),
+                                  level=messages.ERROR)
 
-            elif "group_prices" in data_row.keys():
-                for gs in data_row["group_prices"]:
-                    if "group_prices/good_name" in gs.keys() and "group_prices/good_price" in gs.keys():
-                        row = dict()
-                        row["dataset_uuid"] = form.related_uuid
-                        row["surveyor"] = data_row["surveyor"]
-                        row["village"] = data_row["group_info/village"]
-                        row["gs"] = gs["group_prices/good_name"]
-                        row["price"] = gs["group_prices/good_price"]
-                        new_dataset.append(row)
-
-        dataset = tablib.Dataset().load(json.dumps(new_dataset, sort_keys=True))
-
-        # Update AnswerGPS table
-        result = price_resource.import_data(dataset, raise_errors=True, dry_run=True)
-        if not result.has_errors():
-            price_resource.import_data(dataset, dry_run=False)
-
-            # Delete not updated records
-            Price.objects.filter(dataset_uuid=form.related_uuid).filter(last_update__lt=now).delete()
-
-            self.message_user(request, "Successfully updated {} prices for form {}".format(len(dataset),
-                                                                                                    form.dataset_name))
-        else:
-            self.message_user(request, "Failed to updated prices for form {}".format(form.dataset_name),
-                              level=messages.ERROR)
+            else:
+                self.message_user(request, "Form {} is not managed in Kobo. No data synced".format(form.dataset_name),
+                                  level=messages.WARNING)
 
     actions = [sync]
     sync.short_description = "Sync data"

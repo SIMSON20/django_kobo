@@ -1,5 +1,5 @@
-from .models import BNSForm
-from .admin import sync_answers, sync_answersnr, sync_answershhmembers, sync_answersgps, sync_answersgs
+from .models import BNSForm, BNSFormPrice
+from .admin import sync_answers, sync_answersnr, sync_answershhmembers, sync_answersgps, sync_answersgs, sync_price
 from kobo.utils import get_kobo_data, normalize_data
 from django.db.models import F
 from datetime import datetime
@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 def check_for_updates():
+
+    # Update BNS Surveys
     queryset = BNSForm.objects.filter(kobo_managed__eq=True).filter(last_submission_time__gt=F('last_update_time'))
     for form in queryset:
 
@@ -51,3 +53,22 @@ def check_for_updates():
         else:
             logger.error("Failed to updated answers for form {}".format(form.dataset_name))
 
+    # Update BNS Prices
+    queryset = BNSFormPrice.objects.filter(kobo_managed__eq=True).filter(last_submission_time__gt=F('last_update_time'))
+
+    for form in queryset:
+
+        dataset = get_kobo_data(form.auth_user, form.dataset_id)
+        now = datetime.now()
+
+        a = sync_price(dataset, form.related_uuid, now)
+
+        if a["status"] == "success":
+
+            form.last_update_time = datetime.now()
+            form.save()
+
+            logger.info("Successfully updated {} prices for form {}".format(len(dataset), form.dataset_name))
+
+        else:
+            logger.error("Failed to updated prices for form {}".format(form.dataset_name))
