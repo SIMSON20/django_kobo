@@ -11,6 +11,7 @@ import json
 from datetime import datetime
 import tablib
 from kobo.utils import get_kobo_data, normalize_data
+from .filters import AnswerSurveyFilter, AnswerVillageFilter
 
 
 def _extract_gs(dataset):
@@ -275,6 +276,8 @@ class AnswerAdmin(ImportExportModelAdmin):
                     'village', 'hh_type_control', 'hh_type_org_benef', 'hh_type_other_benef', 'hh_id', 'livelihood_1',
                     'livelihood_2', 'livelihood_3', 'livelihood_4', 'benef_project', 'explain_project', 'know_pa',
                     'benef_pa', 'explain_benef_pa', 'bns_plus', 'survey_date', 'last_update']
+    #list_filter = ['landscape', 'dataset_uuid', 'surveyor', 'district', 'village']
+    list_filter = ("landscape", AnswerSurveyFilter, AnswerVillageFilter, )
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
     resource_class = AnswerFromFileResource
 
