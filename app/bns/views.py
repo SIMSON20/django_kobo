@@ -7,10 +7,44 @@ import django_tables2 as tables
 from django_tables2.export.export import TableExport
 from django.db.models import Count
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponseRedirect
 import django_filters
 
-# Create your views here.
+
+
+def has_survey_access(function=None):
+    """Check that the user has access to a survey
+
+    This decorator ensures that the view functions it is called on can be
+    accessed only by users with appropriate permissions.
+    All other users are redirected to an Access denied page.
+    """
+
+    def _dec(view_func):
+        def _view(request, *args, **kwargs):
+
+
+            user = request.user
+            dataset_name = kwargs["survey_name"]
+            if dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')]:
+                return view_func(request, *args, **kwargs)
+
+            else:
+                # TODO: replace with "Access Denied" view
+                url = "/"
+                return HttpResponseRedirect(url)
+
+        _view.__name__ = view_func.__name__
+        _view.__dict__ = view_func.__dict__
+        _view.__doc__ = view_func.__doc__
+
+        return _view
+
+    if function is None:
+        return _dec
+    else:
+        return _dec(function)
 
 
 def _landscape_boundary(landscape_name):
@@ -94,6 +128,7 @@ def surveys(request):
 
 
 @login_required
+@has_survey_access
 def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
     village_geojson = _survey_villages(survey_name)
@@ -103,6 +138,7 @@ def survey(request, survey_name):
 
 
 @login_required
+@has_survey_access
 def survey_query(request, survey_name, query_name):
     # username = None
     mymodel = apps.get_model('bns', query_name)

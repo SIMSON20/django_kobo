@@ -3,6 +3,7 @@ from .models import Connection, KoboUser, KoboData
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.db.models import Q
 
+
 class ConnectionForm(forms.ModelForm):
     class Meta:
         model = Connection
