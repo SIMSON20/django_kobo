@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Answer, Landscape
-from kobo.models import KoboData
+from kobo.models import KoboData, KoboUser
 from django_tables2 import RequestConfig
 from django.apps import apps
 import django_tables2 as tables
@@ -27,7 +27,8 @@ def has_survey_access(function=None):
 
             user = request.user
             dataset_name = kwargs["survey_name"]
-            if dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')]:
+            if user.is_superuser or \
+                (dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')]):
                 return view_func(request, *args, **kwargs)
 
             else:
@@ -124,6 +125,9 @@ def index(request):
 @login_required
 def surveys(request):
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(num_answers__gte=1)
+    if not request.user.is_superuser:
+        user_surveys = KoboUser.objects.filter(user=request.user)
+        surveys = surveys.filter(kobouser__in=user_surveys)
     return render(request, 'bns_surveys.html', {'surveys': surveys})
 
 
