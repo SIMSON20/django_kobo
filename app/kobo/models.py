@@ -51,7 +51,7 @@ class KoboData(models.Model):
 class KoboUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # surveys = ArrayField(models.ForeignKey(KoboData, on_delete=models.CASCADE, null=True), null=True)
-    surveys = ArrayField(models.TextField(null=True), null=True)
+    surveys = models.ManyToManyField(KoboData)
 
     def __str__(self):
         return self.user.username
@@ -66,3 +66,4 @@ def create_kobouser(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_kobouser(sender, instance, **kwargs):
     instance.kobouser.save()
+

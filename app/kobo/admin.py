@@ -83,3 +83,9 @@ class KoboDataAdmin(ImportExportModelAdmin):
 @admin.register(KoboUser)
 class ConnectionAdmin(admin.ModelAdmin):
     form = KoboUserForm
+    list_display = ('user', 'get_surveys')
+
+    def get_surveys(self, obj):
+        return ", ".join([s.dataset_name for s in obj.surveys.order_by('dataset_name')])
+
+    get_surveys.short_description = "Surveys"

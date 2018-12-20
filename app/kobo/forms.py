@@ -17,5 +17,5 @@ class KoboUserForm(forms.ModelForm):
         model = KoboUser
         exclude = []
 
-    surveys = forms.ModelMultipleChoiceField(queryset=KoboData.objects.filter(Q(tags__icontains=['bns']) | Q(tags__icontains=['nrgt'])), widget=FilteredSelectMultiple(
+    surveys = forms.ModelMultipleChoiceField(queryset=KoboData.objects.filter(Q(tags__contains=['bns']) | Q(tags__contains=['nrgt'])), widget=FilteredSelectMultiple(
                                                 'Surveys', is_stacked=False), label='')
