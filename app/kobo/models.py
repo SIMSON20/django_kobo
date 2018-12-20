@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from datetime import datetime
-
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Connection(models.Model):
     auth_user = models.CharField(max_length=20, primary_key=True)
@@ -32,7 +34,8 @@ class KoboData(models.Model):
         verbose_name_plural = 'Kobo forms'
 
     def __str__(self):
-        return "{} ({} - {})".format(self.dataset_name, self.dataset_owner,  self.dataset_year)
+        #return "{} ({} - {})".format(self.dataset_name, self.dataset_owner,  self.dataset_year)
+        return self.dataset_name
 
     def is_uptodate(self):
         if self.last_submission_time is None:
@@ -43,3 +46,23 @@ class KoboData(models.Model):
             return "Up to date"
         else:
             return "Out of date"
+
+
+class KoboUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # surveys = ArrayField(models.ForeignKey(KoboData, on_delete=models.CASCADE, null=True), null=True)
+    surveys = ArrayField(models.TextField(null=True), null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_kobouser(sender, instance, created, **kwargs):
+    if created:
+        KoboUser.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_kobouser(sender, instance, **kwargs):
+    instance.kobouser.save()
