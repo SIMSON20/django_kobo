@@ -25,8 +25,12 @@ def has_survey_access(function=None):
 
             user = request.user
             dataset_name = kwargs["survey_name"]
-            if user.is_superuser or \
-                (dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')]):
+            query_name = kwargs["query_name"]
+
+            if 'landscape' in query_name.lower() or \
+                    (user.is_authenticated and
+                     (user.is_superuser or
+                      dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')])):
                 return view_func(request, *args, **kwargs)
             else:
                 return redirect('access-denied')
@@ -54,7 +58,7 @@ def _landscape_boundary(landscape_name):
     landscape_geojson = '{"type" : "FeatureCollection", "features" :['
     if len(landscape_boundaries):
         landscape_geojson += '{"type": "Feature", "properties": {"landscape": "%s"}, "geometry": %s }' % \
-                            (landscape_name, landscape_boundaries[0].geojson)
+                             (landscape_name, landscape_boundaries[0].geojson)
     landscape_geojson += ']}'
 
     return landscape_geojson
@@ -117,17 +121,17 @@ def index(request):
 
 
 
-@login_required
+#@login_required
 def surveys(request):
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(num_answers__gte=1)
-    if not request.user.is_superuser:
-        user_surveys = KoboUser.objects.filter(user=request.user)
-        surveys = surveys.filter(kobouser__in=user_surveys)
+    #if not request.user.is_superuser:
+    #    user_surveys = KoboUser.objects.filter(user=request.user)
+    #    surveys = surveys.filter(kobouser__in=user_surveys)
     return render(request, 'bns_surveys.html', {'surveys': surveys})
 
 
-@login_required
-@has_survey_access
+#@login_required
+#@has_survey_access
 def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
     village_geojson = _survey_villages(survey_name)
@@ -140,7 +144,7 @@ def survey(request, survey_name):
                                                'survey_name': survey_name})
 
 
-@login_required
+#@login_required
 @has_survey_access
 def survey_query(request, survey_name, query_name):
     # username = None
@@ -176,13 +180,13 @@ def survey_query(request, survey_name, query_name):
     return render(request, 'bns_survey_query.html', {'table': table, 'filter': filter, 'survey_name': survey_name})
 
 
-@login_required
+#@login_required
 def landscapes(request):
     landscapes = Answer.objects.values("landscape").annotate(num_answers=Count('answer_id')).filter(num_answers__gte=1).filter(~Q(landscape=None))
     return render(request, 'bns_landscapes.html', {'landscapes': landscapes})
 
 
-@login_required
+#@login_required
 def landscape(request, landscape_name):
 
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
@@ -195,7 +199,7 @@ def landscape(request, landscape_name):
                                                   'landscape_name': landscape_name})
 
 
-@login_required
+#@login_required
 def landscape_query(request, landscape_name, query_name):
     # username = None
     mymodel = apps.get_model('bns', query_name)
