@@ -47,6 +47,53 @@ def has_survey_access(function=None):
         return _dec(function)
 
 
+def has_landscape_access(function=None):
+    """Check that the user has access to a survey
+
+    This decorator ensures that the view functions it is called on can be
+    accessed only by users with appropriate permissions.
+    All other users are redirected to an Access denied page.
+    """
+
+    def _dec(view_func):
+        def _view(request, *args, **kwargs):
+
+            user = request.user
+            landscape_name = kwargs["landscape_name"]
+            query_name = kwargs["query_name"]
+
+            if 'landscape' in query_name.lower():
+                return view_func(request, * args, ** kwargs)
+
+            elif user.is_authenticated:
+
+                surveys = [s.dataset_uuid for s in user.kobouser.surveys.all()]
+                landscapes = Answer.objects.filter(dataset_uuid_id__in=surveys).only('landscape').order_by(
+                    'landscape').distinct('landscape')
+                landscape_names = list()
+
+                for landscape in landscapes:
+                    landscape_names.append(landscape.landscape)
+
+                if user.is_superuser or landscape_name in landscape_names:
+                    return view_func(request, *args, **kwargs)
+                else:
+                    return redirect('access-denied')
+            else:
+                return redirect('access-denied')
+
+        _view.__name__ = view_func.__name__
+        _view.__dict__ = view_func.__dict__
+        _view.__doc__ = view_func.__doc__
+
+        return _view
+
+    if function is None:
+        return _dec
+    else:
+        return _dec(function)
+
+
 def _landscape_boundary(landscape_name):
     landscape_boundaries = Landscape.objects.raw("""SELECT 
                                                         id, 
@@ -131,7 +178,6 @@ def surveys(request):
 
 
 #@login_required
-#@has_survey_access
 def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
     village_geojson = _survey_villages(survey_name)
@@ -200,6 +246,7 @@ def landscape(request, landscape_name):
 
 
 #@login_required
+@has_landscape_access
 def landscape_query(request, landscape_name, query_name):
     # username = None
     mymodel = apps.get_model('bns', query_name)
