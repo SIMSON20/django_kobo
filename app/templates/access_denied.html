@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block title %}{% trans "Access denied" %}{% endblock %}
+
+{% block content %}
+<div class="form-login-wrapper">
+  <div class="form-login">
+    <h2>{% trans "Access denied" %}</h2>
+   You do not have access to this resouces. Please contact a system administrator.
+  </div>
+</div>
+{% endblock %}

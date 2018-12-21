@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}See you!{% endblock %}
+{% block title %}{% trans "See you!" %}{% endblock %}
 
 {% block content %}
-  <h2>Logged out</h2>
-  <p>You have been successfully logged out.</p>
-  <p><a href="{% url "social:begin" "portal" %}">log in</a> again.</p>
+  <h2>{% trans "Logged out" %}</h2>
+<div class="form-login-wrapper">
+ <div class="form-login">
+  <p>{% trans "You have been successfully logged out." %}</p>
+  <p><a href="{% url 'login' %}">{% trans "Log in" %}</a> {% trans "again" %}.</p>
+ </div>
+</div>
+
 {% endblock %}

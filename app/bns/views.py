@@ -8,7 +8,7 @@ from django_tables2.export.export import TableExport
 from django.db.models import Count
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 import django_filters
 
 
@@ -28,11 +28,8 @@ def has_survey_access(function=None):
             if user.is_superuser or \
                 (dataset_name in [s.dataset_name for s in user.kobouser.surveys.order_by('dataset_name')]):
                 return view_func(request, *args, **kwargs)
-
             else:
-                # TODO: replace with "Access Denied" view
-                url = "/"
-                return HttpResponseRedirect(url)
+                return redirect('access-denied')
 
         _view.__name__ = view_func.__name__
         _view.__dict__ = view_func.__dict__
