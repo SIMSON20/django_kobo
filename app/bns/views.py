@@ -12,7 +12,6 @@ from django.http import HttpResponseRedirect
 import django_filters
 
 
-
 def has_survey_access(function=None):
     """Check that the user has access to a survey
 
@@ -23,7 +22,6 @@ def has_survey_access(function=None):
 
     def _dec(view_func):
         def _view(request, *args, **kwargs):
-
 
             user = request.user
             dataset_name = kwargs["survey_name"]
@@ -138,7 +136,11 @@ def survey(request, survey_name):
     village_geojson = _survey_villages(survey_name)
 
     # TODO review return values,  can be better structured
-    return render(request, 'bns_survey.html', {'survey': survey, 'surveys': [survey], 'landscape_geojson': '{"type" : "FeatureCollection", "features" :[]}', 'village_geojson': village_geojson, 'survey_name': survey_name})
+    return render(request, 'bns_survey.html', {'survey': survey,
+                                               'surveys': [survey],
+                                               'landscape_geojson': '{"type" : "FeatureCollection", "features" :[]}',
+                                               'village_geojson': village_geojson,
+                                               'survey_name': survey_name})
 
 
 @login_required
