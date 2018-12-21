@@ -3,13 +3,17 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="form-login">
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+<div class="form-login-wrapper">
+  <div class="form-login">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-default" style="width:100%;">Login</button>
+    </form>
+    <hr>
+    <a href="{% url "social:begin" "portal" %}" class="btn btn-default carpe-login" style="width:100%;">or sign in with CARPE</a>
 
+  </div>
 </div>
 {% endblock %}
