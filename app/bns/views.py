@@ -76,6 +76,7 @@ def has_landscape_access(function=None):
                     landscape_names.append(landscape.landscape)
 
                 if user.is_superuser or landscape_name in landscape_names:
+                    kwargs["surveys"] = surveys
                     return view_func(request, *args, **kwargs)
                 else:
                     return redirect('access-denied')
@@ -247,7 +248,7 @@ def landscape(request, landscape_name):
 
 #@login_required
 @has_landscape_access
-def landscape_query(request, landscape_name, query_name):
+def landscape_query(request, landscape_name, query_name, surveys=[]):
     # username = None
     mymodel = apps.get_model('bns', query_name)
 
@@ -265,11 +266,11 @@ def landscape_query(request, landscape_name, query_name):
 
     queryset = mymodel.objects.filter(landscape=landscape_name)
 
-    filter = myFilter(request.GET, queryset=queryset)
+    if not request.user.is_superuser:
+        if not 'landscape' in query_name.lower():
+            queryset = queryset.filter(dataset_uuid_id__in=surveys)
 
-    #for field in filter.form.fields:
-    #    filter.form.fields[field].widget = forms.BootstrapSelect(choices=self.CHOICES,
-    #                               attrs={'data-live-search': 'true'})
+    filter = myFilter(request.GET, queryset=queryset)
 
     table = myTable(filter.qs)
     RequestConfig(request).configure(table)

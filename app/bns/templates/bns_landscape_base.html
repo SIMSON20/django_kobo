@@ -1,11 +1,16 @@
 {% extends 'bns_base.html' %}
 {% load i18n %}
+{% load user_landscapes %}
+
+
+#{% get_user_landscapes user as USER_LANDSCAPES %}
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ landscape_name|capfirst }}{% endblock title %}
 
 
 {% block sidenav %}
 
+<div>{% for l in USER_LANDSCAPES %}<div>{{ l }}</div>{% endfor %}</div>
       <hr/>
       <p>{{ landscape_name|capfirst }} {% trans "Landscape" %}</p>
       <hr/>
@@ -15,10 +20,12 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperHH">{% trans "Household" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperDistrict">{% trans "District" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperLandscape">{% trans "Landscape" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperHH">{% trans "Household" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperDistrict">{% trans "District" %}</a>
+        {% endif %}
+          <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/AMEperLandscape">{% trans "Landscape" %}</a>
       </div>
 
       <button class="dropdown-btn">
@@ -26,8 +33,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/EthnicityperVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/EthnicityperDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/EthnicityperVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/EthnicityperDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/EthnicityperLandscape">{% trans "Landscape" %}</a>
       </div>
 
@@ -36,8 +45,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/GenderHeadperVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/GenderHeadperDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/GenderHeadperVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/GenderHeadperDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/GenderHeadperLandscape">{% trans "Landscape" %}</a>
       </div>
 
@@ -46,8 +57,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/LivelihoodNBPerVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/LivelihoodNBPerDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/LivelihoodNBPerVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/LivelihoodNBPerDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/LivelihoodNBPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
@@ -56,8 +69,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/NRCollectPerVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/NRCollectPerDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/NRCollectPerVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/NRCollectPerDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/NRCollectPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
@@ -66,8 +81,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/PAProjectsPerVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/PAProjectsPerDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/PAProjectsPerVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/PAProjectsPerDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/PAProjectsPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
@@ -76,10 +93,14 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerLandscape">{% trans "Landscape" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageDiff20152017">Diff 2015-2017</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageDiff20152017">Diff 2015-2017</a>
+        {% endif %}
       </div>
 
       <button class="dropdown-btn">
@@ -87,8 +108,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageEthnicity">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictEthnicity">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageEthnicity">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictEthnicity">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerLandscapeEthnicity">{% trans "Landscape" %}</a>
       </div>
 
@@ -97,8 +120,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageGender">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictGender">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageGender">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictGender">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerLandscapeGender">{% trans "Landscape" %}</a>
       </div>
 
@@ -107,8 +132,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageHHType">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictHHType">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageHHType">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictHHType">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerLandscapeHHType">{% trans "Landscape" %}</a>
       </div>
 
@@ -117,8 +144,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageLivelihood">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictLivelihood">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerVillageLivelihood">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerDistrictLivelihood">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WBIPerLandscapeLivelihood">{% trans "Landscape" %}</a>
       </div>
 
@@ -127,8 +156,10 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WealthIDXPerVillage">{% trans "Village" %}</a>
-        <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WealthIDXPerDistrict">{% trans "District" %}</a>
+        {% if landscape_name in USER_LANDSCAPES or user.is_superuser %}
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WealthIDXPerVillage">{% trans "Village" %}</a>
+            <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WealthIDXPerDistrict">{% trans "District" %}</a>
+        {% endif %}
         <a href="{% url 'bns_landscapes' %}{{ landscape_name }}/WealthIDXPerLandscape">{% trans "Landscape" %}</a>
       </div>
 
