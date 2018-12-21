@@ -51,7 +51,7 @@ class KoboData(models.Model):
 class KoboUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # surveys = ArrayField(models.ForeignKey(KoboData, on_delete=models.CASCADE, null=True), null=True)
-    surveys = models.ManyToManyField(KoboData)
+    surveys = models.ManyToManyField(KoboData, blank=True)
 
     def __str__(self):
         return self.user.username
