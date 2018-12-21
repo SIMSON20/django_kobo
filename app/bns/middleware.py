@@ -10,5 +10,6 @@ class AuthRequiredMiddleware:
         split_path = request.path.split('/')
         if "bns" in split_path and ("survey" in split_path or "surveys" in split_path or "landscape" in split_path or "landscapes" in split_path):
             if not request.user.is_authenticated:
+                # TODO: replace login page with social Auth login
                 return HttpResponseRedirect(reverse('login')) # or http response
         return self.get_response(request)

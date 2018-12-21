@@ -34,6 +34,7 @@ urlpatterns += i18n_patterns(
     path('bns/', include('bns.urls')),
     path('kobo/', include('kobo.urls')),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^access-denied/$', TemplateView.as_view(template_name='access_denied.html'), name='access-denied'),
     url(r'^login/$', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),

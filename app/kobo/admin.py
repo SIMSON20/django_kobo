@@ -1,7 +1,8 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Connection, KoboData
+from .models import Connection, KoboData, KoboUser
 from .resources import KoboDataFromFileResource, KoboDataFromKoboResource
+from .forms import ConnectionForm, KoboUserForm
 import requests
 from requests.auth import HTTPBasicAuth
 from datetime import datetime
@@ -54,6 +55,7 @@ class ConnectionAdmin(admin.ModelAdmin):
     """
     list_display = ['auth_user', 'host_assets', 'last_update_time']
     ordering = ['auth_user']
+    form = ConnectionForm
 
     def sync(self, request, queryset):
         """
@@ -70,8 +72,20 @@ class ConnectionAdmin(admin.ModelAdmin):
     actions = [sync]
     sync.short_description = "Sync data"
 
+
 @admin.register(KoboData)
 class KoboDataAdmin(ImportExportModelAdmin):
     list_display = ['dataset_name', 'dataset_year', 'tags', 'dataset_owner', 'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
     ordering = ['dataset_owner', 'dataset_name', 'dataset_year']
     resource_class = KoboDataFromFileResource
+
+
+@admin.register(KoboUser)
+class ConnectionAdmin(admin.ModelAdmin):
+    form = KoboUserForm
+    list_display = ('user', 'get_surveys')
+
+    def get_surveys(self, obj):
+        return ", ".join([s.dataset_name for s in obj.surveys.order_by('dataset_name')])
+
+    get_surveys.short_description = "Surveys"

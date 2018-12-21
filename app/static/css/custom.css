@@ -628,9 +628,29 @@
         visibility: visible;
      }
 
+    .form-login-wrapper {
+        margin: auto;
+        text-align:center;
+
+    }
+
     .form-login {
-        margin: 0 auto 0 auto;
-        align:center;
+        display:inline-block;
+        margin: auto;
+        text-align:center;
+    }
+
+
+    .form-login hr {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-top: 1px solid #84c68f;
+    }
+
+    .carpe-login {
+        border-color: #61b66f;
+        background-color: #61b66f;
+        color: #fff;
     }
 
     .home_cover{
