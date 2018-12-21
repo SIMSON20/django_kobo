@@ -1,16 +1,13 @@
 {% extends 'bns_base.html' %}
 {% load i18n %}
-{% load user_landscapes %}
-
-
-#{% get_user_landscapes user as USER_LANDSCAPES %}
+{% load user_surveys %}
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ landscape_name|capfirst }}{% endblock title %}
 
 
 {% block sidenav %}
+{% get_user_landscapes user as USER_LANDSCAPES %}
 
-<div>{% for l in USER_LANDSCAPES %}<div>{{ l }}</div>{% endfor %}</div>
       <hr/>
       <p>{{ landscape_name|capfirst }} {% trans "Landscape" %}</p>
       <hr/>

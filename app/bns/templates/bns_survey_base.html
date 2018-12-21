@@ -2,13 +2,13 @@
 {% load i18n %}
 {% load user_surveys %}
 
-{% get_user_surveys user as USER_SURVEYS %}
+
 
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ survey_name }}{% endblock title %}
 
 
 {% block sidenav %}
-
+{% get_user_surveys user as USER_SURVEYS %}
       <hr/>
       <p>{{ survey_name }} {% trans "Survey" %}</p>
       <hr/>
