@@ -12,6 +12,7 @@ from .decorators import has_landscape_access, has_survey_access
 from .geojsons import landscape_boundary, landscape_villages, survey_villages
 from django.db.models import Avg, Max, Min, Count
 # from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.postgres.aggregates.general import ArrayAgg, StringAgg
 
 
 def index(request):
@@ -33,16 +34,28 @@ def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
     village_geojson = survey_villages(survey_name)
 
-    q1 = Answer.objects.annotate(num_hh=Count('answerhhmembers')+1).aggregate(Max('survey_date'), Min('survey_date'), Avg('num_hh'))
-    q2 = Answer.objects.values('hh_type_control').annotate(num_hh=Count('answer_id')).order_by('hh_type_control')
-    q3 = Answer.objects.defer('surveyor').order_by('surveyor').distinct('surveyor')
+    q1 = Answer.objects.filter(dataset_uuid__dataset_name=survey_name)\
+        .annotate(num_hh=Count('answerhhmembers')+1)\
+        .aggregate(Max('survey_date'),
+                   Min('survey_date'),
+                   Avg('num_hh'),
+                   districts=StringAgg('district', delimiter=",", distinct=True),
+                   landscape=ArrayAgg('landscape', distinct=True))
+
+    q2 = Answer.objects.filter(dataset_uuid__dataset_name=survey_name).\
+        values('hh_type_control')\
+        .annotate(num_hh=Count('answer_id'))\
+        .order_by('hh_type_control')
+
 
     survey_facts = {
-        'start_date': q1["survey_date__min"],
-        'end_date': q1["survey_date__max"],
-        'survey_size': [q2[0]["num_hh"], q2[1]["num_hh"]],
-        'avg_hh_size': q1["num_hh__avg"],
-        'surveyors': [row.surveyor for row in q3]
+        'start_date': q1["survey_date__min"].date(),
+        'end_date': q1["survey_date__max"].date(),
+        'survey_size': q2[0]["num_hh"] + q2[1]["num_hh"],
+        'survey_size_control': q2[1]["num_hh"],
+        'avg_hh_size': round(q1["num_hh__avg"], 2),
+        'districts': q1["districts"],
+        'landscape': q1["landscape"][0]
     }
 
     # TODO review return values,  can be better structured
