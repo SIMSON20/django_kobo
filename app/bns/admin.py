@@ -11,7 +11,7 @@ import json
 from datetime import datetime
 import tablib
 from kobo.utils import get_kobo_data, normalize_data
-from .filters import AnswerSurveyFilter, AnswerVillageFilter, \
+from .filters import AnswerLandscapeFilter, AnswerSurveyFilter, AnswerVillageFilter, \
                     SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter, \
                     PriceAnswerLandscapeFilter, PriceAnswerVillageFilter
 
@@ -323,7 +323,7 @@ class AnswerAdmin(ImportExportModelAdmin):
                     'livelihood_2', 'livelihood_3', 'livelihood_4', 'benef_project', 'explain_project', 'know_pa',
                     'benef_pa', 'explain_benef_pa', 'bns_plus', 'survey_date', 'last_update']
     #list_filter = ['landscape', 'dataset_uuid', 'surveyor', 'district', 'village']
-    list_filter = ("landscape", AnswerSurveyFilter, AnswerVillageFilter, )
+    list_filter = (AnswerLandscapeFilter, AnswerSurveyFilter, AnswerVillageFilter, )
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
     resource_class = AnswerFromFileResource
 
@@ -362,6 +362,15 @@ class BNSFormAdmin(ImportExportModelAdmin):
     """
     list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
+
+    def queryset(self, request):
+        #TODO: this doesn't seem to get invoct??
+        qs = super(BNSFormAdmin, self).queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(dataset_uuid__in=surveys)
+
+        return qs
 
     def sync(self, request, queryset):
         """
