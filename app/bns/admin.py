@@ -272,6 +272,15 @@ class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin):
     resource_class = AnswerGPSFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
+
 
 class AnswerGPSInline(admin.StackedInline):
     model = AnswerGPS
@@ -283,6 +292,14 @@ class AnswerGSAdmin(ImportExportModelAdmin):
     resource_class = AnswerGSFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
 
 class AnswerGSInline(admin.StackedInline):
     model = AnswerGS
@@ -294,6 +311,15 @@ class AnswerHHMembersAdmin(ImportExportModelAdmin):
     list_display = ['answer', 'gender', 'birth', 'ethnicity', 'head', 'last_update']
     resource_class = AnswerHHMembersFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
 
 
 class AnswerHHMembersInline(admin.StackedInline):
@@ -307,6 +333,14 @@ class AnswerNRAdmin(ImportExportModelAdmin):
     resource_class = AnswerNRFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
 
 class AnswerNRInline(admin.StackedInline):
     model = AnswerNR
@@ -318,15 +352,24 @@ class AnswerAdmin(ImportExportModelAdmin):
     """
     Admin class for Connections
     """
+
     list_display = ['dataset_uuid', 'answer_id', 'landscape', 'surveyor', 'participant', 'arrival', 'district',
                     'village', 'hh_type_control', 'hh_type_org_benef', 'hh_type_other_benef', 'hh_id', 'livelihood_1',
                     'livelihood_2', 'livelihood_3', 'livelihood_4', 'benef_project', 'explain_project', 'know_pa',
                     'benef_pa', 'explain_benef_pa', 'bns_plus', 'survey_date', 'last_update']
-    #list_filter = ['landscape', 'dataset_uuid', 'surveyor', 'district', 'village']
+
     list_filter = (AnswerLandscapeFilter, AnswerSurveyFilter, AnswerVillageFilter, )
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
     resource_class = AnswerFromFileResource
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(dataset_uuid_id__in=surveys)
+
+        return qs
 
 @admin.register(Price)
 class PriceAdmin(ImportExportModelAdmin):

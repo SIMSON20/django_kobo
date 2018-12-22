@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Answer, AnswerGPS, AnswerGS, AnswerHHMembers, AnswerNR, Price
-from kobo.models import KoboData
+from .models import Answer, Price
 
 
 class AnswerLandscapeFilter(admin.SimpleListFilter):
