@@ -342,6 +342,7 @@ class AnswerNRAdmin(ImportExportModelAdmin):
 
         return qs
 
+
 class AnswerNRInline(admin.StackedInline):
     model = AnswerNR
     extra = 1
@@ -388,6 +389,21 @@ class DistrictAdmin(GeoModelAdmin):
     map_template = 'admin/shp_file_upload.html'
     list_display = ['district', 'landscape']
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            landscapes = Answer.objects.filter(dataset_uuid_id__in=surveys).only('landscape').order_by(
+                'landscape').distinct('landscape')
+            landscape_names = list()
+
+            for landscape in landscapes:
+                landscape_names.append(landscape.landscape)
+            qs = qs.filter(landscape__in=landscape_names)
+
+        return qs
+
 
 @admin.register(Landscape)
 class LandscapeAdmin(GeoModelAdmin):
@@ -396,6 +412,21 @@ class LandscapeAdmin(GeoModelAdmin):
     """
     map_template = 'admin/shp_file_upload.html'
     list_display = ['landscape']
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            landscapes = Answer.objects.filter(dataset_uuid_id__in=surveys).only('landscape').order_by(
+                'landscape').distinct('landscape')
+            landscape_names = list()
+
+            for landscape in landscapes:
+                landscape_names.append(landscape.landscape)
+            qs = qs.filter(landscape__in=landscape_names)
+
+        return qs
 
 
 @admin.register(BNSForm)
@@ -507,7 +538,6 @@ class BNSFormPriceAdmin(ImportExportModelAdmin):
             qs = qs.filter(related_dataset__in=surveys)
 
         return qs
-
 
     def sync(self, request, queryset):
         """
