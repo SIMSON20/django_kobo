@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Answer, Landscape
+from .models import Answer
 from kobo.models import KoboData, KoboUser
 from django_tables2 import RequestConfig
 from django.apps import apps
@@ -9,81 +9,13 @@ from django.db.models import Count
 from django.db.models import Q
 import django_filters
 from .decorators import has_landscape_access, has_survey_access
+from .geojsons import landscape_boundary, landscape_villages, survey_villages
 # from django.contrib.auth.decorators import login_required, user_passes_test
-
-
-def _landscape_boundary(landscape_name):
-    landscape_boundaries = Landscape.objects.raw("""SELECT 
-                                                        id, 
-                                                        landscape,  
-                                                        ST_AsGeoJSON(geom) as geojson 
-                                                    FROM bns_landscape 
-                                                    WHERE landscape = '{}' LIMIT 1""".format(landscape_name))
-
-    landscape_geojson = '{"type" : "FeatureCollection", "features" :['
-    if len(landscape_boundaries):
-        landscape_geojson += '{"type": "Feature", "properties": {"landscape": "%s"}, "geometry": %s }' % \
-                             (landscape_name, landscape_boundaries[0].geojson)
-    landscape_geojson += ']}'
-
-    return landscape_geojson
-
-
-def _landscape_villages(landscape_name):
-    landscape_villages = Answer.objects.raw("""SELECT row_number() OVER () as answer_id,
-                                                dataset_name, 
-                                                village, 
-                                                ST_AsGeoJSON(ST_SetSRID(ST_MakePoint(avg(long), avg(lat)),4326)) as geojson 
-                                            FROM bns_answer a 
-                                                JOIN kobo_kobodata k ON a.dataset_uuid_id = k.dataset_uuid 
-                                                JOIN bns_answergps g ON a.answer_id = g.answer_id
-                                            WHERE landscape = '{}' AND lat != 0 AND long != 0
-                                            GROUP BY dataset_name, village""".format(landscape_name))
-
-    village_geojson = '{"type" : "FeatureCollection", "features" :['
-    if len(landscape_villages):
-
-        i = 0
-        for village in landscape_villages:
-            if i > 0:
-                village_geojson += ','
-            village_geojson += '{"type": "Feature", "properties": {"landscape": "%s", "survey": "%s", "village": "%s"}, "geometry": %s }' % \
-                               (landscape_name, village.dataset_name, village.village, village.geojson)
-            i += 1
-    village_geojson += ']}'
-
-    return village_geojson
-
-
-def _survey_villages(survey):
-    survey_villages = Answer.objects.raw("""SELECT row_number() OVER () as answer_id,
-                                                dataset_name, 
-                                                village, 
-                                                ST_AsGeoJSON(ST_SetSRID(ST_MakePoint(avg(long), avg(lat)),4326)) as geojson 
-                                            FROM bns_answer a 
-                                                JOIN kobo_kobodata k ON a.dataset_uuid_id = k.dataset_uuid 
-                                                JOIN bns_answergps g ON a.answer_id = g.answer_id
-                                            WHERE dataset_name = '{}' AND lat != 0 AND long != 0
-                                            GROUP BY dataset_name, village""".format(survey))
-
-    village_geojson = '{"type" : "FeatureCollection", "features" :['
-    if len(survey_villages):
-        i = 0
-        for village in survey_villages:
-            if i > 0:
-                village_geojson += ','
-            village_geojson += '{"type": "Feature", "properties": {"survey": "%s", "village": "%s"}, "geometry": %s }' % \
-                               (village.dataset_name, village.village, village.geojson)
-            i += 1
-    village_geojson += ']}'
-
-    return village_geojson
 
 
 def index(request):
     return render(request, 'bns_home.html')
     #return HttpResponse("Hello, world. You're at the bns index.")
-
 
 
 #@login_required
@@ -98,7 +30,7 @@ def surveys(request):
 #@login_required
 def survey(request, survey_name):
     survey = KoboData.objects.filter(dataset_name=survey_name)
-    village_geojson = _survey_villages(survey_name)
+    village_geojson = survey_villages(survey_name)
 
     # TODO review return values,  can be better structured
     return render(request, 'bns_survey.html', {'survey': survey,
@@ -154,8 +86,8 @@ def landscapes(request):
 def landscape(request, landscape_name):
 
     surveys = KoboData.objects.annotate(num_answers=Count('answer')).filter(answer__landscape=landscape_name).filter(num_answers__gte=1)
-    landscape_geojson = _landscape_boundary(landscape_name)
-    village_geojson = _landscape_villages(landscape_name)
+    landscape_geojson = landscape_boundary(landscape_name)
+    village_geojson = landscape_villages(landscape_name)
 
     return render(request, 'bns_landscape.html', {'surveys': surveys,
                                                   'landscape_geojson': landscape_geojson,
