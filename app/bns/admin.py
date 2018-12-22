@@ -363,9 +363,9 @@ class BNSFormAdmin(ImportExportModelAdmin):
     list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
 
-    def queryset(self, request):
-        #TODO: this doesn't seem to get invoct??
-        qs = super(BNSFormAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
         if not request.user.is_superuser:
             surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
             qs = qs.filter(dataset_uuid__in=surveys)
@@ -455,6 +455,16 @@ class BNSFormPriceAdmin(ImportExportModelAdmin):
     """
     list_display = ['dataset_name', 'related_dataset', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_name for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(related_dataset__in=surveys)
+
+        return qs
+
 
     def sync(self, request, queryset):
         """
