@@ -11,7 +11,7 @@ import json
 from datetime import datetime
 import tablib
 from kobo.utils import get_kobo_data, normalize_data
-from .filters import AnswerSurveyFilter, AnswerVillageFilter, \
+from .filters import AnswerLandscapeFilter, AnswerSurveyFilter, AnswerVillageFilter, \
                     SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter, \
                     PriceAnswerLandscapeFilter, PriceAnswerVillageFilter
 
@@ -272,6 +272,15 @@ class AnswerGPSAdmin(GeoModelAdmin, ImportExportModelAdmin):
     resource_class = AnswerGPSFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
+
 
 class AnswerGPSInline(admin.StackedInline):
     model = AnswerGPS
@@ -283,6 +292,14 @@ class AnswerGSAdmin(ImportExportModelAdmin):
     resource_class = AnswerGSFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
 
 class AnswerGSInline(admin.StackedInline):
     model = AnswerGS
@@ -294,6 +311,15 @@ class AnswerHHMembersAdmin(ImportExportModelAdmin):
     list_display = ['answer', 'gender', 'birth', 'ethnicity', 'head', 'last_update']
     resource_class = AnswerHHMembersFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
 
 
 class AnswerHHMembersInline(admin.StackedInline):
@@ -307,6 +333,15 @@ class AnswerNRAdmin(ImportExportModelAdmin):
     resource_class = AnswerNRFromFileResource
     list_filter = (SubAnswerLandscapeFilter, SubAnswerSurveyFilter, SubAnswerVillageFilter,)
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(answer__dataset_uuid_id__in=surveys)
+
+        return qs
+
 
 class AnswerNRInline(admin.StackedInline):
     model = AnswerNR
@@ -318,15 +353,24 @@ class AnswerAdmin(ImportExportModelAdmin):
     """
     Admin class for Connections
     """
+
     list_display = ['dataset_uuid', 'answer_id', 'landscape', 'surveyor', 'participant', 'arrival', 'district',
                     'village', 'hh_type_control', 'hh_type_org_benef', 'hh_type_other_benef', 'hh_id', 'livelihood_1',
                     'livelihood_2', 'livelihood_3', 'livelihood_4', 'benef_project', 'explain_project', 'know_pa',
                     'benef_pa', 'explain_benef_pa', 'bns_plus', 'survey_date', 'last_update']
-    #list_filter = ['landscape', 'dataset_uuid', 'surveyor', 'district', 'village']
-    list_filter = ("landscape", AnswerSurveyFilter, AnswerVillageFilter, )
+
+    list_filter = (AnswerLandscapeFilter, AnswerSurveyFilter, AnswerVillageFilter, )
     inlines = [AnswerGPSInline, AnswerGSInline, AnswerHHMembersInline, AnswerNRInline]
     resource_class = AnswerFromFileResource
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(dataset_uuid_id__in=surveys)
+
+        return qs
 
 @admin.register(Price)
 class PriceAdmin(ImportExportModelAdmin):
@@ -345,6 +389,21 @@ class DistrictAdmin(GeoModelAdmin):
     map_template = 'admin/shp_file_upload.html'
     list_display = ['district', 'landscape']
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            landscapes = Answer.objects.filter(dataset_uuid_id__in=surveys).only('landscape').order_by(
+                'landscape').distinct('landscape')
+            landscape_names = list()
+
+            for landscape in landscapes:
+                landscape_names.append(landscape.landscape)
+            qs = qs.filter(landscape__in=landscape_names)
+
+        return qs
+
 
 @admin.register(Landscape)
 class LandscapeAdmin(GeoModelAdmin):
@@ -354,6 +413,21 @@ class LandscapeAdmin(GeoModelAdmin):
     map_template = 'admin/shp_file_upload.html'
     list_display = ['landscape']
 
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            landscapes = Answer.objects.filter(dataset_uuid_id__in=surveys).only('landscape').order_by(
+                'landscape').distinct('landscape')
+            landscape_names = list()
+
+            for landscape in landscapes:
+                landscape_names.append(landscape.landscape)
+            qs = qs.filter(landscape__in=landscape_names)
+
+        return qs
+
 
 @admin.register(BNSForm)
 class BNSFormAdmin(ImportExportModelAdmin):
@@ -362,6 +436,15 @@ class BNSFormAdmin(ImportExportModelAdmin):
     """
     list_display = ['dataset_name', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_uuid for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(dataset_uuid__in=surveys)
+
+        return qs
 
     def sync(self, request, queryset):
         """
@@ -446,6 +529,15 @@ class BNSFormPriceAdmin(ImportExportModelAdmin):
     """
     list_display = ['dataset_name', 'related_dataset', 'dataset_year', 'dataset_owner', 'dataset_uuid',
                     'last_submission_time', 'last_update_time', 'last_checked_time', 'kobo_managed']
+
+    def get_queryset(self, request):
+        # let's make sure that staff can only see their own data
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            surveys = [s.dataset_name for s in request.user.kobouser.surveys.all()]
+            qs = qs.filter(related_dataset__in=surveys)
+
+        return qs
 
     def sync(self, request, queryset):
         """

@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load leaflet_tags %}
 {% load static %}
-
+{% load user_surveys %}
 {% block title %}{% trans "CARPE - Basic Necessity Surveys" %} - {{ survey_name }}{% endblock %}
 
 {% block main %}
@@ -24,6 +24,39 @@
 </script>
 
 {% leaflet_map "yourmap" callback="window.map_init" %}
+
+<TABLE  class="table">
+    <TR>
+        <TH scope="row">Survey name:</TH>
+        <TD>{{ survey_name }}</TD>
+    </TR>
+
+    <TR>
+        <TH scope="row">Landscape name:</TH>
+        <TD>{{ survey_facts|get_item:'landscape' }}</TD>
+    </TR>
+
+    <TR>
+        <TH scope="row">Districts:</TH>
+        <TD>{{ survey_facts|get_item:'districts' }}</TD>
+    </TR>
+
+    <TR>
+        <TH scope="row">Survey Period:</TH>
+        <TD>{{ survey_facts|get_item:'start_date' }} - {{ survey_facts|get_item:'end_date' }}</TD>
+    </TR>
+
+    <TR>
+        <TH scope="row"># of Households:</TH>
+        <TD>{{ survey_facts|get_item:'survey_size' }} (incl. {{ survey_facts|get_item:'survey_size_control' }} control hh)</TD>
+    </TR>
+
+    <TR>
+        <TH scope="row">Avg Household size:</TH>
+        <TD>{{ survey_facts|get_item:'avg_hh_size' }}</TD>
+    </TR>
+
+</TABLE>
 
 
 {% endblock %}

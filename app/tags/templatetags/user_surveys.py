@@ -27,3 +27,8 @@ def get_user_landscapes(user):
             landscape_names.append(landscape.landscape)
 
         return landscape_names
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
