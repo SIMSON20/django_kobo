@@ -47,12 +47,22 @@ def survey(request, survey_name):
         .annotate(num_hh=Count('answer_id'))\
         .order_by('hh_type_control')
 
+    if len(q2) >= 2:
+        survey_size_control = q2[1]["num_hh"]
+        survey_size = q2[0]["num_hh"] + q2[1]["num_hh"]
+    elif len(q2) == 1:
+        survey_size_control = 0
+        survey_size = q2[0]["num_hh"] + 0
+    else:
+        survey_size = 0
+        survey_size_control = 0
+
 
     survey_facts = {
         'start_date': q1["survey_date__min"].date(),
         'end_date': q1["survey_date__max"].date(),
-        'survey_size': q2[0]["num_hh"] + q2[1]["num_hh"],
-        'survey_size_control': q2[1]["num_hh"],
+        'survey_size': survey_size,
+        'survey_size_control': survey_size_control,
         'avg_hh_size': round(q1["num_hh__avg"], 2),
         'districts': q1["districts"],
         'landscape': q1["landscape"][0]
