@@ -117,3 +117,10 @@ To give a user access to a survey, go to Kobo users, click on the user you want 
 Afterwards, select a survey and move it to the right hand side. The user should now be able to see the data. 
 
 
+# Start/ Stop
+To start the application simply run `./django_kobo.sh start` this will launch two docker container (one for the app, one for the database) for you and start the app.
+The containers are configured to always restart when they crashed or after a reboot, unless you stop then manually.
+
+To stop the container find the container ID with `docker ps`. Then use `docker container stop <container id for django_kobo_web goes here> <container id for django_kobo_postgis goes here>`
+
+ 
